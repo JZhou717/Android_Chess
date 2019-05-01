@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <!--
     <android.support.v7.widget.GridLayout
         android:id="@+id/Board"
         android:layout_width="400dp"
@@ -25,5 +25,33 @@
 
 
     </android.support.v7.widget.GridLayout>
+-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/board"
+        android:layout_width="0dp"
+        android:layout_height="407dp"
+        android:orientation="vertical"
+        android:weightSum="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <include layout="@layout/row" />
+
+        <include layout="@layout/row2" />
+
+        <include layout="@layout/row" />
+
+        <include layout="@layout/row2" />
+
+        <include layout="@layout/row" />
+
+        <include layout="@layout/row2" />
+
+        <include layout="@layout/row" />
+
+        <include layout="@layout/row2" />
+
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
