@@ -1,6 +1,7 @@
 package com.example.android14;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -144,24 +145,15 @@ public class GameActivity extends AppCompatActivity {
         board[2][7] = (ImageView) findViewById(R.id.h6);
         board[1][7] = (ImageView) findViewById(R.id.h7);
         board[0][7] = (ImageView) findViewById(R.id.h8);
-        /*
-        a7.setBackgroundColor(000);
-        a5.setBackgroundColor(000);
-        a3.setBackgroundColor(000);
-        a1.setBackgroundColor(000);
-        c7.setBackgroundColor(000);
-        c5.setBackgroundColor(000);
-        c3.setBackgroundColor(000);
-        c1.setBackgroundColor(000);
-        e7.setBackgroundColor(000);
-        e5.setBackgroundColor(000);
-        e3.setBackgroundColor(000);
-        e1.setBackgroundColor(000);
-        g7.setBackgroundColor(000);
-        g5.setBackgroundColor(000);
-        g3.setBackgroundColor(000);
-        g1.setBackgroundColor(000);
-        */
+        for (int i=0;i<8;i++){
+            for (int j=0;j<8;j++){
+                if ((i%2==0&&j%2==0)||(i%2!=0&&j%2!=0)){
+                    board[i][j].setBackgroundColor(Color.rgb(50, 205, 50));
+                }else{
+                    board[i][j].setBackgroundColor(Color.rgb(0, 128, 0));
+                }
+            }
+        }
 
     }
 
