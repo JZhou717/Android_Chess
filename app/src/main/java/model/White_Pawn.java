@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.MainController;
+
 public class White_Pawn extends Piece {
 
     /**
@@ -19,7 +21,7 @@ public class White_Pawn extends Piece {
     }
 
     /**
-     * White_Pawns may move up towards ranks of greater value. They can move up one in their file if the path is clear, up two in their file if the path is clear and they are still in their starting position, up-left or up-right if there is an opponent piece there or if they are performing an En Passant. When they reach the opposite side's final rank, they are {@link #promote(String) promoted}. All moves are ensured not to place the piece's own King in check by {@link #putsOwnKingInCheck(Piece[][]) putsOwnKingInCheck} method before being committed. If a move is valid, this piece's position is changed in the global board and its own file and rank fields are updated
+     * White_Pawns may move up towards ranks of greater value. They can move up one in their file if the path is clear, up two in their file if the path is clear and they are still in their starting position, up-left or up-right if there is an opponent piece there or if they are performing an En Passant. When they reach the opposite side's final rank, they are {@link #promote(String) promoted}. All moves are ensured not to place the piece's own King in check by {@link #MainController.putsOwnKingInCheck(Piece[][]) MainController.putsOwnKingInCheck} method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated
      *
      * @author Jake
      * @param move_to a two part String with the file and the rank that they are to move to
@@ -28,7 +30,7 @@ public class White_Pawn extends Piece {
     public void move(String move_to) throws IllegalArgumentException{
 
 			/*
-			if(!board[this.rank][fileToNum(this.file)].equals(this)) {
+			if(!MainController.board[this.rank][MainController.fileToNum(this.file)].equals(this)) {
 				System.out.println("we have not tracked this file and rank properly.");
 				System.out.println("File: " + this.file);
 				System.out.println("Rank: " + this.rank);
@@ -37,13 +39,13 @@ public class White_Pawn extends Piece {
 			}*/
 
         //If you are trying to move a white pawn on a black turn
-        if(!white_moves) {
+        if(!MainController.white_moves) {
             throw new IllegalArgumentException();
         }
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
 
-        Piece[][] board_copy = copyBoard();
+        Piece[][] board_copy = MainController.copyBoard();
 
         if(move_file != this.file) {
             //System.out.println("Pawn moving to different file");
@@ -51,31 +53,31 @@ public class White_Pawn extends Piece {
             if(move_file == (this.file + 1) && move_rank == (this.rank + 1)) {
                 //System.out.println("Pawn moving up-right");
                 //Checking to see there is a piece there
-                if(board[this.rank + 1][fileToNum(this.file) + 1] == null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1] == null) {
                     //Checking for Enpassant
-                    if(move_file == black_enpassant && move_rank == 6) {
+                    if(move_file == MainController.black_enpassant && move_rank == 6) {
 
                         //Removing the black pawn
-                        board_copy[this.rank][fileToNum(this.file) + 1] = null;
+                        board_copy[this.rank][MainController.fileToNum(this.file) + 1] = null;
                         //Moving
-                        board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                        board_copy[this.rank][fileToNum(this.file)] = null;
-                        board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                        board_copy[move_rank][fileToNum(move_file)].file = move_file;
-                        if(putsOwnKingInCheck(board_copy)) {
+                        board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                        board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                        board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
+                        if(MainController.putsOwnKingInCheck(board_copy)) {
 
                             throw new IllegalArgumentException();
                         }
 
                         //Actual move
                         //Removing the black pawn
-                        board[this.rank][fileToNum(this.file) + 1] = null;
+                        MainController.board[this.rank][MainController.fileToNum(this.file) + 1] = null;
                         //Moving
-                        board[this.rank + 1][fileToNum(this.file) + 1] = board[this.rank][fileToNum(this.file)];
-                        board[this.rank][fileToNum(this.file)] = null;
+                        MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                        MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                         this.rank = move_rank;
                         this.file = move_file;
-                        checkForCheck(board);
+                        MainController.checkForCheck(MainController.board);
                         return;
                     }
                     else {
@@ -83,52 +85,52 @@ public class White_Pawn extends Piece {
                     }
                 }
                 //Making sure the piece isn't on the same side
-                if(board[this.rank + 1][fileToNum(this.file) + 1].white_side == true) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1].white_side == true) {
                     throw new IllegalArgumentException();
                 }
 
 
-                board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                board_copy[move_rank][fileToNum(move_file)].file = move_file;
+                board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
 
-                if(putsOwnKingInCheck(board_copy)) {
+                if(MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
                 //Moving
-                board[this.rank + 1][fileToNum(this.file) + 1] = board[this.rank][fileToNum(this.file)];
-                board[this.rank][fileToNum(this.file)] = null;
+                MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                checkForCheck(board);
+                MainController.checkForCheck(MainController.board);
                 return;
             } else if (move_file == (this.file - 1) && move_rank == (this.rank + 1)) {
                 //System.out.println("Pawn moving up-left");
                 //Checking to see there is a piece there
-                if(board[this.rank + 1][fileToNum(this.file) - 1] == null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) - 1] == null) {
                     //Checking for Enpassant
-                    if(move_file == black_enpassant && move_rank == 6) {
+                    if(move_file == MainController.black_enpassant && move_rank == 6) {
 
-                        board_copy[this.rank][fileToNum(this.file) - 1] = null;
+                        board_copy[this.rank][MainController.fileToNum(this.file) - 1] = null;
 
-                        board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                        board_copy[this.rank][fileToNum(this.file)] = null;
-                        board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                        board_copy[move_rank][fileToNum(move_file)].file = move_file;
-                        if(putsOwnKingInCheck(board_copy)) {
+                        board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                        board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                        board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
+                        if(MainController.putsOwnKingInCheck(board_copy)) {
                             throw new IllegalArgumentException();
                         }
 
                         //Removing the black pawn
-                        board[this.rank][fileToNum(this.file) - 1] = null;
+                        MainController.board[this.rank][MainController.fileToNum(this.file) - 1] = null;
                         //Moving
-                        board[this.rank + 1][fileToNum(this.file) - 1] = board[this.rank][fileToNum(this.file)];
-                        board[this.rank][fileToNum(this.file)] = null;
+                        MainController.board[this.rank + 1][MainController.fileToNum(this.file) - 1] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                        MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                         this.rank = move_rank;
                         this.file = move_file;
-                        checkForCheck(board);
+                        MainController.checkForCheck(MainController.board);
                         return;
                     }
                     else {
@@ -136,24 +138,24 @@ public class White_Pawn extends Piece {
                     }
                 }
                 //Making sure the piece isn't on the same side
-                if(board[this.rank + 1][fileToNum(this.file) - 1].white_side == true) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) - 1].white_side == true) {
                     throw new IllegalArgumentException();
                 }
 
-                board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                board_copy[move_rank][fileToNum(move_file)].file = move_file;
-                if(putsOwnKingInCheck(board_copy)) {
+                board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
+                if(MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
                 //Moving
-                board[this.rank + 1][fileToNum(this.file) - 1] = board[this.rank][fileToNum(this.file)];
-                board[this.rank][fileToNum(this.file)] = null;
+                MainController.board[this.rank + 1][MainController.fileToNum(this.file) - 1] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                checkForCheck(board);
+                MainController.checkForCheck(MainController.board);
                 return;
             } else {
                 //System.out.println("Something wrong");
@@ -165,52 +167,52 @@ public class White_Pawn extends Piece {
 
             if(move_rank == this.rank + 1) {
                 //Checking to see if path clear
-                if(board[this.rank + 1][fileToNum(this.file)] != null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)] != null) {
                     throw new IllegalArgumentException();
                 }
 
-                board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                board_copy[move_rank][fileToNum(move_file)].file = move_file;
-                if(putsOwnKingInCheck(board_copy)) {
+                board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
+                if(MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
                 //Moving piece
-                board[this.rank + 1][fileToNum(this.file)] = board[this.rank][fileToNum(this.file)];
-                board[this.rank][fileToNum(this.file)] = null;
+                MainController.board[this.rank + 1][MainController.fileToNum(this.file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                checkForCheck(board);
+                MainController.checkForCheck(MainController.board);
                 return;
             } else if(move_rank == this.rank + 2 && this.rank == 2) {
 
                 //System.out.println("TESTING: WE ARE MOVING TWO SPACES");
 
                 //Checking to see if path clear
-                if(board[this.rank + 1][fileToNum(this.file)] != null
-                        || board[this.rank + 2][fileToNum(this.file)] != null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)] != null
+                        || MainController.board[this.rank + 2][MainController.fileToNum(this.file)] != null) {
                     throw new IllegalArgumentException();
                 }
 
-                board_copy[move_rank][fileToNum(move_file)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[move_rank][fileToNum(move_file)].rank = move_rank;
-                board_copy[move_rank][fileToNum(move_file)].file = move_file;
-                if(putsOwnKingInCheck(board_copy)) {
+                board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
+                board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
+                if(MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
                 //System.out.println("TESTING ARE WE GETTTING HERE?");
 
                 //Moving piece
-                board[this.rank + 2][fileToNum(this.file)] = board[this.rank][fileToNum(this.file)];
-                board[this.rank][fileToNum(this.file)] = null;
+                MainController.board[this.rank + 2][MainController.fileToNum(this.file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
+                MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                white_enpassant = this.file;
-                checkForCheck(board);
+                MainController.white_enpassant = this.file;
+                MainController.checkForCheck(MainController.board);
 
                 //System.out.println("TESTING: ABOUT TO FINISH MOVING");
 
@@ -223,10 +225,10 @@ public class White_Pawn extends Piece {
     }
 
     /**
-     * check checks the positions in the inputed board that this piece can capture in to see if the opponent side's King is there. In the {@link #checkForCheck(Piece[][]) checkForCheck} method if check returns true, checkmate is called. Check does not call checkmate itself since the check may be in a temporary board used in testing like the ones used in {@link #allValidMoves() allValidMoves} method
+     * check checks the positions in the inputed MainController.board that this piece can capture in to see if the opponent side's King is there. In the MainController.checkForCheck method if check returns true, checkmate is called. Check does not call checkmate itself since the check may be in a temporary MainController.board used in testing like the ones used in {@link #allValidMoves() allValidMoves} method
      *
      * @author Jake
-     * @param board - the board the that check is being tested in. This can be the global board or a temporary board created in putsOwnKingInCheck for instance
+     * @param board - the board the that check is being tested in. This can be the global MainController.board or a temporary MainController.board created in MainController.putsOwnKingInCheck for instance
      * @return true if it is checking the opponent King, false otherwise
      */
     public boolean check(Piece[][] board) {
@@ -240,7 +242,7 @@ public class White_Pawn extends Piece {
         //a pawns only check one side
         if(this.file == 'a') {
             //checking up 1 right 1
-            temp = board[this.rank + 1][fileToNum((char) (this.file + 1))];
+            temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))];
             if(temp != null) {
                 //checking if black King
                 if(temp.name.equals("bK")) {
@@ -251,7 +253,7 @@ public class White_Pawn extends Piece {
         } //h pawns only check one side
         else if(this.file == 'h') {
             //checking up 1 left 1
-            temp = board[this.rank + 1][fileToNum((char) (this.file - 1))];
+            temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))];
             if(temp != null) {
                 //checking if black King
                 if(temp.name.equals("bK")) {
@@ -262,7 +264,7 @@ public class White_Pawn extends Piece {
         } //middle pawns check for two sides
         else {
             //checking up 1 right 1
-            temp = board[this.rank + 1][fileToNum((char) (this.file + 1))];
+            temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))];
             if(temp != null) {
                 //checking if black King
                 if(temp.name.equals("bK")) {
@@ -271,7 +273,7 @@ public class White_Pawn extends Piece {
                 }
             }
             //checking up 1 left 1
-            temp = board[this.rank + 1][fileToNum((char) (this.file - 1))];
+            temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))];
             if(temp != null) {
                 //checking if black King
                 if(temp.name.equals("bK")) {
@@ -296,29 +298,29 @@ public class White_Pawn extends Piece {
             Piece newPiece = new Rook(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
-            board[this.rank][fileToNum(this.file)] = newPiece;
-            newPiece.check(board);
+            MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
+            newPiece.check(MainController.board);
         }
         else if(promote_to.equals("n")) {
             Piece newPiece = new Knight(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
-            board[this.rank][fileToNum(this.file)] = newPiece;
-            newPiece.check(board);
+            MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
+            newPiece.check(MainController.board);
         }
         else if(promote_to.equals("b")) {
             Piece newPiece = new Bishop(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
-            board[this.rank][fileToNum(this.file)] = newPiece;
-            newPiece.check(board);
+            MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
+            newPiece.check(MainController.board);
         }
         else if(promote_to.equals("q")) {
             Piece newPiece = new Queen(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
-            board[this.rank][fileToNum(this.file)] = newPiece;
-            newPiece.check(board);
+            MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
+            newPiece.check(MainController.board);
         } else {
             throw new IllegalArgumentException();
         }
@@ -335,103 +337,103 @@ public class White_Pawn extends Piece {
         ArrayList<String> result = new ArrayList<String>();
         String move;
         Piece[][] board_copy;
-        final boolean side_playing = white_moves;
+        final boolean side_playing = MainController.white_moves;
 
         //Checking up 1
-        if(board[this.rank + 1][fileToNum(this.file)] == null) {
+        if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)] == null) {
             //Testing if this move puts own King in check
-            board_copy = copyBoard();
-            board_copy[this.rank + 1][fileToNum(this.file)] = board_copy[this.rank][fileToNum(this.file)];
-            board_copy[this.rank][fileToNum(this.file)] = null;
-            board_copy[this.rank + 1][fileToNum(this.file)].rank = board_copy[this.rank + 1][fileToNum(this.file)].rank + 1;
-            white_moves = board_copy[this.rank + 1][fileToNum(this.file)].white_side;
-            if(!putsOwnKingInCheck(board_copy)) {
+            board_copy = MainController.copyBoard();
+            board_copy[this.rank + 1][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+            board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+            board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank = board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank + 1;
+            MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum(this.file)].white_side;
+            if(!MainController.putsOwnKingInCheck(board_copy)) {
                 move = String.valueOf(this.file).concat((this.rank + 1) + "");
                 result.add(move);
             }
-            white_moves = side_playing;
+            MainController.white_moves = side_playing;
 
             //Checking up 2
-            if(this.rank == 2 && board[this.rank + 2][fileToNum(this.file)] == null) {
+            if(this.rank == 2 && MainController.board[this.rank + 2][MainController.fileToNum(this.file)] == null) {
                 //Testing if this move puts own King in check
-                board_copy = copyBoard();
-                board_copy[this.rank + 2][fileToNum(this.file)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[this.rank + 2][fileToNum(this.file)].rank = board_copy[this.rank + 2][fileToNum(this.file)].rank + 2;
-                white_moves = board_copy[this.rank + 2][fileToNum(this.file)].white_side;
-                if(!putsOwnKingInCheck(board_copy)) {
+                board_copy = MainController.copyBoard();
+                board_copy[this.rank + 2][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[this.rank + 2][MainController.fileToNum(this.file)].rank = board_copy[this.rank + 2][MainController.fileToNum(this.file)].rank + 2;
+                MainController.white_moves = board_copy[this.rank + 2][MainController.fileToNum(this.file)].white_side;
+                if(!MainController.putsOwnKingInCheck(board_copy)) {
                     move = String.valueOf(this.file).concat((this.rank + 2) + "");
                     result.add(move);
                 }
-                white_moves = side_playing;
+                MainController.white_moves = side_playing;
             }
         }
         //Checking up-left
         if(this.file != 'a') {
             //If you can enpassant
-            if(this.rank == 5 && this.file - 1 == black_enpassant) {
+            if(this.rank == 5 && this.file - 1 == MainController.black_enpassant) {
                 //Testing if this move puts own King in check
-                board_copy = copyBoard();
-                board_copy[6][fileToNum(black_enpassant)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[6][fileToNum(black_enpassant)].rank = 6;
-                board_copy[6][fileToNum(black_enpassant)].file = black_enpassant;
-                white_moves = board_copy[6][fileToNum(black_enpassant)].white_side;
-                if(!putsOwnKingInCheck(board_copy)) {
+                board_copy = MainController.copyBoard();
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].rank = 6;
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
+                MainController.white_moves = board_copy[6][MainController.fileToNum(MainController.black_enpassant)].white_side;
+                if(!MainController.putsOwnKingInCheck(board_copy)) {
                     move = String.valueOf((char) (this.file - 1)).concat((this.rank + 1) + "");
                     result.add(move);
                 }
-                white_moves = side_playing;
+                MainController.white_moves = side_playing;
 
             }//Else if you can capture
-            else if(board[this.rank + 1][fileToNum((char) (this.file - 1))] != null) {
-                if(board[this.rank + 1][fileToNum((char) (this.file - 1))].white_side != this.white_side) {
+            else if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] != null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
                     //Testing if this move puts own King in check
-                    board_copy = copyBoard();
-                    board_copy[this.rank + 1][fileToNum((char) (this.file - 1))] = board_copy[this.rank][fileToNum(this.file)];
-                    board_copy[this.rank][fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][fileToNum((char) (this.file - 1))].rank = board_copy[this.rank + 1][fileToNum((char) (this.file - 1))].rank + 1;
-                    board_copy[this.rank + 1][fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank + 1][fileToNum((char) (this.file - 1))].file - 1);
-                    white_moves = board_copy[this.rank + 1][fileToNum((char) (this.file - 1))].white_side;
-                    if(!putsOwnKingInCheck(board_copy)) {
+                    board_copy = MainController.copyBoard();
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank + 1;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file - 1);
+                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side;
+                    if(!MainController.putsOwnKingInCheck(board_copy)) {
                         move = String.valueOf((char) (this.file - 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
-                    white_moves = side_playing;
+                    MainController.white_moves = side_playing;
                 }
             }
         }
         //Checking up-right
         if(this.file != 'h') {
             //If you can enpassant
-            if(this.rank == 5 && this.file + 1 == black_enpassant) {
+            if(this.rank == 5 && this.file + 1 == MainController.black_enpassant) {
                 //Testing if this move puts own King in check
-                board_copy = copyBoard();
-                board_copy[6][fileToNum(black_enpassant)] = board_copy[this.rank][fileToNum(this.file)];
-                board_copy[this.rank][fileToNum(this.file)] = null;
-                board_copy[6][fileToNum(black_enpassant)].rank = 6;
-                board_copy[6][fileToNum(black_enpassant)].file = black_enpassant;
-                white_moves = board_copy[6][fileToNum(black_enpassant)].white_side;
-                if(!putsOwnKingInCheck(board_copy)) {
+                board_copy = MainController.copyBoard();
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].rank = 6;
+                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
+                MainController.white_moves = board_copy[6][MainController.fileToNum(MainController.black_enpassant)].white_side;
+                if(!MainController.putsOwnKingInCheck(board_copy)) {
                     move = String.valueOf((char) (this.file + 1)).concat((this.rank + 1) + "");
                     result.add(move);
                 }
-                white_moves = side_playing;
+                MainController.white_moves = side_playing;
             }//Else if you can capture
-            else if(board[this.rank + 1][fileToNum((char) (this.file + 1))] != null) {
-                if(board[this.rank + 1][fileToNum((char) (this.file + 1))].white_side != this.white_side) {
+            else if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] != null) {
+                if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
                     //Testing if this move puts own King in check
-                    board_copy = copyBoard();
-                    board_copy[this.rank + 1][fileToNum((char) (this.file + 1))] = board_copy[this.rank][fileToNum(this.file)];
-                    board_copy[this.rank][fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][fileToNum((char) (this.file + 1))].rank + 1;
-                    board_copy[this.rank + 1][fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][fileToNum((char) (this.file + 1))].file + 1);
-                    white_moves = board_copy[this.rank + 1][fileToNum((char) (this.file + 1))].white_side;
-                    if(!putsOwnKingInCheck(board_copy)) {
+                    board_copy = MainController.copyBoard();
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank + 1;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
+                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side;
+                    if(!MainController.putsOwnKingInCheck(board_copy)) {
                         move = String.valueOf((char) (this.file + 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
-                    white_moves = side_playing;
+                    MainController.white_moves = side_playing;
                 }
             }
         }
