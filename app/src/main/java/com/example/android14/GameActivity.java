@@ -7,80 +7,33 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.app.AlertDialog;
+import android.widget.TextView;
 
-public class GameActivity extends AppCompatActivity {
-/*
-    ImageView a1;
-    ImageView a2;
-    ImageView a3;
-    ImageView a4;
-    ImageView a5;
-    ImageView a6;
-    ImageView a7;
-    ImageView a8;
-    ImageView b1;
-    ImageView b2;
-    ImageView b3;
-    ImageView b4;
-    ImageView b5;
-    ImageView b6;
-    ImageView b7;
-    ImageView b8;
-    ImageView c1;
-    ImageView c2;
-    ImageView c3;
-    ImageView c4;
-    ImageView c5;
-    ImageView c6;
-    ImageView c7;
-    ImageView c8;
-    ImageView d1;
-    ImageView d2;
-    ImageView d3;
-    ImageView d4;
-    ImageView d5;
-    ImageView d6;
-    ImageView d7;
-    ImageView d8;
-    ImageView e1;
-    ImageView e2;
-    ImageView e3;
-    ImageView e4;
-    ImageView e5;
-    ImageView e6;
-    ImageView e7;
-    ImageView e8;
-    ImageView f1;
-    ImageView f2;
-    ImageView f3;
-    ImageView f4;
-    ImageView f5;
-    ImageView f6;
-    ImageView f7;
-    ImageView f8;
-    ImageView g1;
-    ImageView g2;
-    ImageView g3;
-    ImageView g4;
-    ImageView g5;
-    ImageView g6;
-    ImageView g7;
-    ImageView g8;
-    ImageView h1;
-    ImageView h2;
-    ImageView h3;
-    ImageView h4;
-    ImageView h5;
-    ImageView h6;
-    ImageView h7;
-    ImageView h8;
-    */
+public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+
     ImageView[][] board = new ImageView[8][8];
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //Linking the items on the XML here
+        TextView message = findViewById(R.id.message);
+        Button resign_button = findViewById(R.id.resign_button);
+        Button draw_button = findViewById(R.id.draw_button);
+        Button ai_button = findViewById(R.id.ai_button);
+        Button undo_button = findViewById(R.id.undo_button);
+        //Setting listeners for them
+        resign_button.setOnClickListener(this);
+        draw_button.setOnClickListener(this);
+        ai_button.setOnClickListener(this);
+        undo_button.setOnClickListener(this);
+
+
+
+        //For the a file starting from a1 to a8
         board[7][0] = (ImageView) findViewById(R.id.a1);
         board[6][0] = (ImageView) findViewById(R.id.a2);
         board[5][0] = (ImageView) findViewById(R.id.a3);
@@ -89,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][0] = (ImageView) findViewById(R.id.a6);
         board[1][0] = (ImageView) findViewById(R.id.a7);
         board[0][0] = (ImageView) findViewById(R.id.a8);
+        //For the b file
         board[7][1] = (ImageView) findViewById(R.id.b1);
         board[6][1] = (ImageView) findViewById(R.id.b2);
         board[5][1] = (ImageView) findViewById(R.id.b3);
@@ -97,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][1] = (ImageView) findViewById(R.id.b6);
         board[1][1] = (ImageView) findViewById(R.id.b7);
         board[0][1] = (ImageView) findViewById(R.id.b8);
+        //For the c file
         board[7][2] = (ImageView) findViewById(R.id.c1);
         board[6][2] = (ImageView) findViewById(R.id.c2);
         board[5][2] = (ImageView) findViewById(R.id.c3);
@@ -105,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][2] = (ImageView) findViewById(R.id.c6);
         board[1][2] = (ImageView) findViewById(R.id.c7);
         board[0][2] = (ImageView) findViewById(R.id.c8);
+        //For the d file
         board[7][3] = (ImageView) findViewById(R.id.d1);
         board[6][3] = (ImageView) findViewById(R.id.d2);
         board[5][3] = (ImageView) findViewById(R.id.d3);
@@ -113,6 +69,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][3] = (ImageView) findViewById(R.id.d6);
         board[1][3] = (ImageView) findViewById(R.id.d7);
         board[0][3] = (ImageView) findViewById(R.id.d8);
+        //For the e file
         board[7][4] = (ImageView) findViewById(R.id.e1);
         board[6][4] = (ImageView) findViewById(R.id.e2);
         board[5][4] = (ImageView) findViewById(R.id.e3);
@@ -121,6 +78,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][4] = (ImageView) findViewById(R.id.e6);
         board[1][4] = (ImageView) findViewById(R.id.e7);
         board[0][4] = (ImageView) findViewById(R.id.e8);
+        //For the f file
         board[7][5] = (ImageView) findViewById(R.id.f1);
         board[6][5] = (ImageView) findViewById(R.id.f2);
         board[5][5] = (ImageView) findViewById(R.id.f3);
@@ -129,6 +87,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][5] = (ImageView) findViewById(R.id.f6);
         board[1][5] = (ImageView) findViewById(R.id.f7);
         board[0][5] = (ImageView) findViewById(R.id.f8);
+        //For the g file
         board[7][6] = (ImageView) findViewById(R.id.g1);
         board[6][6] = (ImageView) findViewById(R.id.g2);
         board[5][6] = (ImageView) findViewById(R.id.g3);
@@ -137,6 +96,7 @@ public class GameActivity extends AppCompatActivity {
         board[2][6] = (ImageView) findViewById(R.id.g6);
         board[1][6] = (ImageView) findViewById(R.id.g7);
         board[0][6] = (ImageView) findViewById(R.id.g8);
+        //For the h file
         board[7][7] = (ImageView) findViewById(R.id.h1);
         board[6][7] = (ImageView) findViewById(R.id.h2);
         board[5][7] = (ImageView) findViewById(R.id.h3);
@@ -158,10 +118,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     //User Click
-    //@Override
+    @Override
     public void onClick(View v) {
         //If it is one of the buttons
         if(v instanceof Button) {
+            //TESTING
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("The buttons work!");
+            builder.setTitle("Button Test");
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
         }
         //If it is one of the pieces
