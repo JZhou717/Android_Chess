@@ -1,57 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <!--
-    <android.support.v7.widget.GridLayout
-        android:id="@+id/Board"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="135dp"
-        app:columnCount="8"
-        app:rowCount="8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-
-
-    </android.support.v7.widget.GridLayout>
--->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/board"
-        android:layout_width="0dp"
-        android:layout_height="407dp"
-        android:orientation="vertical"
-        android:weightSum="8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/row" />
-
-        <include layout="@layout/row2" />
-
-        <include layout="@layout/row" />
-
-        <include layout="@layout/row2" />
-
-        <include layout="@layout/row" />
-
-        <include layout="@layout/row2" />
-
-        <include layout="@layout/row" />
-
-        <include layout="@layout/row2" />
-
-
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:weightSum="8" >
+    
+    <Button
+        android:id="@+id/play_game_button"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:text="Play a Game of Chess"/>
+    
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
