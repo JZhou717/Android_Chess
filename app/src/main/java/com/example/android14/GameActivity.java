@@ -105,16 +105,86 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         board[2][7] = (ImageView) findViewById(R.id.h6);
         board[1][7] = (ImageView) findViewById(R.id.h7);
         board[0][7] = (ImageView) findViewById(R.id.h8);
-        for (int i=0;i<8;i++){
-            for (int j=0;j<8;j++){
-                if ((i%2==0&&j%2==0)||(i%2!=0&&j%2!=0)){
+        for (int i=0;i<8;i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
                     board[i][j].setBackgroundColor(Color.rgb(50, 205, 50));
-                }else{
+                } else {
                     board[i][j].setBackgroundColor(Color.rgb(0, 128, 0));
                 }
             }
         }
-
+        board[7][0].setOnClickListener(this);
+        board[6][0].setOnClickListener(this);
+        board[5][0].setOnClickListener(this);
+        board[4][0].setOnClickListener(this);
+        board[3][0].setOnClickListener(this);
+        board[2][0].setOnClickListener(this);
+        board[1][0].setOnClickListener(this);
+        board[0][0].setOnClickListener(this);
+        //For the b file
+        board[7][1].setOnClickListener(this);
+        board[6][1].setOnClickListener(this);
+        board[5][1].setOnClickListener(this);
+        board[4][1].setOnClickListener(this);
+        board[3][1].setOnClickListener(this);
+        board[2][1].setOnClickListener(this);
+        board[1][1].setOnClickListener(this);
+        board[0][1].setOnClickListener(this);
+        //For the c file
+        board[7][2].setOnClickListener(this);
+        board[6][2].setOnClickListener(this);
+        board[5][2].setOnClickListener(this);
+        board[4][2].setOnClickListener(this);
+        board[3][2].setOnClickListener(this);
+        board[2][2].setOnClickListener(this);
+        board[1][2].setOnClickListener(this);
+        board[0][2].setOnClickListener(this);
+        //For the d file
+        board[7][3].setOnClickListener(this);
+        board[6][3].setOnClickListener(this);
+        board[5][3].setOnClickListener(this);
+        board[4][3].setOnClickListener(this);
+        board[3][3].setOnClickListener(this);
+        board[2][3].setOnClickListener(this);
+        board[1][3].setOnClickListener(this);
+        board[0][3].setOnClickListener(this);
+        //For the e file
+        board[7][4].setOnClickListener(this);
+        board[6][4].setOnClickListener(this);
+        board[5][4].setOnClickListener(this);
+        board[4][4].setOnClickListener(this);
+        board[3][4].setOnClickListener(this);
+        board[2][4].setOnClickListener(this);
+        board[1][4].setOnClickListener(this);
+        board[0][4].setOnClickListener(this);
+        //For the f file
+        board[7][5].setOnClickListener(this);
+        board[6][5].setOnClickListener(this);
+        board[5][5].setOnClickListener(this);
+        board[4][5].setOnClickListener(this);
+        board[3][5].setOnClickListener(this);
+        board[2][5].setOnClickListener(this);
+        board[1][5].setOnClickListener(this);
+        board[0][5].setOnClickListener(this);
+        //For the g file
+        board[7][6].setOnClickListener(this);
+        board[6][6].setOnClickListener(this);
+        board[5][6].setOnClickListener(this);
+        board[4][6].setOnClickListener(this);
+        board[3][6].setOnClickListener(this);
+        board[2][6].setOnClickListener(this);
+        board[1][6].setOnClickListener(this);
+        board[0][6].setOnClickListener(this);
+        //For the h file
+        board[7][7].setOnClickListener(this);
+        board[6][7].setOnClickListener(this);
+        board[5][7].setOnClickListener(this);
+        board[4][7].setOnClickListener(this);
+        board[3][7].setOnClickListener(this);
+        board[2][7].setOnClickListener(this);
+        board[1][7].setOnClickListener(this);
+        board[0][7].setOnClickListener(this);
     }
 
     //User Click
@@ -132,7 +202,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         //If it is one of the pieces
         else if(v instanceof ImageView) {
+            ImageView image = (ImageView) v;
 
+            image.setBackgroundColor(Color.rgb(100, 100, 230));
         }
     }
 }
