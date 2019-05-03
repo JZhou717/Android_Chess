@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button play_game_button = (Button) findViewById(R.id.play_game_button);
+        Button list_previous_games_button = findViewById(R.id.list_previous_games_button);
 
+        //Play a game
         play_game_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -23,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
+        //Show previous games
+        list_previous_games_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PrevGames.class);
+                startActivity(intent);
+            }
+        });
     }
 }

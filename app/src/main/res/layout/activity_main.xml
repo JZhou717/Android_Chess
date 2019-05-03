@@ -13,5 +13,11 @@
         android:layout_width="300dp"
         android:layout_height="75dp"
         android:text="Play a Game of Chess"/>
+
+    <Button
+        android:id="@+id/list_previous_games_button"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:text="View Previous Games"/>
     
     </LinearLayout>
