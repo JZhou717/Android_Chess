@@ -16,9 +16,11 @@ import java.util.Calendar;
 import java.util.Random;
 
 import controller.MainController;
+import model.Black_Pawn;
 import model.Game;
 import model.MainModel;
 import model.Piece;
+import model.White_Pawn;
 
 
 //CURRENT THESE THINGS NEED TO BE DONE
@@ -40,7 +42,12 @@ import model.Piece;
 
 
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener,  DialogInterface.OnClickListener {
+
+    //The promotion options
+    final CharSequence[] promotion_options = {"Queen", "Rook", "Knight", "Bishop"};
+    //The promotion picker dialog
+    AlertDialog.Builder promotion_dialog;
 
     //The textview above the board
     TextView message;
@@ -55,6 +62,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     ImageView[][] iv_board = new ImageView[8][8];
     //The current selected piece
     ImageView image = null;
+    //The destination for that poiece
+    ImageView dest_image = null;
     //The piece that image represents, is null if not piece in that image
     Piece image_piece = null;
     //Tracks if the game is over
@@ -67,7 +76,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //Set up the promotion dialog
+        promotion_dialog = new AlertDialog.Builder(this);
+        promotion_dialog.setTitle("Promote To:");
+        promotion_dialog.setItems(promotion_options, this);
+
+        //Initiate the board to work with
         MainController.init_board();
+
         moves = new ArrayList<String>();
         str = "";
         //Linking the items on the XML here
@@ -242,7 +258,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //User Click
+    //User Click for pieces or buttons
     @Override
     public void onClick(View v) {
         //If it is one of the buttons
@@ -383,7 +399,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         //Test if valid move
                         if(is_valid_move(rank, file)) {
 
-                            //Moving
+                            //Test if a promotion
+                            //If it is a white pawn
+                            if(rank == 7 && find_piece(image) instanceof White_Pawn) {
+                                dest_image = i;
+                                promotion_dialog.create().show();
+                                return;
+                            }
+                            //If it is a black pawn
+                            else if(rank == 0 && find_piece(image) instanceof Black_Pawn) {
+                                dest_image = i;
+                                promotion_dialog.create().show();
+                                return;
+                            }
+
+                            //Not a promotion, moving as usual
                             make_move(image, i);
                             return;
 
@@ -416,7 +446,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 //Test if valid move
                         if(is_valid_move(rank, file)) {
 
-                            //MOVE IT
+                            //Test if a promotion
+                            //If it is a white pawn
+                            if(rank == 7 && find_piece(image) instanceof White_Pawn) {
+                                dest_image = i;
+                                promotion_dialog.create().show();
+                                return;
+                            }
+                            //If it is a black pawn
+                            else if(rank == 0 && find_piece(image) instanceof Black_Pawn) {
+                                dest_image = i;
+                                promotion_dialog.create().show();
+                                return;
+                            }
+
+                            //Not a promotion, moving as usual
                             make_move(image, i);
                             return;
 
@@ -439,6 +483,79 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             //On second selection
             //Check to see if that position is a valid move for the current piece
             //Move there, update controller board, update white_moves, update message on top
+
+
+        }
+    }
+
+    //User Click for selecting promotion type
+    @Override
+    public void onClick(DialogInterface dialog, int selection) {
+        String promote_to = "q";
+        if(selection == 0) {
+            promote_to = "q";
+        }
+        else if(selection == 1) {
+            promote_to = "r";
+        }
+        else if(selection == 2) {
+            promote_to = "n";
+        }
+        else if(selection == 3) {
+            promote_to = "b";
+        }
+
+        do_promotion(promote_to);
+    }
+
+    //Gets the associated imageview with the one that
+    public ImageView get_image_from_piece(Piece p) {
+        int rank = p.rank;
+        int file = MainController.fileToNum(p.file);
+        return iv_board[rank][file];
+    }
+
+    //Do a promotion for a pawn
+    public void do_promotion(String promote_to) {
+
+        //White promoting
+        if(MainController.white_moves) {
+            //Saving the piece that the pawn promoted to
+            Piece temp = ((White_Pawn) find_piece(image)).promote(promote_to);
+            //Sync the view board and the game board
+            sync_boards();
+            //Set the image to the new piece
+            image = get_image_from_piece(temp);
+            make_move(image, dest_image);
+            dest_image = null;
+        }
+        //Black promoting
+        else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         }
@@ -534,6 +651,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void sync_boards() {
+
+        //MainController.display(MainController.board);
 
         //For all the ranks
         for(int r = 0; r < 8; r++) {

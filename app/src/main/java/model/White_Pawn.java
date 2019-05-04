@@ -272,37 +272,43 @@ public class White_Pawn extends Piece {
      * @param promote_to - should be one of the 4 possible values to promote to. It is a lowercase lettering indicating Rook, Knight, Bishop, or Queen
      * @throws IllegalArgumentException if the input is not one of four the valid promotion types
      */
-   public void promote(String promote_to) throws IllegalArgumentException{
+   public Piece promote(String promote_to) throws IllegalArgumentException{
         if(promote_to.equals("r")) {
             Piece newPiece = new Rook(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            newPiece.check(MainController.board);
+            //newPiece.check(MainController.board);
+            return newPiece;
         }
         else if(promote_to.equals("n")) {
             Piece newPiece = new Knight(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            newPiece.check(MainController.board);
+            //newPiece.check(MainController.board);
+            return newPiece;
         }
         else if(promote_to.equals("b")) {
             Piece newPiece = new Bishop(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            newPiece.check(MainController.board);
+            //newPiece.check(MainController.board);
+            return newPiece;
         }
         else if(promote_to.equals("q")) {
             Piece newPiece = new Queen(this.file, this.rank);
             newPiece.name = "w" + newPiece.name;
             newPiece.white_side = true;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            newPiece.check(MainController.board);
+            //newPiece.check(MainController.board);
+            return newPiece;
         } else {
             throw new IllegalArgumentException();
         }
+
+
     }
 
     /**

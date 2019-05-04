@@ -13,6 +13,31 @@ import model.White_Pawn;
 
 public class MainController {
 
+    /*public static void display(Piece[][] board) {
+        Piece piece;
+        for(int i = 7; i > 0; i--) {
+            for(int j = 0; j < 8; j++) {
+                if(board[i][j] == null) {
+                    if((i+j) % 2 == 0) {
+                        System.out.print("   ");
+                    }
+                    else {
+                        System.out.print("## ");
+                    }
+                }
+                else {
+                    piece = board[i][j];
+                    System.out.print(piece.name+ " ");
+                }
+            }
+            System.out.println(i);
+        }
+        for(int i = 0; i < 8; i++) {
+            System.out.print(" " + numToFile(i) + " ");
+        }
+        System.out.println();
+    }*/
+
     /**
      * board is the data structure that we will be using. It is a 9x8 2D Array of Pieces.
      * row[0] is ignored so that we do not need to convert the input ranks that range from 1-8 to 0-7 to minimize confusion while coding.
