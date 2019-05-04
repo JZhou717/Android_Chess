@@ -15,19 +15,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import controller.MainController;
+import model.Piece;
 
 public class Replay extends AppCompatActivity implements View.OnClickListener {
 
     ImageView[][] iv_board = new ImageView[8][8];
-    int count=0;
+    int count = 0;
     ArrayList<String> moves = new ArrayList<String>();
     Drawable tran;
+
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_replay);
-
+        MainController.init_board();
         //Linking the items on the XML here
         TextView message = findViewById(R.id.message);
         Button next_button = findViewById(R.id.next_button);
@@ -35,15 +37,12 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         next_button.setOnClickListener(this);
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle!=null){
+        if (bundle != null) {
             int size = bundle.getInt("Size");
-            for (int i=0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 moves.add(bundle.getString("" + i));
             }
         }
-
-
-
 
 
         //For the a file starting from a1 to a8
@@ -119,7 +118,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         iv_board[5][7] = (ImageView) findViewById(R.id.h6);
         iv_board[6][7] = (ImageView) findViewById(R.id.h7);
         iv_board[7][7] = (ImageView) findViewById(R.id.h8);
-        for (int i=0;i<8;i++) {
+        for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
                     iv_board[i][j].setBackgroundColor(Color.rgb(0, 128, 0));
@@ -137,16 +136,19 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         //If it is one of the buttons
-        if(v instanceof Button) {
+        if (v instanceof Button) {
             //ROW EQUALS RANK
 
             String s = moves.get(count);
             count++;
-            String arr[] =s.split(" ");
+            String arr[] = s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
-            int a2 = Character.getNumericValue(arr[0].charAt(1))-1;
-            int b1 = MainController.fileToNum(arr[1].charAt(0));
-            int b2 = Character.getNumericValue(arr[1].charAt(1))-1;
+            int a2 = Character.getNumericValue(arr[0].charAt(1));
+
+
+            MainController.board[a2][a1].move(arr[1]);
+            sync_boards();
+            /*
             Drawable image = iv_board[a2][a1].getDrawable();
 
 
@@ -204,6 +206,88 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             iv_board[b2][b1].setImageDrawable(image);
 
         }
+*/
+        }
+
+    }
+
+    public void sync_boards() {
+
+        //For all the ranks
+        for (int r = 0; r < 8; r++) {
+            //For all the files
+            for (int f = 0; f < 8; f++) {
+                //If there is a piece there
+                if (MainController.board[r][f] != null) {
+
+                    Piece temp = MainController.board[r][f];
+                    //Find the name of the piece there
+                    String temp_name = temp.name;
+
+                    //If white rook
+                    if (temp_name.equalsIgnoreCase("wR")) {
+                        iv_board[r][f].setImageResource(R.drawable.wr);
+                    }
+                    //Else if white knight
+                    else if (temp_name.equalsIgnoreCase("wN")) {
+                        iv_board[r][f].setImageResource(R.drawable.wn);
+                    }
+                    //Else if white bishop
+                    else if (temp_name.equalsIgnoreCase("wB")) {
+                        iv_board[r][f].setImageResource(R.drawable.wb);
+                    }
+                    //Else if white queen
+                    else if (temp_name.equalsIgnoreCase("wQ")) {
+                        iv_board[r][f].setImageResource(R.drawable.wq);
+                    }
+                    //Else if white king
+                    else if (temp_name.equalsIgnoreCase("wK")) {
+                        iv_board[r][f].setImageResource(R.drawable.wk);
+                    }
+                    //Else if white pawn
+                    else if (temp_name.equalsIgnoreCase("wp")) {
+                        iv_board[r][f].setImageResource(R.drawable.wp);
+                    }
+                    //Else if white rook
+                    else if (temp_name.equalsIgnoreCase("bR")) {
+                        iv_board[r][f].setImageResource(R.drawable.br);
+                    }
+                    //Else if black knight
+                    else if (temp_name.equalsIgnoreCase("bN")) {
+                        iv_board[r][f].setImageResource(R.drawable.bn);
+                    }
+                    //Else if black bishop
+                    else if (temp_name.equalsIgnoreCase("bB")) {
+                        iv_board[r][f].setImageResource(R.drawable.bb);
+                    }
+                    //Else if black queen
+                    else if (temp_name.equalsIgnoreCase("bQ")) {
+                        iv_board[r][f].setImageResource(R.drawable.bq);
+                    }
+                    //Else if black king
+                    else if (temp_name.equalsIgnoreCase("bK")) {
+                        iv_board[r][f].setImageResource(R.drawable.bk);
+                    }
+                    //Else if black pawn
+                    else if (temp_name.equalsIgnoreCase("bp")) {
+                        iv_board[r][f].setImageResource(R.drawable.bp);
+                    } else {
+                        //Something went wrong
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Something went wrong with matching a piece to its image. FIND MEEEEEEEEEE");
+                        builder.setTitle("TESTING ERROR REMOVE LATER");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                }
+                //There is no piece there
+                else {
+                    iv_board[r][f].setImageResource(R.drawable.tran40);
+                }
+            }
+        }
+
 
     }
 }

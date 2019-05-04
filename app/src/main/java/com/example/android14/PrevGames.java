@@ -38,7 +38,7 @@ public class PrevGames extends AppCompatActivity {
 
                     String s = "" + i;
                     bundle.putString(s, mo.get(i));
-                    System.out.println(mo.get(i));
+
 
                 }
 
