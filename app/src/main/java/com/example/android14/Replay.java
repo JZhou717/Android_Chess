@@ -2,6 +2,8 @@ package com.example.android14;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import controller.MainController;
+
 public class Replay extends AppCompatActivity implements View.OnClickListener {
 
     ImageView[][] board = new ImageView[8][8];
+    int count=0;
+    ArrayList<String> moves = new ArrayList<String>();
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +33,14 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
 
         next_button.setOnClickListener(this);
         Bundle bundle = getIntent().getExtras();
-        ArrayList<String> moves = new ArrayList<String>();
+
         if (bundle!=null){
             int size = bundle.getInt("Size");
             for (int i=0;i<size;i++){
                 moves.add(bundle.getString("" + i));
             }
         }
-        for (int i=0;i<moves.size();i++){
-            System.out.println(moves.get(i));
-        }
+
 
 
 
@@ -130,12 +134,23 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         //If it is one of the buttons
         if(v instanceof Button) {
-            //TESTING
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Next!");
-            builder.setTitle("Button Test");
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            String s = moves.get(count);
+            count++;
+            String arr[] =s.split(" ");
+            int a1 = MainController.fileToNum(arr[0].charAt(0));
+            int a2 = Character.getNumericValue(arr[0].charAt(1));
+            int b1 = MainController.fileToNum(arr[1].charAt(0));
+            int b2 = Character.getNumericValue(arr[1].charAt(1));
+            Drawable image = board[a1][a2].getDrawable();
+            if (arr.length > 2){
+                String p = arr[2];
+                //
+                if (p.equals("BQ")){
+
+                }
+            }
+
+            board[b1][b2].setImageDrawable(image);
 
         }
 
