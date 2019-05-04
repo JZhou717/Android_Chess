@@ -139,7 +139,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         //If it is one of the buttons
         if(v instanceof Button) {
             //ROW EQUALS RANK
-            /////////////////////////////////LLLLLLLOOOOOOOK OVER HERE----- BUG WITH WHITE BACKGROUND AFTER MOVING PIECE////////////////////////
+
             String s = moves.get(count);
             count++;
             String arr[] =s.split(" ");
@@ -149,40 +149,54 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             int b2 = Character.getNumericValue(arr[1].charAt(1))-1;
             Drawable image = iv_board[a2][a1].getDrawable();
 
-            iv_board[a2][a1].setImageDrawable(tran);
-            /*
-            if ((a2%2==0&&a1%2==0)||(a2%2!=0&&a1%2!=0)){
-                iv_board[a2][a1].setBackgroundColor(Color.rgb(0, 128, 0));
-            }else{
-                iv_board[a2][a1].setBackgroundColor(Color.rgb(50, 205, 50));
-            }
-            */
+
+            iv_board[a2][a1].setImageResource(R.drawable.tran40);
+
             if (arr.length > 2){
                 String p = arr[2];
                 //THIS WILL BE PROMOTION STUFF
                 //NEEDS TO BE DONE FOR EACH PIECE FOR EACH COLOR
                 if (p.equals("BQ")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.bq);
                 }
                 if (p.equals("BN")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.bn);
                 }
                 if (p.equals("BR")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.br);
                 }
                 if (p.equals("BB")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.bb);
                 }
                 if (p.equals("WQ")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.wq);
                 }
                 if (p.equals("WN")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.wn);
                 }
                 if (p.equals("WR")){
-
+                    iv_board[b2][b1].setImageResource(R.drawable.wr);
                 }
                 if (p.equals("WB")){
+                    iv_board[b2][b1].setImageResource(R.drawable.wb);
+                }
+                //STILL NEED TO ADD CASTLING AND EN PESSANT
+                if (p.equals("BEP")){ //black en passent
+                    iv_board[b2+1][b1].setImageResource(R.drawable.tran40); //test this
+                }
+                if (p.equals("WEP")){ //white en passent
+                    iv_board[b2-1][b1].setImageResource(R.drawable.tran40); // test this
+                }
+                if (p.equals("WCK")){ //Castle Kingside
+                    iv_board[b2][b1-1].setImageResource(R.drawable.wr);
+                }
+                if (p.equals("WCQ")){ //Castle Queenside
+
+                }
+                if (p.equals("BCK")){ //Castle Kingside
+                    iv_board[b2][b1-1].setImageResource(R.drawable.wr);
+                }
+                if (p.equals("BCQ")){ //Castle Queenside
 
                 }
             }
