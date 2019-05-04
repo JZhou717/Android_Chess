@@ -18,7 +18,28 @@ import model.Game;
 import model.MainModel;
 import model.Piece;
 
+
+//CURRENT THESE THINGS NEED TO BE DONE
+
+//1. PROMOTION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //The textview above the board
+    TextView message;
 
     //The ImageView iv_board that is being displayed
     ImageView[][] iv_board = new ImageView[8][8];
@@ -37,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         MainController.init_board();
 
         //Linking the items on the XML here
-        TextView message = findViewById(R.id.message);
+        message = findViewById(R.id.message);
         Button resign_button = findViewById(R.id.resign_button);
         Button draw_button = findViewById(R.id.draw_button);
         Button ai_button = findViewById(R.id.ai_button);
@@ -247,10 +268,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             else {
                 //If this is the first selection
                 if(image == null) {
-                    //If the piece is on the side playing
-                    if(find_piece(i).white_side == MainController.white_moves) {
-                        set_selected(rank, file);
-                        return;
+                    //If there is piece there
+                    if(find_piece(i) != null) {
+                        //If the piece is on the side playing
+                        if(find_piece(i).white_side == MainController.white_moves) {
+                            set_selected(rank, file);
+                            return;
+                        }
                     }
                 }
                 //If this is the second selection
@@ -262,7 +286,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         if(is_valid_move(rank, file)) {
 
                             //MOVE IT
-                            iv_board[rank][file].setBackgroundColor(000000);
+                            make_move(image, i);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -284,7 +317,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                     }
-                    //There is a piece there
+                    //Trying to move to a nonempty position
                     //The piece is on the same side
                     if(find_piece(i).white_side == MainController.white_moves) {
                         //Deselect previous selection and select this piece instead
@@ -298,7 +331,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     //The piece is on the other side
                     else {
-                        //MAKE IT MOVE
+//Test if valid move
+                        if(is_valid_move(rank, file)) {
+
+                            //MOVE IT
+                            iv_board[rank][file].setBackgroundColor(000000);
 
 
 
@@ -319,13 +356,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+                            return;
 
-                        return;
+                        }
+                        //Not a valid move
+                        else {
+                            //Deselect previous selection. No longer any selected piece
+                            String temp_pos = image.getResources().getResourceEntryName(image.getId());
+                            int temp_file = MainController.fileToNum(temp_pos.charAt(0));
+                            int temp_rank = Character.getNumericValue(temp_pos.charAt(1)) - 1;
+                            deselect(temp_rank, temp_file);
+                            return;
+                        }
                     }
                 }
-
             }
-
 
             //What we need to do
 
@@ -335,6 +380,121 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
+    }
+
+    //Makes a move after it has been validated
+    public void make_move(ImageView from_pos, ImageView to_pos) {
+
+        //Get the position to move to in the form of FileRank
+        String move_to = get_move_from_pos(to_pos);
+        System.out.println(move_to);
+
+        //Move on MainController.board
+
+
+        //Update imageview board to match MainController.board
+        sync_boards();
+        //Switch sides
+        switch_sides();
+
+    }
+
+    //Changes the current player and the message
+    public void switch_sides() {
+        MainController.white_moves = !MainController.white_moves;
+
+        //Set the message
+        //If it is white's turn
+        if(MainController.white_moves) {
+            MainController.white_enpassant = 0;
+            message.setText("White Moves: ");
+        }
+        else {
+            MainController.black_enpassant = 0;
+            message.setText("Black Moves: ");
+        }
+
+    }
+
+    public void sync_boards() {
+
+        //For all the ranks
+        for(int r = 0; r < 8; r++) {
+            //For all the files
+            for(int f = 0; f < 8; f++) {
+                //If there is a piece there
+                if(MainController.board[r][f] != null) {
+
+                    Piece temp = MainController.board[r][f];
+                    //Find the name of the piece there
+                    String temp_name = temp.name;
+
+                    //If white rook
+                    if(temp_name.equalsIgnoreCase("wR")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wr", null, null));
+                    }
+                    //Else if white knight
+                    else if(temp_name.equalsIgnoreCase("wN")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wn", null, null));
+                    }
+                    //Else if white bishop
+                    else if(temp_name.equalsIgnoreCase("wB")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wb", null, null));
+                    }
+                    //Else if white queen
+                    else if(temp_name.equalsIgnoreCase("wQ")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wq", null, null));
+                    }
+                    //Else if white king
+                    else if(temp_name.equalsIgnoreCase("wK")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wk", null, null));
+                    }
+                    //Else if white pawn
+                    else if(temp_name.equalsIgnoreCase("wp")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wp", null, null));
+                    }
+                    //Else if white rook
+                    else if(temp_name.equalsIgnoreCase("bR")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "br", null, null));
+                    }
+                    //Else if black knight
+                    else if(temp_name.equalsIgnoreCase("bN")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bn", null, null));
+                    }
+                    //Else if black bishop
+                    else if(temp_name.equalsIgnoreCase("bB")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bb", null, null));
+                    }
+                    //Else if black queen
+                    else if(temp_name.equalsIgnoreCase("bQ")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bq", null, null));
+                    }
+                    //Else if black king
+                    else if(temp_name.equalsIgnoreCase("bK")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bk", null, null));
+                    }
+                    //Else if black pawn
+                    else if(temp_name.equalsIgnoreCase("bp")) {
+                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bp", null, null));
+                    }
+                    else {
+                        //Something went wrong
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Something went wrong with matching a piece to its image. FIND MEEEEEEEEEE");
+                        builder.setTitle("TESTING ERROR REMOVE LATER");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                }
+                //There is no piece there
+                else {
+                    iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "tran40", null, null));
+                }
+            }
+        }
+
+
     }
 
     //Returns true if the given rank and file is a valid position for the previously selected piece to move to
@@ -352,9 +512,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    //returns a two character string with the move indicated by the given position
+    //returns a two character string with the move indicated by the given rank and file positions
     public String get_move_from_pos(int rank, int file) {
         String ret;
+        ret = Character.toString(MainController.numToFile(file));
+        ret += rank;
+        return ret;
+    }
+
+    //Returns a two character string with the move indicated by the position of the image view
+    public String get_move_from_pos(ImageView iv) {
+        String ret;
+
+        String pos = iv.getResources().getResourceEntryName(iv.getId());
+        int file = MainController.fileToNum(pos.charAt(0));
+        int rank = Character.getNumericValue(pos.charAt(1)) - 1;
+
         ret = Character.toString(MainController.numToFile(file));
         ret += rank;
         return ret;
