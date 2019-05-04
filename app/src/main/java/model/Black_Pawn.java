@@ -342,7 +342,7 @@ public class Black_Pawn extends Piece {
         //Checking down-left
         if(this.file != 'a') {
             //If you can enpassant
-            if(this.rank == 3 && this.file - 1 == MainController.white_enpassant) {
+            if(this.rank == 4 && this.file - 1 == MainController.white_enpassant) {
                 //Testing if this move puts own King in check
                 board_copy = MainController.copyBoard();
                 board_copy[3][MainController.fileToNum(MainController.white_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
@@ -376,7 +376,7 @@ public class Black_Pawn extends Piece {
         //Checking down-right
         if(this.file != 'h') {
             //If you can enpassant
-            if(this.rank == 3 && this.file + 1 == MainController.white_enpassant) {
+            if(this.rank == 4 && this.file + 1 == MainController.white_enpassant) {
                 //Testing if this move puts own King in check
                 board_copy = MainController.copyBoard();
                 board_copy[3][MainController.fileToNum(MainController.white_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];

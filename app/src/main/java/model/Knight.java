@@ -115,7 +115,7 @@ public class Knight extends Piece {
         Piece temp;
 
         //Check 1st layer above
-        if(this.rank <= 7) {
+        if(this.rank <= 6) {
             //Check up-left one
             if(this.file >= 'c') {
                 temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 2))];
@@ -137,7 +137,7 @@ public class Knight extends Piece {
                 }
             }
             //Check 2nd layer above
-            if(this.rank <= 6) {
+            if(this.rank <= 5) {
                 //Check up-left two
                 if(this.file >= 'b') {
                     temp = MainController.board[this.rank + 2][MainController.fileToNum((char) (this.file - 1))];
@@ -161,7 +161,7 @@ public class Knight extends Piece {
             }
         }
         //Check 1st layer below
-        if(this.rank >= 2) {
+        if(this.rank >= 1) {
             //Check down-left one
             if(this.file >= 'c') {
                 temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 2))];
@@ -183,7 +183,7 @@ public class Knight extends Piece {
                 }
             }
             //Check 2nd layer below
-            if(this.rank >= 3) {
+            if(this.rank >= 2) {
                 //Check down-left two
                 if(this.file >= 'b') {
                     temp = MainController.board[this.rank - 2][MainController.fileToNum((char) (this.file - 1))];
@@ -224,7 +224,7 @@ public class Knight extends Piece {
         final boolean side_playing = MainController.white_moves;
 
         //Check first layer above
-        if(this.rank <= 7) {
+        if(this.rank <= 6) {
             //Check up-left one
             if(this.file >= 'c') {
                 if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 2))] == null) {
@@ -288,7 +288,7 @@ public class Knight extends Piece {
                 }
             }
             //Check 2nd layer above
-            if(this.rank <= 6) {
+            if(this.rank <= 5) {
                 //Check up-left two
                 if(this.file >= 'b') {
                     if(MainController.board[this.rank + 2][MainController.fileToNum((char) (this.file - 1))] == null) {
@@ -354,7 +354,7 @@ public class Knight extends Piece {
             }
         }
         //Check 1st layer below
-        if(this.rank >= 2) {
+        if(this.rank >= 1) {
 
             //Check down-left one
             if(this.file >= 'c') {
@@ -419,7 +419,7 @@ public class Knight extends Piece {
                 }
             }
             //Check 2nd layer below
-            if(this.rank <= 6) {
+            if(this.rank <= 2) {
                 //Check down-left two
                 if(this.file >= 'b') {
                     if(MainController.board[this.rank - 2][MainController.fileToNum((char) (this.file - 1))] == null) {

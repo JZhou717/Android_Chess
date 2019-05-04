@@ -7,7 +7,7 @@ import controller.MainController;
 public class Queen extends Piece {
 
     /**
-     * Constructor initializes the piece's name as "Q", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in {@link #initialize()} or by a Pawn's promotion method
+     * Constructor initializes the piece's name as "Q", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in initialize() or by a Pawn's promotion method
      *
      * @author Jake
      * @param file - the file where the piece was created
@@ -28,28 +28,13 @@ public class Queen extends Piece {
      */
     public void move(String move_to)  throws IllegalArgumentException{
 
-        if(!MainController.board[this.rank][MainController.fileToNum(this.file)].equals(this)) {
-            System.out.println("we have not tracked this file and rank properly.");
-            System.out.println("File: " + this.file);
-            System.out.println("Rank: " + this.rank);
-            System.exit(0);
-        }
-
-        //Trying to move opponent's piece
-        if(this.white_side != MainController.white_moves) {
-            throw new IllegalArgumentException();
-        }
 
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
 
         Piece[][] board_copy = MainController.copyBoard();
 
-        //If trying to move to the same spot
-        if(move_file == this.file && move_rank == this.rank) {
-            throw new IllegalArgumentException();
-        } //Moving vertically
-        else if(move_file == this.file) {
+        if(move_file == this.file) {
             //Moving up
             if(move_rank > this.rank) {
                 //Checking to see if path clear
@@ -358,7 +343,7 @@ public class Queen extends Piece {
             }
         }
         //Checks for checks on top
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             temp = MainController.board[r][MainController.fileToNum(this.file)];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
@@ -371,7 +356,7 @@ public class Queen extends Piece {
             }
         }
         //Check for checks below
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             temp = MainController.board[r][MainController.fileToNum(this.file)];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
@@ -385,7 +370,7 @@ public class Queen extends Piece {
         }
 
         //Check up-right
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file + (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -407,7 +392,7 @@ public class Queen extends Piece {
             }
         }
         //Check up-left
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file - (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -429,7 +414,7 @@ public class Queen extends Piece {
             }
         }
         //Check down-right
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             char tempFile = (char) (this.file + (this.rank - r));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -451,7 +436,7 @@ public class Queen extends Piece {
             }
         }
         //Check down-left
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             char tempFile = (char) (this.file - (this.rank - r));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -491,7 +476,7 @@ public class Queen extends Piece {
         final boolean side_playing = MainController.white_moves;
 
         //Checking all possible moves up
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             //If there is no piece in this position
             if(MainController.board[r][MainController.fileToNum(this.file)] == null) {
                 //Check to see if this move puts the king in check
@@ -527,7 +512,7 @@ public class Queen extends Piece {
             }
         }
         //Checking all possible moves down
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             //If there is no piece in this position
             if(MainController.board[r][MainController.fileToNum(this.file)] == null) {
                 //Check to see if this move puts the king in check
@@ -636,7 +621,7 @@ public class Queen extends Piece {
         }
 
         //Check up-right
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file + (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -679,7 +664,7 @@ public class Queen extends Piece {
 
         }
         //Check up-left
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file - (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -721,7 +706,7 @@ public class Queen extends Piece {
             }
         }
         //Check down-right
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             char tempFile = (char) (this.file + (this.rank - r));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -763,7 +748,7 @@ public class Queen extends Piece {
             }
         }
         //Check down-left
-        for(int r = this.rank - 1; r > 0; r--) {
+        for(int r = this.rank - 1; r >= 0; r--) {
             char tempFile = (char) (this.file - (this.rank - r));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;

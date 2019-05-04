@@ -21,7 +21,7 @@ public class White_Pawn extends Piece {
     }
 
     /**
-     * White_Pawns may move up towards ranks of greater value. They can move up one in their file if the path is clear, up two in their file if the path is clear and they are still in their starting position, up-left or up-right if there is an opponent piece there or if they are performing an En Passant. When they reach the opposite side's final rank, they are {@link #promote(String) promoted}. All moves are ensured not to place the piece's own King in check by {@link #MainController.putsOwnKingInCheck(Piece[][]) MainController.putsOwnKingInCheck} method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated
+     * White_Pawns may move up towards ranks of greater value. They can move up one in their file if the path is clear, up two in their file if the path is clear and they are still in their starting position, up-left or up-right if there is an opponent piece there or if they are performing an En Passant. When they reach the opposite side's final rank, they are {@link #promote(String) promoted}. All moves are ensured not to place the piece's own King in check by putsOwnKingInCheck method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated
      *
      * @author Jake
      * @param move_to a two part String with the file and the rank that they are to move to
@@ -29,33 +29,19 @@ public class White_Pawn extends Piece {
      */
     public void move(String move_to) throws IllegalArgumentException{
 
-			/*
-			if(!MainController.board[this.rank][MainController.fileToNum(this.file)].equals(this)) {
-				System.out.println("we have not tracked this file and rank properly.");
-				System.out.println("File: " + this.file);
-				System.out.println("Rank: " + this.rank);
-				in.close();
-				System.exit(0);
-			}*/
-
-        //If you are trying to move a white pawn on a black turn
-        if(!MainController.white_moves) {
-            throw new IllegalArgumentException();
-        }
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
 
         Piece[][] board_copy = MainController.copyBoard();
 
         if(move_file != this.file) {
-            //System.out.println("Pawn moving to different file");
             //If the designated move is not in this file, then we have to see if it is an attempt to capture
             if(move_file == (this.file + 1) && move_rank == (this.rank + 1)) {
                 //System.out.println("Pawn moving up-right");
                 //Checking to see there is a piece there
                 if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1] == null) {
                     //Checking for Enpassant
-                    if(move_file == MainController.black_enpassant && move_rank == 6) {
+                    if(move_file == MainController.black_enpassant && move_rank == 5) {
 
                         //Removing the black pawn
                         board_copy[this.rank][MainController.fileToNum(this.file) + 1] = null;
@@ -84,11 +70,6 @@ public class White_Pawn extends Piece {
                         throw new IllegalArgumentException();
                     }
                 }
-                //Making sure the piece isn't on the same side
-                if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) + 1].white_side == true) {
-                    throw new IllegalArgumentException();
-                }
-
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -111,7 +92,7 @@ public class White_Pawn extends Piece {
                 //Checking to see there is a piece there
                 if(MainController.board[this.rank + 1][MainController.fileToNum(this.file) - 1] == null) {
                     //Checking for Enpassant
-                    if(move_file == MainController.black_enpassant && move_rank == 6) {
+                    if(move_file == MainController.black_enpassant && move_rank == 5) {
 
                         board_copy[this.rank][MainController.fileToNum(this.file) - 1] = null;
 
@@ -186,7 +167,7 @@ public class White_Pawn extends Piece {
                 this.file = move_file;
                 MainController.checkForCheck(MainController.board);
                 return;
-            } else if(move_rank == this.rank + 2 && this.rank == 2) {
+            } else if(move_rank == this.rank + 2 && this.rank == 1) {
 
                 //System.out.println("TESTING: WE ARE MOVING TWO SPACES");
 
@@ -203,8 +184,6 @@ public class White_Pawn extends Piece {
                 if(MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
-
-                //System.out.println("TESTING ARE WE GETTTING HERE?");
 
                 //Moving piece
                 MainController.board[this.rank + 2][MainController.fileToNum(this.file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
@@ -236,7 +215,7 @@ public class White_Pawn extends Piece {
         Piece temp;
 
         //If the pawn is in the last rank, it should have promoted
-        if(this.rank == 8) {
+        if(this.rank == 7) {
             throw new IllegalArgumentException();
         }
         //a pawns only check one side
@@ -354,7 +333,7 @@ public class White_Pawn extends Piece {
             MainController.white_moves = side_playing;
 
             //Checking up 2
-            if(this.rank == 2 && MainController.board[this.rank + 2][MainController.fileToNum(this.file)] == null) {
+            if(this.rank == 1 && MainController.board[this.rank + 2][MainController.fileToNum(this.file)] == null) {
                 //Testing if this move puts own King in check
                 board_copy = MainController.copyBoard();
                 board_copy[this.rank + 2][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
@@ -371,14 +350,14 @@ public class White_Pawn extends Piece {
         //Checking up-left
         if(this.file != 'a') {
             //If you can enpassant
-            if(this.rank == 5 && this.file - 1 == MainController.black_enpassant) {
+            if(this.rank == 4 && this.file - 1 == MainController.black_enpassant) {
                 //Testing if this move puts own King in check
                 board_copy = MainController.copyBoard();
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].rank = 6;
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
-                MainController.white_moves = board_copy[6][MainController.fileToNum(MainController.black_enpassant)].white_side;
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)].rank = 5;
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
+                MainController.white_moves = board_copy[5][MainController.fileToNum(MainController.black_enpassant)].white_side;
                 if(!MainController.putsOwnKingInCheck(board_copy)) {
                     move = String.valueOf((char) (this.file - 1)).concat((this.rank + 1) + "");
                     result.add(move);
@@ -406,14 +385,14 @@ public class White_Pawn extends Piece {
         //Checking up-right
         if(this.file != 'h') {
             //If you can enpassant
-            if(this.rank == 5 && this.file + 1 == MainController.black_enpassant) {
+            if(this.rank == 4 && this.file + 1 == MainController.black_enpassant) {
                 //Testing if this move puts own King in check
                 board_copy = MainController.copyBoard();
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].rank = 6;
-                board_copy[6][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
-                MainController.white_moves = board_copy[6][MainController.fileToNum(MainController.black_enpassant)].white_side;
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)].rank = 5;
+                board_copy[5][MainController.fileToNum(MainController.black_enpassant)].file = MainController.black_enpassant;
+                MainController.white_moves = board_copy[5][MainController.fileToNum(MainController.black_enpassant)].white_side;
                 if(!MainController.putsOwnKingInCheck(board_copy)) {
                     move = String.valueOf((char) (this.file + 1)).concat((this.rank + 1) + "");
                     result.add(move);
