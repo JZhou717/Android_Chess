@@ -24,7 +24,7 @@ import model.Piece;
 //CURRENT THESE THINGS NEED TO BE DONE
 
 //1. PROMOTION
-    //Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
+//Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
 //2. Saving games
 
 
@@ -59,8 +59,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Piece image_piece = null;
     //Tracks if the game is over
     boolean game_over = false;
-
-
+    ArrayList<String> moves;
+    String str;
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         MainController.init_board();
-
+        moves = new ArrayList<String>();
+        str = "";
         //Linking the items on the XML here
         message = findViewById(R.id.message);
         resign_button = findViewById(R.id.resign_button);
@@ -238,15 +239,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         iv_board[5][7].setOnClickListener(this);
         iv_board[6][7].setOnClickListener(this);
         iv_board[7][7].setOnClickListener(this);
-        Calendar c = Calendar.getInstance();
 
-        Game game = new Game(c);
-        //THIS IS JUST TO TEST
-        game.addMove("e2 e4");
-        game.addMove("e7 e6");
-        game.addMove("e4 e5");
-        game.setName("GameTest");
-        MainModel.addGame(game);
     }
 
     //User Click
@@ -444,8 +437,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             //What we need to do
 
             //On second selection
-                //Check to see if that position is a valid move for the current piece
-                    //Move there, update controller board, update white_moves, update message on top
+            //Check to see if that position is a valid move for the current piece
+            //Move there, update controller board, update white_moves, update message on top
 
 
         }
@@ -482,7 +475,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Get a random valid move
         int m = new Random().nextInt(valid_moves.size());
         String move = valid_moves.get(m);
-
+        str = Character.toString(temp.file) + temp.rank + " " + move;
+        moves.add(str);
+        System.out.println(str);
         //Make the move
         temp.move(move);
         //Update imageview board to match MainController.board
@@ -503,9 +498,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Get the position to move to in the form of FileRank
         String move_to = get_move_from_pos(to_pos);
         //System.out.println(move_to);
+        String from = move_from.charAt(0) + String.valueOf(from_rank);
 
         //Move on MainController.board
         MainController.board[from_rank][from_file].move(move_to);
+
+        str = from + " " + move_to;
+        moves.add(str);
+        System.out.println(str);
 
         //Update imageview board to match MainController.board
         sync_boards();

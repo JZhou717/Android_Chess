@@ -419,7 +419,7 @@ public class Knight extends Piece {
                 }
             }
             //Check 2nd layer below
-            if(this.rank <= 2) {
+            if(this.rank >= 2) {
                 //Check down-left two
                 if(this.file >= 'b') {
                     if(MainController.board[this.rank - 2][MainController.fileToNum((char) (this.file - 1))] == null) {
