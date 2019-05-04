@@ -10,7 +10,11 @@ import android.widget.ImageView;
 import android.app.AlertDialog;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import controller.MainController;
+import model.Game;
+import model.MainModel;
 import model.Piece;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
@@ -198,6 +202,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         iv_board[5][7].setOnClickListener(this);
         iv_board[6][7].setOnClickListener(this);
         iv_board[7][7].setOnClickListener(this);
+        Calendar c = Calendar.getInstance();
+
+        Game game = new Game(c);
+        //THIS IS JUST TO TEST
+        game.addMove("e2 e4");
+        game.addMove("e7 e6");
+        game.addMove("e4 e5");
+        game.setName("GameTest");
+        MainModel.addGame(game);
     }
 
     //User Click

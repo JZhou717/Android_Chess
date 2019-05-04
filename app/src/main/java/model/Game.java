@@ -12,6 +12,7 @@ public class Game{
     public Game(Calendar d){
         this.date = d;
         this.name = "No Name";
+        this.moves = new ArrayList<String>();
     }
     public ArrayList<String> getMoves(){
         return this.moves;

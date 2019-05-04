@@ -35,8 +35,10 @@ public class PrevGames extends AppCompatActivity {
                 ArrayList<String> mo = g.getMoves();
                 bundle.putInt("Size", mo.size());
                 for (int i=0;i<mo.size();i++) {
+
                     String s = "" + i;
                     bundle.putString(s, mo.get(i));
+                    System.out.println(mo.get(i));
 
                 }
 

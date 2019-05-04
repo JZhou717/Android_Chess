@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.app.AlertDialog;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class Replay extends AppCompatActivity implements View.OnClickListener {
 
     ImageView[][] board = new ImageView[8][8];
@@ -24,6 +26,17 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         Button next_button = findViewById(R.id.next_button);
 
         next_button.setOnClickListener(this);
+        Bundle bundle = getIntent().getExtras();
+        ArrayList<String> moves = new ArrayList<String>();
+        if (bundle!=null){
+            int size = bundle.getInt("Size");
+            for (int i=0;i<size;i++){
+                moves.add(bundle.getString("" + i));
+            }
+        }
+        for (int i=0;i<moves.size();i++){
+            System.out.println(moves.get(i));
+        }
 
 
 
