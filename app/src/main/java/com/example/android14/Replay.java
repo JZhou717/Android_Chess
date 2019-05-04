@@ -21,6 +21,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
     ImageView[][] iv_board = new ImageView[8][8];
     int count=0;
     ArrayList<String> moves = new ArrayList<String>();
+    Drawable tran = iv_board[5][0].getDrawable();
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             for (int j = 0; j < 8; j++) {
                 if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
                     iv_board[i][j].setBackgroundColor(Color.rgb(0, 128, 0));
+
                 } else {
                     iv_board[i][j].setBackgroundColor(Color.rgb(50, 205, 50));
                 }
@@ -141,17 +143,45 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             count++;
             String arr[] =s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
-            int a2 = Character.getNumericValue(arr[0].charAt(1));
+            int a2 = Character.getNumericValue(arr[0].charAt(1))-1;
             int b1 = MainController.fileToNum(arr[1].charAt(0));
-            int b2 = Character.getNumericValue(arr[1].charAt(1));
+            int b2 = Character.getNumericValue(arr[1].charAt(1))-1;
             Drawable image = iv_board[a2][a1].getDrawable();
-            int id = getResources().getIdentifier("Android14:drawable/" + "tran40", null, null);
-            iv_board[a2][a1].setImageResource(id);
+
+            iv_board[a2][a1].setImageDrawable(tran);
+            /*
+            if ((a2%2==0&&a1%2==0)||(a2%2!=0&&a1%2!=0)){
+                iv_board[a2][a1].setBackgroundColor(Color.rgb(0, 128, 0));
+            }else{
+                iv_board[a2][a1].setBackgroundColor(Color.rgb(50, 205, 50));
+            }
+            */
             if (arr.length > 2){
                 String p = arr[2];
                 //THIS WILL BE PROMOTION STUFF
                 //NEEDS TO BE DONE FOR EACH PIECE FOR EACH COLOR
                 if (p.equals("BQ")){
+
+                }
+                if (p.equals("BN")){
+
+                }
+                if (p.equals("BR")){
+
+                }
+                if (p.equals("BB")){
+
+                }
+                if (p.equals("WQ")){
+
+                }
+                if (p.equals("WN")){
+
+                }
+                if (p.equals("WR")){
+
+                }
+                if (p.equals("WB")){
 
                 }
             }
