@@ -1,6 +1,7 @@
 package com.example.android14;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.drawable.Drawable;
@@ -24,7 +25,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
     int count = 0;
     ArrayList<String> moves = new ArrayList<String>();
     Drawable tran;
-
+    Button back_button;
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,10 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         //Linking the items on the XML here
 
         Button next_button = findViewById(R.id.next_button);
+        back_button = findViewById(R.id.back_button);
         message = findViewById(R.id.message);
         next_button.setOnClickListener(this);
+        back_button.setOnClickListener(this);
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -139,8 +142,13 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         //If it is one of the buttons
         if (v instanceof Button) {
             //ROW EQUALS RANK
-
+            if (v==back_button){
+                Intent intent = new Intent(Replay.this, MainActivity.class);
+                startActivity(intent);
+                return;
+            }
             String s = moves.get(count);
+            System.out.println(s);
             count++;
             String arr[] = s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));

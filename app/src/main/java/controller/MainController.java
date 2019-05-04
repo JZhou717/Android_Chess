@@ -73,6 +73,11 @@ public class MainController {
             board[6][j] = new Black_Pawn(numToFile(j), 6);
             board[6][j].white_side = false;
         }
+        for (int i=2;i<6;i++){
+            for (int j=0;j<8;j++){
+                board[i][j] = null;
+            }
+        }
     }
 
     /**
@@ -175,6 +180,9 @@ public class MainController {
                     }
 
                     board_copy[r][f] = copy;
+
+                }else if(board[r][f]==null){
+                    board_copy[r][f]=null;
                 }
 
 
