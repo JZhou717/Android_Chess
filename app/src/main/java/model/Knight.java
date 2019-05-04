@@ -7,7 +7,7 @@ import controller.MainController;
 public class Knight extends Piece {
 
     /**
-     * Constructor initializes the piece's name as "N", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in {@link #initialize()} or by a Pawn's promotion method
+     * Constructor initializes the piece's name as "N", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in initialize() or by a Pawn's promotion method
      *
      * @author Jake
      * @param file - the file where the piece was created
@@ -20,7 +20,7 @@ public class Knight extends Piece {
     }
 
     /**
-     * Knights have at most 8 possible moves at a given point. They may not move to one of these possible positions if a piece of the same side is in that position of the position is out of the bounds of the playing MainController.board. All moves are ensured not to place the piece's own King in check by {@link #MainController.putsOwnKingInCheck(Piece[][]) MainController.putsOwnKingInCheck} method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated
+     * Knights have at most 8 possible moves at a given point. They may not move to one of these possible positions if a piece of the same side is in that position of the position is out of the bounds of the playing MainController.board. All moves are ensured not to place the piece's own King in check by putsOwnKingInCheck method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated
      *
      * @author Jake
      * @param move_to a two part String with the file and the rank that they are to move to
@@ -28,28 +28,18 @@ public class Knight extends Piece {
      */
     public void move(String move_to)  throws IllegalArgumentException{
 
-			/*if(!MainController.board[this.rank][MainController.fileToNum(this.file)].equals(this)) {
-				System.out.println("we have not tracked this file and rank properly.");
-				System.out.println("File: " + this.file);
-				System.out.println("Rank: " + this.rank);
-				in.close();
-				System.exit(0);
-			}*/
-
-        //Trying to move opponent's piece
-        if(this.white_side != MainController.white_moves) {
-            throw new IllegalArgumentException();
-        }
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
 
         Piece[][] board_copy = MainController.copyBoard();
 
-        //If trying to move to the same spot
+        /*If trying to move to the same spot
         if(move_file == this.file && move_rank == this.rank) {
             throw new IllegalArgumentException();
-        } //Moving horizontally first
-        else if(Math.abs(move_file - this.file) == 2) {
+        }*/
+
+        //Moving horizontally first
+        if(Math.abs(move_file - this.file) == 2) {
             //Moving 1 vertical space
             if(Math.abs(move_rank - this.rank) == 1) {
                 //Checking if piece there

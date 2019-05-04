@@ -7,7 +7,7 @@ import controller.MainController;
 public class Bishop extends Piece {
 
     /**
-     * Constructor initializes the piece's name as "B", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in {@link #initialize()} or by a Pawn's promotion method
+     * Constructor initializes the piece's name as "B", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created either in initialize() or by a Pawn's promotion method
      *
      * @author Jake
      * @param file - the file where the piece was created
@@ -20,63 +20,51 @@ public class Bishop extends Piece {
     }
 
     /**
-     * Bishops may move to any position that is diagonal to them as long as the path is clear and the target destination does not contain a piece of the same side. All moves are ensured not to place the piece's own King in check by {@link #MainController.putsOwnKingInCheck(Piece[][]) MainController.putsOwnKingInCheck} method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated	 *
+     * Bishops may move to any position that is diagonal to them as long as the path is clear and the target destination does not contain a piece of the same side. All moves are ensured not to place the piece's own King in check by putsOwnKingInCheck method before being committed. If a move is valid, this piece's position is changed in the global MainController.board and its own file and rank fields are updated	 *
      * @author Jake
      * @param move_to a two part String with the file and the rank that they are to move to
      * @throws IllegalArgumentException if the move_to position is not valid
      */
     public void move(String move_to)  throws IllegalArgumentException{
 
-			/*if(!MainController.board[this.rank][MainController.fileToNum(this.file)].equals(this)) {
-				System.out.println("we have not tracked this file and rank properly.");
-				System.out.println("File: " + this.file);
-				System.out.println("Rank: " + this.rank);
-				in.close();
-				System.exit(0);
-			}*/
-
-        //Trying to move opponent's piece
-        if(this.white_side != MainController.white_moves) {
-            throw new IllegalArgumentException();
-        }
-
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
 
         Piece[][] board_copy = MainController.copyBoard();
 
-        //If trying to move to the same spot
+        /*If trying to move to the same spot
         if(move_file == this.file && move_rank == this.rank) {
             throw new IllegalArgumentException();
-        } //If not moving on a diagonal
-        else if(Math.abs(move_rank - this.rank) != Math.abs(MainController.fileToNum(move_file) - MainController.fileToNum(this.file))) {
+        }*/
+        //If not moving on a diagonal
+        if(Math.abs(move_rank - this.rank) != Math.abs(MainController.fileToNum(move_file) - MainController.fileToNum(this.file))) {
             //System.out.println("TESTING DIAGONAL MATH WRONG");
             throw new IllegalArgumentException();
         } //Moving diagonally
         else {
             //Moving up right
-            if(move_file > this.file && move_rank > this.rank) {
+            if (move_file > this.file && move_rank > this.rank) {
                 //Checking to see if path clear
-                for(int i = (move_rank - this.rank) - 1; i > 0; i--) {
-                    if(MainController.board[this.rank + i][MainController.fileToNum((char) (this.file + i))] != null) {
+                for (int i = (move_rank - this.rank) - 1; i > 0; i--) {
+                    if (MainController.board[this.rank + i][MainController.fileToNum((char) (this.file + i))] != null) {
                         //System.out.println("TESTING PATH NOT CLEAR");
                         throw new IllegalArgumentException();
                     }
                 }
-                //Seeing if there is a piece there
+                /*Seeing if there is a piece there
                 if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
                     //Checking its side
                     if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
                         //System.out.println("TESTING PIECE IN POSITION");
                         throw new IllegalArgumentException();
                     }
-                }
+                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
                 board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
                 board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
-                if(MainController.putsOwnKingInCheck(board_copy)) {
+                if (MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
@@ -88,29 +76,29 @@ public class Bishop extends Piece {
                 MainController.checkForCheck(MainController.board);
                 return;
             } //Moving up left
-            else if(move_file < this.file && move_rank > this.rank) {
+            else if (move_file < this.file && move_rank > this.rank) {
                 //Checking to see if path clear
-                for(int i = (move_rank - this.rank) - 1; i > 0; i--) {
-                    if(MainController.board[this.rank + i][MainController.fileToNum((char) (this.file - i))] != null) {
+                for (int i = (move_rank - this.rank) - 1; i > 0; i--) {
+                    if (MainController.board[this.rank + i][MainController.fileToNum((char) (this.file - i))] != null) {
                         //System.out.println("TESTING PATH NOT CLEAR");
                         throw new IllegalArgumentException();
                     }
                 }
-                //Seeing if there is a piece there
+                /*Seeing if there is a piece there
                 if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
                     //Checking its side
                     if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
                         //System.out.println("TESTING PIECE IN POSITION");
                         throw new IllegalArgumentException();
                     }
-                }
-                //Checking on MainController.board copy first
+                }*/
+                //Checking on board_copy first
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
                 board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
                 board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
-                if(MainController.putsOwnKingInCheck(board_copy)) {
+                if (MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
@@ -122,28 +110,28 @@ public class Bishop extends Piece {
                 MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down right
-            else if(move_file > this.file && move_rank < this.rank) {
+            else if (move_file > this.file && move_rank < this.rank) {
                 //Checking to see if path clear
-                for(int i = Math.abs(move_rank - this.rank) - 1; i > 0; i--) {
-                    if(MainController.board[this.rank - i][MainController.fileToNum((char) (this.file + i))] != null) {
+                for (int i = Math.abs(move_rank - this.rank) - 1; i > 0; i--) {
+                    if (MainController.board[this.rank - i][MainController.fileToNum((char) (this.file + i))] != null) {
                         //System.out.println("TESTING PATH NOT CLEAR");
                         throw new IllegalArgumentException();
                     }
                 }
-                //Seeing if there is a piece there
+                /*Seeing if there is a piece there
                 if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
                     //Checking its side
                     if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
                         //System.out.println("TESTING PIECE IN POSITION");
                         throw new IllegalArgumentException();
                     }
-                }
+                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
                 board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
                 board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
-                if(MainController.putsOwnKingInCheck(board_copy)) {
+                if (MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
@@ -155,28 +143,28 @@ public class Bishop extends Piece {
                 MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down left
-            else if(move_file < this.file && move_rank < this.rank){
+            else if (move_file < this.file && move_rank < this.rank) {
                 //Checking to see if path clear
-                for(int i = Math.abs(move_rank - this.rank) - 1; i > 0; i--) {
-                    if(MainController.board[this.rank - i][MainController.fileToNum((char) (this.file - i))] != null) {
+                for (int i = Math.abs(move_rank - this.rank) - 1; i > 0; i--) {
+                    if (MainController.board[this.rank - i][MainController.fileToNum((char) (this.file - i))] != null) {
                         //System.out.println("TESTING PATH NOT CLEAR");
                         throw new IllegalArgumentException();
                     }
                 }
-                //Seeing if there is a piece there
+                /*Seeing if there is a piece there
                 if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
                     //Checking its side
                     if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
                         //System.out.println("TESTING PIECE IN POSITION");
                         throw new IllegalArgumentException();
                     }
-                }
+                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
                 board_copy[move_rank][MainController.fileToNum(move_file)].rank = move_rank;
                 board_copy[move_rank][MainController.fileToNum(move_file)].file = move_file;
-                if(MainController.putsOwnKingInCheck(board_copy)) {
+                if (MainController.putsOwnKingInCheck(board_copy)) {
                     throw new IllegalArgumentException();
                 }
 
@@ -200,7 +188,7 @@ public class Bishop extends Piece {
         Piece temp;
 
         //Check up-right
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file + (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -222,7 +210,7 @@ public class Bishop extends Piece {
             }
         }
         //Check up-left
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file - (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -305,7 +293,7 @@ public class Bishop extends Piece {
         final boolean side_playing = MainController.white_moves;
 
         //Check up-right
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file + (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;
@@ -348,7 +336,7 @@ public class Bishop extends Piece {
 
         }
         //Check up-left
-        for(int r = this.rank + 1; r < 9; r++) {
+        for(int r = this.rank + 1; r < 8; r++) {
             char tempFile = (char) (this.file - (r - this.rank));
             if(tempFile < 'a' || tempFile > 'h') {
                 break;

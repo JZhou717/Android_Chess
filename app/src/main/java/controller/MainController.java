@@ -21,7 +21,7 @@ public class MainController {
      * @author Jake
      *
      */
-    public static Piece[][] board = new Piece[9][8];
+    public static Piece[][] board = new Piece[8][8];
 
     /**
      * white_moves is a flag that is true if it is white's turn, false if it is black's turn. white_moves always starts as true and is reversed after a valid move has been committed.
@@ -88,11 +88,11 @@ public class MainController {
      * @return a copy of the global board
      */
     public static Piece[][] copyBoard() {
-        Piece[][] board_copy = new Piece[9][8];
+        Piece[][] board_copy = new Piece[8][8];
         Piece original;
         Piece copy;
 
-        for(int r = 1; r < 9; r++) {
+        for(int r = 0; r < 8; r++) {
             for(int f = 0; f < 8; f++) {
                 if(board[r][f] != null) {
                     //Create a copy of the piece there
@@ -159,7 +159,7 @@ public class MainController {
         Piece temp;
 
         //Going through all the ranks
-        for(int r = 1; r < 9; r++) {
+        for(int r = 0; r < 8; r++) {
             //Going through all the files
             for(int f = 0; f < 8; f++) {
                 //If there is a piece in this spot
@@ -196,7 +196,7 @@ public class MainController {
         Piece temp;
 
         //Going through all the ranks
-        for(int r = 1; r < 9; r++) {
+        for(int r = 0; r < 8; r++) {
             //Going through all the files
             for(int f = 0; f < 8; f++) {
                 //If there is a piece in this spot
@@ -237,7 +237,7 @@ public class MainController {
         Piece[][] board_copy;
 
         //Going through all the ranks
-        for(int r = 1; r < 9; r++) {
+        for(int r = 0; r < 8; r++) {
             //Going through all the files
             for(int f = 0; f < 8; f++) {
                 //Checking to see if there is a piece in this spot
@@ -311,7 +311,7 @@ public class MainController {
         ArrayList<String> tempMoves;
 
         //Going through all the ranks
-        for(int r = 1; r < 9; r++) {
+        for(int r = 0; r < 8; r++) {
             //Going through all the files
             for(int f = 0; f < 8; f++) {
                 //If there is a piece in this spot
