@@ -1,6 +1,7 @@
 package com.example.android14;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import controller.MainController;
 import model.Game;
@@ -22,6 +24,7 @@ import model.Piece;
 //CURRENT THESE THINGS NEED TO BE DONE
 
 //1. PROMOTION
+    //Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
 //2. Saving games
 
 
@@ -46,8 +49,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button draw_button;
     Button ai_button;
     Button undo_button;
-
-
+    Button return_button;
 
     //The ImageView iv_board that is being displayed
     ImageView[][] iv_board = new ImageView[8][8];
@@ -55,6 +57,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     ImageView image = null;
     //The piece that image represents, is null if not piece in that image
     Piece image_piece = null;
+    //Tracks if the game is over
+    boolean game_over = false;
 
 
     //Screen Boot-up
@@ -71,84 +75,86 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         draw_button = findViewById(R.id.draw_button);
         ai_button = findViewById(R.id.ai_button);
         undo_button = findViewById(R.id.undo_button);
+        return_button = findViewById(R.id.return_button);
         //Setting listeners for them
         resign_button.setOnClickListener(this);
         draw_button.setOnClickListener(this);
         ai_button.setOnClickListener(this);
         undo_button.setOnClickListener(this);
+        return_button.setOnClickListener(this);
 
         //For the a file starting from a1 to a8
-        iv_board[0][0] = (ImageView) findViewById(R.id.a1);
-        iv_board[1][0] = (ImageView) findViewById(R.id.a2);
-        iv_board[2][0] = (ImageView) findViewById(R.id.a3);
-        iv_board[3][0] = (ImageView) findViewById(R.id.a4);
-        iv_board[4][0] = (ImageView) findViewById(R.id.a5);
-        iv_board[5][0] = (ImageView) findViewById(R.id.a6);
-        iv_board[6][0] = (ImageView) findViewById(R.id.a7);
-        iv_board[7][0] = (ImageView) findViewById(R.id.a8);
+        iv_board[0][0] = findViewById(R.id.a1);
+        iv_board[1][0] = findViewById (R.id.a2);
+        iv_board[2][0] = findViewById (R.id.a3);
+        iv_board[3][0] = findViewById (R.id.a4);
+        iv_board[4][0] = findViewById (R.id.a5);
+        iv_board[5][0] = findViewById (R.id.a6);
+        iv_board[6][0] = findViewById (R.id.a7);
+        iv_board[7][0] = findViewById (R.id.a8);
         //For the b file
-        iv_board[0][1] = (ImageView) findViewById(R.id.b1);
-        iv_board[1][1] = (ImageView) findViewById(R.id.b2);
-        iv_board[2][1] = (ImageView) findViewById(R.id.b3);
-        iv_board[3][1] = (ImageView) findViewById(R.id.b4);
-        iv_board[4][1] = (ImageView) findViewById(R.id.b5);
-        iv_board[5][1] = (ImageView) findViewById(R.id.b6);
-        iv_board[6][1] = (ImageView) findViewById(R.id.b7);
-        iv_board[7][1] = (ImageView) findViewById(R.id.b8);
+        iv_board[0][1] = findViewById (R.id.b1);
+        iv_board[1][1] = findViewById (R.id.b2);
+        iv_board[2][1] = findViewById (R.id.b3);
+        iv_board[3][1] = findViewById (R.id.b4);
+        iv_board[4][1] = findViewById (R.id.b5);
+        iv_board[5][1] = findViewById (R.id.b6);
+        iv_board[6][1] = findViewById (R.id.b7);
+        iv_board[7][1] = findViewById (R.id.b8);
         //For the c file
-        iv_board[0][2] = (ImageView) findViewById(R.id.c1);
-        iv_board[1][2] = (ImageView) findViewById(R.id.c2);
-        iv_board[2][2] = (ImageView) findViewById(R.id.c3);
-        iv_board[3][2] = (ImageView) findViewById(R.id.c4);
-        iv_board[4][2] = (ImageView) findViewById(R.id.c5);
-        iv_board[5][2] = (ImageView) findViewById(R.id.c6);
-        iv_board[6][2] = (ImageView) findViewById(R.id.c7);
-        iv_board[7][2] = (ImageView) findViewById(R.id.c8);
+        iv_board[0][2] = findViewById (R.id.c1);
+        iv_board[1][2] = findViewById (R.id.c2);
+        iv_board[2][2] = findViewById (R.id.c3);
+        iv_board[3][2] = findViewById (R.id.c4);
+        iv_board[4][2] = findViewById (R.id.c5);
+        iv_board[5][2] = findViewById (R.id.c6);
+        iv_board[6][2] = findViewById (R.id.c7);
+        iv_board[7][2] = findViewById (R.id.c8);
         //For the d file
-        iv_board[0][3] = (ImageView) findViewById(R.id.d1);
-        iv_board[1][3] = (ImageView) findViewById(R.id.d2);
-        iv_board[2][3] = (ImageView) findViewById(R.id.d3);
-        iv_board[3][3] = (ImageView) findViewById(R.id.d4);
-        iv_board[4][3] = (ImageView) findViewById(R.id.d5);
-        iv_board[5][3] = (ImageView) findViewById(R.id.d6);
-        iv_board[6][3] = (ImageView) findViewById(R.id.d7);
-        iv_board[7][3] = (ImageView) findViewById(R.id.d8);
+        iv_board[0][3] = findViewById (R.id.d1);
+        iv_board[1][3] = findViewById (R.id.d2);
+        iv_board[2][3] = findViewById (R.id.d3);
+        iv_board[3][3] = findViewById (R.id.d4);
+        iv_board[4][3] = findViewById (R.id.d5);
+        iv_board[5][3] = findViewById (R.id.d6);
+        iv_board[6][3] = findViewById (R.id.d7);
+        iv_board[7][3] = findViewById (R.id.d8);
         //For the e file
-        iv_board[0][4] = (ImageView) findViewById(R.id.e1);
-        iv_board[1][4] = (ImageView) findViewById(R.id.e2);
-        iv_board[2][4] = (ImageView) findViewById(R.id.e3);
-        iv_board[3][4] = (ImageView) findViewById(R.id.e4);
-        iv_board[4][4] = (ImageView) findViewById(R.id.e5);
-        iv_board[5][4] = (ImageView) findViewById(R.id.e6);
-        iv_board[6][4] = (ImageView) findViewById(R.id.e7);
-        iv_board[7][4] = (ImageView) findViewById(R.id.e8);
+        iv_board[0][4] = findViewById (R.id.e1);
+        iv_board[1][4] = findViewById (R.id.e2);
+        iv_board[2][4] = findViewById (R.id.e3);
+        iv_board[3][4] = findViewById (R.id.e4);
+        iv_board[4][4] = findViewById (R.id.e5);
+        iv_board[5][4] = findViewById (R.id.e6);
+        iv_board[6][4] = findViewById (R.id.e7);
+        iv_board[7][4] = findViewById (R.id.e8);
         //For the f file
-        iv_board[0][5] = (ImageView) findViewById(R.id.f1);
-        iv_board[1][5] = (ImageView) findViewById(R.id.f2);
-        iv_board[2][5] = (ImageView) findViewById(R.id.f3);
-        iv_board[3][5] = (ImageView) findViewById(R.id.f4);
-        iv_board[4][5] = (ImageView) findViewById(R.id.f5);
-        iv_board[5][5] = (ImageView) findViewById(R.id.f6);
-        iv_board[6][5] = (ImageView) findViewById(R.id.f7);
-        iv_board[7][5] = (ImageView) findViewById(R.id.f8);
+        iv_board[0][5] = findViewById (R.id.f1);
+        iv_board[1][5] = findViewById (R.id.f2);
+        iv_board[2][5] = findViewById (R.id.f3);
+        iv_board[3][5] = findViewById (R.id.f4);
+        iv_board[4][5] = findViewById (R.id.f5);
+        iv_board[5][5] = findViewById (R.id.f6);
+        iv_board[6][5] = findViewById (R.id.f7);
+        iv_board[7][5] = findViewById (R.id.f8);
         //For the g file
-        iv_board[0][6] = (ImageView) findViewById(R.id.g1);
-        iv_board[1][6] = (ImageView) findViewById(R.id.g2);
-        iv_board[2][6] = (ImageView) findViewById(R.id.g3);
-        iv_board[3][6] = (ImageView) findViewById(R.id.g4);
-        iv_board[4][6] = (ImageView) findViewById(R.id.g5);
-        iv_board[5][6] = (ImageView) findViewById(R.id.g6);
-        iv_board[6][6] = (ImageView) findViewById(R.id.g7);
-        iv_board[7][6] = (ImageView) findViewById(R.id.g8);
+        iv_board[0][6] = findViewById (R.id.g1);
+        iv_board[1][6] = findViewById (R.id.g2);
+        iv_board[2][6] = findViewById (R.id.g3);
+        iv_board[3][6] = findViewById (R.id.g4);
+        iv_board[4][6] = findViewById (R.id.g5);
+        iv_board[5][6] = findViewById (R.id.g6);
+        iv_board[6][6] = findViewById (R.id.g7);
+        iv_board[7][6] = findViewById (R.id.g8);
         //For the h file
-        iv_board[0][7] = (ImageView) findViewById(R.id.h1);
-        iv_board[1][7] = (ImageView) findViewById(R.id.h2);
-        iv_board[2][7] = (ImageView) findViewById(R.id.h3);
-        iv_board[3][7] = (ImageView) findViewById(R.id.h4);
-        iv_board[4][7] = (ImageView) findViewById(R.id.h5);
-        iv_board[5][7] = (ImageView) findViewById(R.id.h6);
-        iv_board[6][7] = (ImageView) findViewById(R.id.h7);
-        iv_board[7][7] = (ImageView) findViewById(R.id.h8);
+        iv_board[0][7] = findViewById (R.id.h1);
+        iv_board[1][7] = findViewById (R.id.h2);
+        iv_board[2][7] = findViewById (R.id.h3);
+        iv_board[3][7] = findViewById (R.id.h4);
+        iv_board[4][7] = findViewById (R.id.h5);
+        iv_board[5][7] = findViewById (R.id.h6);
+        iv_board[6][7] = findViewById (R.id.h7);
+        iv_board[7][7] = findViewById (R.id.h8);
         for (int i=0;i<8;i++) {
             for (int j = 0; j < 8; j++) {
                 set_bg_color(i, j, false);
@@ -250,24 +256,30 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(v instanceof Button) {
 
             //If it is the resign button
-            if(v == resign_button) {
+            if(!game_over && v == resign_button) {
 
-                //TESTING
+                game_over = true;
+
+                //Create a game over dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Resign button works!");
-                builder.setTitle("Resign Button Test");
+
+                //White resigns
+                if(MainController.white_moves) {
+                    builder.setMessage("Black wins by resignation");
+                }
+                //Black resigns
+                else {
+                    builder.setMessage("White wins by resignation");
+                }
+
+                builder.setTitle("Game Over");
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
-
-
-
-
-
-
+                return;
             }
             //If it is the draw button
-            else if(v == draw_button) {
+            else if(!game_over && v == draw_button) {
 
 
 
@@ -285,26 +297,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             }
             //If it is the AI button
-            else if(v == ai_button) {
+            else if(!game_over && v == ai_button) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                make_ai_move();
+                return;
 
             }
             //If it is the undo button
-            else if(v == undo_button) {
+            else if(!game_over && v == undo_button) {
 
 
 
@@ -318,6 +318,26 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
             }
+            //If it is the return to main button
+            else if(v == return_button) {
+
+                if(game_over) {
+                    Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+                else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Game must be concluded to return to the main menu. Resign or complete the game.");
+                    builder.setTitle("Game not concluded");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    return;
+                }
+            }
+
             //TESTING
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The buttons work!");
@@ -328,6 +348,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         //If it is one of the board squares
         else if(v instanceof ImageView) {
+
+            //If the game is over
+            if(game_over) {
+                //The pieces are disabled
+                return;
+            }
+
             //Grab the piece that we have selected and its rank and file
             ImageView i = (ImageView) v;
             String pos = i.getResources().getResourceEntryName(i.getId());
@@ -422,6 +449,47 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
+    }
+
+    //AI button makes a valid move for the current side
+    public void make_ai_move() {
+
+        ArrayList<Piece> valid_pieces = new ArrayList<Piece>();
+        //Get all the current side's pieces that have at least one valid move
+        //Going through all the ranks
+        for(int r = 0; r < 8; r++) {
+            //Going through all the files
+            for(int f = 0; f < 8; f++) {
+                //Checking to see if there is a piece there
+                if(MainController.board[r][f] != null) {
+                    //If it is on the side playing
+                    if (MainController.board[r][f].white_side == MainController.white_moves) {
+                        //If it has valid moves
+                        if(MainController.board[r][f].allValidMoves().size() != 0) {
+                            //Add it to the list of valid pieces
+                            valid_pieces.add(MainController.board[r][f]);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Get a random piece
+        int p = new Random().nextInt(valid_pieces.size());
+        Piece temp = valid_pieces.get(p);
+        //Get its valid moves
+        ArrayList<String> valid_moves = temp.allValidMoves();
+        //Get a random valid move
+        int m = new Random().nextInt(valid_moves.size());
+        String move = valid_moves.get(m);
+
+        //Make the move
+        temp.move(move);
+        //Update imageview board to match MainController.board
+        sync_boards();
+        //Switch sides
+        switch_sides();
+
     }
 
     //Makes a move after it has been validated
