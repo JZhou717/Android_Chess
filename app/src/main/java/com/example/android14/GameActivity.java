@@ -285,24 +285,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         //Test if valid move
                         if(is_valid_move(rank, file)) {
 
-                            //MOVE IT
+                            //Moving
                             make_move(image, i);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             return;
 
                         }
@@ -335,27 +319,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         if(is_valid_move(rank, file)) {
 
                             //MOVE IT
-                            iv_board[rank][file].setBackgroundColor(000000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            make_move(image, i);
                             return;
 
                         }
@@ -385,15 +349,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     //Makes a move after it has been validated
     public void make_move(ImageView from_pos, ImageView to_pos) {
 
+        //Get the position to move from
+        String move_from = from_pos.getResources().getResourceEntryName(from_pos.getId());
+        int from_file = MainController.fileToNum(move_from.charAt(0));
+        int from_rank = Character.getNumericValue(move_from.charAt(1)) - 1;
+
         //Get the position to move to in the form of FileRank
         String move_to = get_move_from_pos(to_pos);
-        System.out.println(move_to);
+        //System.out.println(move_to);
 
         //Move on MainController.board
-
+        MainController.board[from_rank][from_file].move(move_to);
 
         //Update imageview board to match MainController.board
         sync_boards();
+        //Deselect the move from position
+        deselect(from_rank, from_file);
         //Switch sides
         switch_sides();
 
@@ -431,51 +402,51 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
                     //If white rook
                     if(temp_name.equalsIgnoreCase("wR")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wr", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wr);
                     }
                     //Else if white knight
                     else if(temp_name.equalsIgnoreCase("wN")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wn", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wn);
                     }
                     //Else if white bishop
                     else if(temp_name.equalsIgnoreCase("wB")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wb", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wb);
                     }
                     //Else if white queen
                     else if(temp_name.equalsIgnoreCase("wQ")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wq", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wq);
                     }
                     //Else if white king
                     else if(temp_name.equalsIgnoreCase("wK")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wk", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wk);
                     }
                     //Else if white pawn
                     else if(temp_name.equalsIgnoreCase("wp")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "wp", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.wp);
                     }
                     //Else if white rook
                     else if(temp_name.equalsIgnoreCase("bR")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "br", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.br);
                     }
                     //Else if black knight
                     else if(temp_name.equalsIgnoreCase("bN")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bn", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.bn);
                     }
                     //Else if black bishop
                     else if(temp_name.equalsIgnoreCase("bB")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bb", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.bb);
                     }
                     //Else if black queen
                     else if(temp_name.equalsIgnoreCase("bQ")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bq", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.bq);
                     }
                     //Else if black king
                     else if(temp_name.equalsIgnoreCase("bK")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bk", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.bk);
                     }
                     //Else if black pawn
                     else if(temp_name.equalsIgnoreCase("bp")) {
-                        iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "bp", null, null));
+                        iv_board[r][f].setImageResource(R.drawable.bp);
                     }
                     else {
                         //Something went wrong
@@ -489,7 +460,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 //There is no piece there
                 else {
-                    iv_board[r][f].setImageResource(getResources().getIdentifier("Android14:drawable/" + "tran40", null, null));
+                    iv_board[r][f].setImageResource(R.drawable.tran40);
                 }
             }
         }
@@ -549,7 +520,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void set_selected(int rank, int file) {
         image = iv_board[rank][file];
-        image_piece = MainController.board[rank + 1][file];
+        image_piece = MainController.board[rank][file];
         set_bg_color(rank, file, true);
     }
 
