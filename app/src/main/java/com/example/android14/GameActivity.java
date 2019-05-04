@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.app.AlertDialog;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import controller.MainController;
@@ -33,6 +34,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        MainController.init_board();
+
         //Linking the items on the XML here
         TextView message = findViewById(R.id.message);
         Button resign_button = findViewById(R.id.resign_button);
@@ -44,8 +47,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         draw_button.setOnClickListener(this);
         ai_button.setOnClickListener(this);
         undo_button.setOnClickListener(this);
-
-
 
         //For the a file starting from a1 to a8
         iv_board[0][0] = (ImageView) findViewById(R.id.a1);
@@ -122,7 +123,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for (int i=0;i<8;i++) {
             for (int j = 0; j < 8; j++) {
                 set_bg_color(i, j, false);
-                /**
+                /*
                 if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
                     iv_board[i][j].setBackgroundColor(Color.rgb(50, 205, 50));
                 } else {
@@ -252,29 +253,111 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         return;
                     }
                 }
+                //If this is the second selection
+                else {
+                    //If trying to move to an empty position
+                    if(find_piece(i) == null) {
 
-                //set_selected(rank, file);
+                        //Test if valid move
+                        if(is_valid_move(rank, file)) {
+
+                            //MOVE IT
+                            iv_board[rank][file].setBackgroundColor(000000);
+
+
+
+
+
+
+
+                            return;
+
+                        }
+                        //Not a valid move
+                        else {
+                            //Deselect previous selection. No longer any selected piece
+                            String temp_pos = image.getResources().getResourceEntryName(image.getId());
+                            int temp_file = MainController.fileToNum(temp_pos.charAt(0));
+                            int temp_rank = Character.getNumericValue(temp_pos.charAt(1)) - 1;
+                            deselect(temp_rank, temp_file);
+                            return;
+                        }
+
+                    }
+                    //There is a piece there
+                    //The piece is on the same side
+                    if(find_piece(i).white_side == MainController.white_moves) {
+                        //Deselect previous selection and select this piece instead
+                        String temp_pos = image.getResources().getResourceEntryName(image.getId());
+                        int temp_file = MainController.fileToNum(temp_pos.charAt(0));
+                        int temp_rank = Character.getNumericValue(temp_pos.charAt(1)) - 1;
+                        deselect(temp_rank, temp_file);
+
+                        set_selected(rank, file);
+                        return;
+                    }
+                    //The piece is on the other side
+                    else {
+                        //MAKE IT MOVE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        return;
+                    }
+                }
+
             }
-
-
-
-
-
 
 
             //What we need to do
 
-            //On first selection
-                //Check if there is a piece there
-                    //Check if that piece is on the side playing
             //On second selection
                 //Check to see if that position is a valid move for the current piece
                     //Move there, update controller board, update white_moves, update message on top
 
 
-
-
         }
+    }
+
+    //Returns true if the given rank and file is a valid position for the previously selected piece to move to
+    public boolean is_valid_move(int rank, int file) {
+
+        String move_to = get_move_from_pos(rank, file);
+
+        ArrayList<String> move_list = find_piece(image).allValidMoves();
+
+        for(int i = 0; i < move_list.size(); i++) {
+            if(move_to.equalsIgnoreCase(move_list.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //returns a two character string with the move indicated by the given position
+    public String get_move_from_pos(int rank, int file) {
+        String ret;
+        ret = Character.toString(MainController.numToFile(file));
+        ret += rank;
+        return ret;
     }
 
     //Find the piece associated with that imageview
@@ -282,7 +365,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         String pos = iv.getResources().getResourceEntryName(iv.getId());
         int file = MainController.fileToNum(pos.charAt(0));
         int rank = Character.getNumericValue(pos.charAt(1)) - 1;
-        return MainController.board[rank + 1][file];
+        return MainController.board[rank][file];
     }
 
     public void deselect(int rank, int file) {

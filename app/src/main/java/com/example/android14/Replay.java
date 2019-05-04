@@ -141,9 +141,9 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             count++;
             String arr[] =s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
-            int a2 = Character.getNumericValue(arr[0].charAt(1))-1;
+            int a2 = Character.getNumericValue(arr[0].charAt(1));
             int b1 = MainController.fileToNum(arr[1].charAt(0));
-            int b2 = Character.getNumericValue(arr[1].charAt(1))-1;
+            int b2 = Character.getNumericValue(arr[1].charAt(1));
             Drawable image = iv_board[a2][a1].getDrawable();
             int id = getResources().getIdentifier("Android14:drawable/" + "tran40", null, null);
             iv_board[a2][a1].setImageResource(id);

@@ -35,6 +35,46 @@ public class MainController {
     public static char white_enpassant = 0;
     public static char black_enpassant = 0;
 
+    public static void init_board() {
+        //Initializing white pieces
+        board[0][0] = new Rook('a', 0);
+        board[0][1] = new Knight('b', 0);
+        board[0][2] = new Bishop('c', 0);
+        board[0][3] = new Queen('d', 0);
+        board[0][4] = new King('e', 0);
+        board[0][5] = new Bishop('f', 0);
+        board[0][6] = new Knight('g', 0);
+        board[0][7] = new Rook('h', 0);
+        for(int j = 0; j < 8; j++) {
+            Piece piece = board[0][j];
+            piece.name = "w" + piece.name;
+            piece.white_side = true;
+        }
+        for(int j = 0; j < 8; j++) {
+            board[1][j] = new White_Pawn(numToFile(j), 1);
+            board[1][j].white_side = true;
+        }
+
+        //Initializing black pieces
+        board[7][0] = new Rook('a', 7);
+        board[7][1] = new Knight('b', 7);
+        board[7][2] = new Bishop('c', 7);
+        board[7][3] = new Queen('d', 7);
+        board[7][4] = new King('e', 7);
+        board[7][5] = new Bishop('f', 7);
+        board[7][6] = new Knight('g', 7);
+        board[7][7] = new Rook('h', 7);
+        for(int j = 0; j < 8; j++) {
+            Piece piece = board[7][j];
+            piece.name = "b" + piece.name;
+            piece.white_side = false;
+        }
+        for(int j = 0; j < 8; j++) {
+            board[6][j] = new Black_Pawn(numToFile(j), 6);
+            board[6][j].white_side = false;
+        }
+    }
+
     /**
      * This helper method takes in the character for the file from the input and returns a number 0-7 correlating with the file. Useful when referencing a position in the board 2D array
      *
