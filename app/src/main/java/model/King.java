@@ -76,7 +76,7 @@ public class King extends Piece {
                 //If it's the white king castling
                 if (this.white_side) {
                     //Trying to castle kingside
-                    if (move_to.equals("g1")) {
+                    if (move_to.equals("g0")) {
                         //If this king has already moved
                         if (this.has_moved) {
                             throw new IllegalArgumentException();
@@ -126,7 +126,7 @@ public class King extends Piece {
                         MainController.checkForCheck(MainController.board);
                         return;
                     } //Trying to castle queenside
-                    else if (move_to.equals("c1")) {
+                    else if (move_to.equals("c0")) {
                         //If this king has already moved
                         if (this.has_moved) {
                             throw new IllegalArgumentException();
@@ -181,7 +181,7 @@ public class King extends Piece {
                 } //If it is the black king castling
                 else {
                     //Trying to castle kingside
-                    if (move_to.equals("g8")) {
+                    if (move_to.equals("g7")) {
                         //If this king has already moved
                         if (this.has_moved) {
                             throw new IllegalArgumentException();
@@ -230,7 +230,7 @@ public class King extends Piece {
                         MainController.checkForCheck(MainController.board);
                         return;
                     } //Trying to castle queenside
-                    else if (move_to.equals("c8")) {
+                    else if (move_to.equals("c7")) {
                         //If this king has already moved
                         if (this.has_moved) {
                             throw new IllegalArgumentException();

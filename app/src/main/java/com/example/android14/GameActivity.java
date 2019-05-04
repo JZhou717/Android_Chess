@@ -22,6 +22,7 @@ import model.Piece;
 //CURRENT THESE THINGS NEED TO BE DONE
 
 //1. PROMOTION
+//2. Saving games
 
 
 
@@ -40,6 +41,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     //The textview above the board
     TextView message;
+    //The buttons
+    Button resign_button;
+    Button draw_button;
+    Button ai_button;
+    Button undo_button;
+
+
 
     //The ImageView iv_board that is being displayed
     ImageView[][] iv_board = new ImageView[8][8];
@@ -59,10 +67,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         //Linking the items on the XML here
         message = findViewById(R.id.message);
-        Button resign_button = findViewById(R.id.resign_button);
-        Button draw_button = findViewById(R.id.draw_button);
-        Button ai_button = findViewById(R.id.ai_button);
-        Button undo_button = findViewById(R.id.undo_button);
+        resign_button = findViewById(R.id.resign_button);
+        draw_button = findViewById(R.id.draw_button);
+        ai_button = findViewById(R.id.ai_button);
+        undo_button = findViewById(R.id.undo_button);
         //Setting listeners for them
         resign_button.setOnClickListener(this);
         draw_button.setOnClickListener(this);
@@ -240,6 +248,76 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //If it is one of the buttons
         if(v instanceof Button) {
+
+            //If it is the resign button
+            if(v == resign_button) {
+
+                //TESTING
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Resign button works!");
+                builder.setTitle("Resign Button Test");
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+
+
+
+
+
+            }
+            //If it is the draw button
+            else if(v == draw_button) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+            //If it is the AI button
+            else if(v == ai_button) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+            //If it is the undo button
+            else if(v == undo_button) {
+
+
+
+
+
+
+
+
+
+
+
+
+            }
             //TESTING
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The buttons work!");
