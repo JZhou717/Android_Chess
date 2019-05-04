@@ -21,7 +21,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
     ImageView[][] iv_board = new ImageView[8][8];
     int count=0;
     ArrayList<String> moves = new ArrayList<String>();
-    Drawable tran = iv_board[5][0].getDrawable();
+    Drawable tran;
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         }
+        tran = iv_board[5][0].getDrawable();
 
     }
 
