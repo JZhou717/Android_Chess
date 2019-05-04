@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".PrevGames"></activity>
+        <activity android:name="Replay"></activity>
         <activity android:name=".GameActivity" />
         <activity android:name=".Test" />
         <activity android:name=".MainActivity">
