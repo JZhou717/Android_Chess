@@ -264,7 +264,7 @@ public class Black_Pawn extends Piece {
      * @param promote_to - should be one of the 4 possible values to promote to. It is a lowercase lettering indicating Rook, Knight, Bishop, or Queen
      * @throws IllegalArgumentException if the input is not one of four the valid promotion types
      */
-    void promote(String promote_to) throws IllegalArgumentException{
+    public void promote(String promote_to) throws IllegalArgumentException{
         if(promote_to.equals("r")) {
             Piece newPiece = new Rook(this.file, this.rank);
             newPiece.name = "b" + newPiece.name;

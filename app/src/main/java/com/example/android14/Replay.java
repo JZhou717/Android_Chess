@@ -2,6 +2,7 @@ package com.example.android14;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import controller.MainController;
 import model.Piece;
 
 public class Replay extends AppCompatActivity implements View.OnClickListener {
-
+    TextView message;
     ImageView[][] iv_board = new ImageView[8][8];
     int count = 0;
     ArrayList<String> moves = new ArrayList<String>();
@@ -31,9 +32,9 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_replay);
         MainController.init_board();
         //Linking the items on the XML here
-        TextView message = findViewById(R.id.message);
-        Button next_button = findViewById(R.id.next_button);
 
+        Button next_button = findViewById(R.id.next_button);
+        message = findViewById(R.id.message);
         next_button.setOnClickListener(this);
         Bundle bundle = getIntent().getExtras();
 
@@ -144,69 +145,42 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             String arr[] = s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
             int a2 = Character.getNumericValue(arr[0].charAt(1));
+            int b1 = Character.getNumericValue(arr[1].charAt(1));
 
 
             MainController.board[a2][a1].move(arr[1]);
-            sync_boards();
-            /*
-            Drawable image = iv_board[a2][a1].getDrawable();
-
-
-            iv_board[a2][a1].setImageResource(R.drawable.tran40);
-
             if (arr.length > 2){
-                String p = arr[2];
-                //THIS WILL BE PROMOTION STUFF
-                //NEEDS TO BE DONE FOR EACH PIECE FOR EACH COLOR
-                if (p.equals("BQ")){
-                    iv_board[b2][b1].setImageResource(R.drawable.bq);
-                }
-                if (p.equals("BN")){
-                    iv_board[b2][b1].setImageResource(R.drawable.bn);
-                }
-                if (p.equals("BR")){
-                    iv_board[b2][b1].setImageResource(R.drawable.br);
-                }
-                if (p.equals("BB")){
-                    iv_board[b2][b1].setImageResource(R.drawable.bb);
-                }
-                if (p.equals("WQ")){
-                    iv_board[b2][b1].setImageResource(R.drawable.wq);
-                }
-                if (p.equals("WN")){
-                    iv_board[b2][b1].setImageResource(R.drawable.wn);
-                }
-                if (p.equals("WR")){
-                    iv_board[b2][b1].setImageResource(R.drawable.wr);
-                }
-                if (p.equals("WB")){
-                    iv_board[b2][b1].setImageResource(R.drawable.wb);
-                }
-                //STILL NEED TO ADD CASTLING AND EN PESSANT
-                if (p.equals("BEP")){ //black en passent
-                    iv_board[b2+1][b1].setImageResource(R.drawable.tran40); //test this
-                }
-                if (p.equals("WEP")){ //white en passent
-                    iv_board[b2-1][b1].setImageResource(R.drawable.tran40); // test this
-                }
-                if (p.equals("WCK")){ //Castle Kingside
-                    iv_board[b2][b1-1].setImageResource(R.drawable.wr);
-                }
-                if (p.equals("WCQ")){ //Castle Queenside
+                String pro = arr[2];
 
-                }
-                if (p.equals("BCK")){ //Castle Kingside
-                    iv_board[b2][b1-1].setImageResource(R.drawable.wr);
-                }
-                if (p.equals("BCQ")){ //Castle Queenside
+                if (pro.equals("r")&&b1==0){
 
+                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("r");
+                }
+                if (pro.equals("q")&&b1==0){
+                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("q");
+                }
+                if (pro.equals("b")&&b1==0){
+                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("b");
+                }
+                if (pro.equals("n")&&b1==0){
+                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("n");
+                }
+                if (pro.equals("r")&&b1==7){
+                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("r");
+                }
+                if (pro.equals("q")&&b1==7){
+                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("q");
+                }
+                if (pro.equals("b")&&b1==7){
+                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("b");
+                }
+                if (pro.equals("n")&&b1==7){
+                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("n");
                 }
             }
+            sync_boards();
+            switch_sides();
 
-            iv_board[b2][b1].setImageDrawable(image);
-
-        }
-*/
         }
 
     }
@@ -288,6 +262,21 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
+
+    }
+    public void switch_sides() {
+        MainController.white_moves = !MainController.white_moves;
+
+        //Set the message
+        //If it is white's turn
+        if(MainController.white_moves) {
+            MainController.white_enpassant = 0;
+            message.setText("White Moves: ");
+        }
+        else {
+            MainController.black_enpassant = 0;
+            message.setText("Black Moves: ");
+        }
 
     }
 }

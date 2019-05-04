@@ -23,14 +23,16 @@ public class MainActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         Game game = new Game(c);
         //THIS IS JUST TO TEST
-        game.addMove("e1 e3");
-        game.addMove("e6 e5");
-        game.addMove("f0 e1");
-        game.addMove("e5 e4");
-        game.addMove("g0 f2");
-        game.addMove("d6 d5");
-        game.addMove("e0 g0");
-        game.setName("GameTest");
+        game.addMove("d1 d3");
+        game.addMove("c6 c4");
+        game.addMove("d3 c4");
+        game.addMove("c7 d6");
+        game.addMove("c4 c5");
+        game.addMove("d6 e5");
+        game.addMove("c5 c6");
+        game.addMove("e5 d6");
+        game.addMove("c6 c7 q");
+        game.setName("This will test promotion");
         MainModel.addGame(game);
         //Play a game
         play_game_button.setOnClickListener(new View.OnClickListener() {
