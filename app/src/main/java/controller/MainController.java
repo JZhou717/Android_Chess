@@ -367,8 +367,8 @@ public class MainController {
         else {
             System.out.print("\nWhite wins");
         }
-        System.exit(0);
-
+        //System.exit(0);
+        System.out.println("GGGGGGGGGGGGGGGGAAAAAAAAAME OVVVVEEEEEEEEEEEEEEEEEEER");
     }
 
     /**
@@ -412,7 +412,7 @@ public class MainController {
         //Went through the entire board and no pieces on this side has a valid move
         System.out.println("\nStalemate");
         System.out.println("\ndraw");
-        System.exit(0);
-
+        //System.exit(0);
+        System.out.println("STALLLEJFLSKFJ:SLEJFS:LEKFJ EMATE");
     }
 }

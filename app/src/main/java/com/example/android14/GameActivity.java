@@ -496,14 +496,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-
-            //What we need to do
-
-            //On second selection
-            //Check to see if that position is a valid move for the current piece
-            //Move there, update controller board, update white_moves, update message on top
-
-
         }
     }
 
@@ -550,33 +542,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         //Black promoting
         else {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            //Saving the piece that the pawn promoted to
+            Piece temp = ((Black_Pawn) find_piece(image)).promote(promote_to);
+            //Sync the view board and the game board
+            sync_boards();
+            //Set the image to the new piece
+            image = get_image_from_piece(temp);
+            make_move(image, dest_image);
+            dest_image = null;
         }
     }
 
@@ -610,9 +583,57 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<String> valid_moves = temp.allValidMoves();
         //Get a random valid move
         int m = new Random().nextInt(valid_moves.size());
+
         String move = valid_moves.get(m);
         str = Character.toString(temp.file) + temp.rank + " " + move;
         moves.add(str);
+
+        //Check to see if this move is a promotion
+        if(temp instanceof White_Pawn) {
+            int move_rank = Integer.parseInt(move.substring(1));
+            if(move_rank == 7) {
+                //Do promotion
+                //Get a random type to promote to
+                int promo = new Random().nextInt(4);
+                String promo_type;
+                if(promo == 0) {
+                    promo_type = "q";
+                }
+                else if(promo == 1) {
+                    promo_type = "r";
+                }
+                else if(promo == 2) {
+                    promo_type = "n";
+                }
+                else {
+                    promo_type = "b";
+                }
+                do_promotion(promo_type);
+            }
+
+        }
+        else if(temp instanceof Black_Pawn) {
+            int move_rank = Integer.parseInt(move.substring(1));
+            if(move_rank == 0) {
+                //Do promotion
+                //Get a random type to promote to
+                int promo = new Random().nextInt(4);
+                String promo_type;
+                if(promo == 0) {
+                    promo_type = "q";
+                }
+                else if(promo == 1) {
+                    promo_type = "r";
+                }
+                else if(promo == 2) {
+                    promo_type = "n";
+                }
+                else {
+                    promo_type = "b";
+                }
+                do_promotion(promo_type);
+            }
+        }
 
         //Make the move
         temp.move(move);
@@ -734,11 +755,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     else {
                         //Something went wrong
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Something went wrong with matching a piece to its image. FIND MEEEEEEEEEE");
-                        builder.setTitle("TESTING ERROR REMOVE LATER");
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        throw new IllegalArgumentException();
                     }
 
                 }
