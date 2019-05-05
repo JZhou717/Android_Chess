@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.app.AlertDialog;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -29,7 +31,7 @@ import model.White_Pawn;
 //Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
 //2. Saving games
 
-
+//Problem with finishing game on blacks turn, it will make black start the next game
 
 
 
@@ -70,6 +72,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     boolean game_over = false;
     ArrayList<String> moves;
     String str;
+    String nameOfGame = "";
     //Screen Boot-up
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,16 +277,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
                 //White resigns
                 if(MainController.white_moves) {
-                    builder.setMessage("Black wins by resignation");
+                    builder.setTitle("Black wins by resignation");
                 }
                 //Black resigns
                 else {
-                    builder.setMessage("White wins by resignation");
+                    builder.setTitle("White wins by resignation");
                 }
 
-                builder.setTitle("Game Over");
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                builder.setMessage("Save Game?");
+                //AlertDialog dialog = builder.create();
+                final EditText input = new EditText(this);
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nameOfGame = input.getText().toString();
+                        saveGame(nameOfGame, moves, Calendar.getInstance());
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
 
                 return;
             }
@@ -594,7 +613,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         String move = valid_moves.get(m);
         str = Character.toString(temp.file) + temp.rank + " " + move;
         moves.add(str);
-        System.out.println(str);
+
         //Make the move
         temp.move(move);
         //Update imageview board to match MainController.board
@@ -800,5 +819,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 iv_board[rank][file].setBackgroundColor(Color.rgb(0, 128, 0));
             }
         }
+    }
+
+    public void saveGame(String name, ArrayList<String> moves, Calendar cal){
+        /*
+        Game g = new Game(cal);
+        g.setName(name);
+        for (int i=0;i<moves.size();i++){
+            g.addMove(moves.get(i));
+        }
+        try{
+            MainModel.addGame(g);
+        }catch(IOException e){
+            throw e;
+        }
+*/
     }
 }

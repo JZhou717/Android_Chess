@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         game.addMove("e5 d6");
         game.addMove("c6 c7 q");
         game.setName("This will test promotion");
-        MainModel.addGame(game);
+        //MainModel.addGame(game);
         //Play a game
         play_game_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,4 +52,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
