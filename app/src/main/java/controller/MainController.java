@@ -13,7 +13,7 @@ import model.White_Pawn;
 
 public class MainController {
 
-    /*public static void display(Piece[][] board) {
+    public static void display(Piece[][] board) {
         Piece piece;
         for(int i = 7; i > 0; i--) {
             for(int j = 0; j < 8; j++) {
@@ -36,7 +36,7 @@ public class MainController {
             System.out.print(" " + numToFile(i) + " ");
         }
         System.out.println();
-    }*/
+    }
 
     /**
      * board is the data structure that we will be using. It is a 9x8 2D Array of Pieces.
@@ -47,6 +47,7 @@ public class MainController {
      *
      */
     public static Piece[][] board = new Piece[8][8];
+    public static Piece[][] prevBoard = new Piece[8][8];
 
     /**
      * white_moves is a flag that is true if it is white's turn, false if it is black's turn. white_moves always starts as true and is reversed after a valid move has been committed.
@@ -103,6 +104,7 @@ public class MainController {
                 board[i][j] = null;
             }
         }
+        white_moves =true;
     }
 
     /**
@@ -414,5 +416,64 @@ public class MainController {
         System.out.println("\ndraw");
         //System.exit(0);
         System.out.println("STALLLEJFLSKFJ:SLEJFS:LEKFJ EMATE");
+    }
+    public static Piece[][] prevCopyBoard() {
+        Piece[][] board_copy = new Piece[8][8];
+        Piece original;
+        Piece copy;
+
+        for(int r = 0; r < 8; r++) {
+            for(int f = 0; f < 8; f++) {
+                if(prevBoard[r][f] != null) {
+                    //Create a copy of the piece there
+                    original = prevBoard[r][f];
+                    //If the piece is a White_Pawn
+                    if(original.name.equals("wp")) {
+                        copy = new White_Pawn(original.file, original.rank);
+                        copy.white_side = original.white_side;
+                    }//If the piece is a Black_Pawn
+                    else if(original.name.equals("bp")) {
+                        copy = new Black_Pawn(original.file, original.rank);
+                        copy.white_side = original.white_side;
+                    }//If the piece is a rook
+                    else if(original.name.charAt(1) == 'R') {
+                        copy = new Rook(original.file, original.rank);
+                        copy.name = original.name;
+                        copy.white_side = original.white_side;
+                        ((Rook) copy).has_moved = ((Rook) original).has_moved;
+                    }//If the piece is a knight
+                    else if(original.name.charAt(1) == 'N') {
+                        copy = new Knight(original.file, original.rank);
+                        copy.name = original.name;
+                        copy.white_side = original.white_side;
+                    }//If the piece is a bishop
+                    else if(original.name.charAt(1) == 'B') {
+                        copy = new Bishop(original.file, original.rank);
+                        copy.name = original.name;
+                        copy.white_side = original.white_side;
+                    }//If the piece is a Queen
+                    else if(original.name.charAt(1) == 'Q') {
+                        copy = new Queen(original.file, original.rank);
+                        copy.name = original.name;
+                        copy.white_side = original.white_side;
+                    }//The piece is a King
+                    else {
+                        copy = new King(original.file, original.rank);
+                        copy.name = original.name;
+                        copy.white_side = original.white_side;
+                        ((King) copy).has_moved = ((King) original).has_moved;
+                    }
+
+                    board_copy[r][f] = copy;
+
+                }else if(prevBoard[r][f]==null){
+                    board_copy[r][f]=null;
+                }
+
+
+            }
+        }
+
+        return board_copy;
     }
 }

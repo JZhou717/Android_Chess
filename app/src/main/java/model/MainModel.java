@@ -6,11 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainModel {
+public class MainModel implements Serializable {
     //Might not want to initialize it here, but fine for now
     private static ArrayList<Game> prevGames = new ArrayList<Game>();
 
@@ -31,59 +33,48 @@ public class MainModel {
         return prevGames.get(i);
     }
 
+    public static void resetGames(ArrayList<Game> arr){
+        prevGames = arr;
+        return;
+    }
+
     public static void addGame(Game g) throws IOException {
-        /*
+
         prevGames.add(g);
-        File gamesTxt;
-        try {
-            gamesTxt = new File("prevGames.txt");
-            Files.deleteIfExists(gamesTxt.toPath());
-            gamesTxt.createNewFile();
-        } catch (FileNotFoundException e) {
-            throw e;
-        } catch (IOException e) {
-            throw e;
-        }
-        try {
-
-            FileWriter fw = new FileWriter(gamesTxt);
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            //BufferLine in beginning for readFromFile not to waste first line
-            bw.write("Buffer Line");
-            bw.newLine();
-
-            Game temp;
-
-            for(int i = 0; i < prevGames.size(); i++) {
-                bw.newLine();
-                temp = prevGames.get(i);
-                bw.write(temp.getName());
-                bw.newLine();
-                bw.write(temp.getDate());
-                bw.newLine();
-                bw.write("" + temp.getMoves().size());
-                bw.newLine();
-                for (int j=0;j<temp.getMoves().size();j++){
-                    bw.write(temp.getMoves().get(j));
-                    bw.newLine();
-                }
-
-            }
-            if(bw != null) {
-                bw.close();
-            }
-            if(fw != null) {
-                fw.close();
-            }
-        } catch (FileNotFoundException e) {
-            throw e;
-        } catch (IOException e) {
-            throw e;
-        }
+        ArrayList<Game> ins = new ArrayList<Game>();
         for (int i=0;i<prevGames.size();i++){
+            ins.add(prevGames.get(i));
         }
-*/
+
+        try {
+/*
+            File f = new File("dat/prevGames.dat");
+            if (f.createNewFile()){
+                System.out.println("Created");
+            }else{
+                System.out.println("Exists");
+            }
+            FileOutputStream fos = new FileOutputStream(f);
+            */
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("dat/Admin.dat"));
+            oos.writeObject(ins);
+            oos.close();
+        }catch(FileNotFoundException e) {
+
+            System.out.println("Created new file");
+            File f = new File("dat/Admin.dat");
+            f.createNewFile();
+            FileOutputStream fos = new FileOutputStream(f);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(ins);
+            oos.close();
+
+        }catch(IOException e){
+            System.out.println("Problem man");
+            e.printStackTrace();
+        }
+
+
     }
 
 }

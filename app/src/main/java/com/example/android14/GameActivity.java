@@ -28,10 +28,13 @@ import model.White_Pawn;
 //CURRENT THESE THINGS NEED TO BE DONE
 
 //1. PROMOTION
-//Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
+    //Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
 //2. Saving games
+    //Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
+//3. Crash when moving same piece that was undid
+    //Seems like the board is displaying everything correctly, but problem with trying to read from a null object reference
+//4. In-Game crashes with checks and checkmates and whatnot
 
-//Problem with finishing game on blacks turn, it will make black start the next game
 
 
 
@@ -59,7 +62,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     Button ai_button;
     Button undo_button;
     Button return_button;
-
+    boolean drawBool = false;
+    boolean nextTurn = false;
+    boolean undid = true;
     //The ImageView iv_board that is being displayed
     ImageView[][] iv_board = new ImageView[8][8];
     //The current selected piece
@@ -258,12 +263,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         iv_board[5][7].setOnClickListener(this);
         iv_board[6][7].setOnClickListener(this);
         iv_board[7][7].setOnClickListener(this);
+        draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
 
     }
 
     //User Click for pieces or buttons
     @Override
-    public void onClick(View v) {
+    public void onClick(View v){
         //If it is one of the buttons
         if(v instanceof Button) {
 
@@ -292,7 +298,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         nameOfGame = input.getText().toString();
-                        saveGame(nameOfGame, moves, Calendar.getInstance());
+                        try{
+                            saveGame(nameOfGame, moves, Calendar.getInstance());
+
+                        }catch(IOException e){
+
+                        }
+
+
+
 
                     }
                 });
@@ -308,25 +322,58 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
             //If it is the draw button
             else if(!game_over && v == draw_button) {
+                if (drawBool==true&&nextTurn==true){
+                    game_over=true;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Draw");
+                    builder.setMessage("Save Game?");
+                    //AlertDialog dialog = builder.create();
+                    final EditText input = new EditText(this);
+                    builder.setView(input);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            nameOfGame = input.getText().toString();
+                            try{
+                                saveGame(nameOfGame, moves, Calendar.getInstance());
 
+                            }catch(IOException e){
 
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                    drawBool=false;
+                    return;
+                }
 
-
-
-
-
-
-
-
-
-
-
-
+                drawBool = true;
+                nextTurn=false;
+                draw_button.setBackgroundColor(Color.rgb(0, 128, 0));
+                return;
 
             }
             //If it is the AI button
             else if(!game_over && v == ai_button) {
-
+                for (int i=0;i<8;i++){
+                    for (int j=0;j<8;j++){
+                        MainController.prevBoard[i][j] = MainController.board[i][j];
+                    }
+                }
+                if (nextTurn==false){
+                    nextTurn=true;
+                }
+                if (drawBool==true){
+                    drawBool = false;
+                    draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
+                }
+                undid=false;
                 make_ai_move();
                 return;
 
@@ -334,13 +381,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             //If it is the undo button
             else if(!game_over && v == undo_button) {
 
+                if (!undid){
+                    undid=true;
+                    MainController.board = MainController.prevCopyBoard();
 
 
+                    MainController.display(MainController.board);
+                    draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
+                    drawBool=false;
+                    nextTurn=false;
 
-
-
-
-
+                    switch_sides();
+                    sync_boards();
+                    return;
+                }
 
 
 
@@ -365,13 +419,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
             }
-
+            /*
             //TESTING
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The buttons work!");
             builder.setTitle("Button Test");
             AlertDialog dialog = builder.create();
             dialog.show();
+            */
 
         }
         //If it is one of the board squares
@@ -418,6 +473,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         //Test if valid move
                         if(is_valid_move(rank, file)) {
 
+                            undid=false;
+                            if (drawBool==true&&nextTurn==true){
+                                drawBool = false;
+                                draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
+                            }
+                            nextTurn=true;
                             //Test if a promotion
                             //If it is a white pawn
                             if(rank == 7 && find_piece(image) instanceof White_Pawn) {
@@ -433,6 +494,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             //Not a promotion, moving as usual
+
                             make_move(image, i);
                             return;
 
@@ -465,6 +527,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 //Test if valid move
                         if(is_valid_move(rank, file)) {
 
+                            undid=false;
+                            if (drawBool==true&&nextTurn==true){
+                                drawBool = false;
+                                draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
+                            }
+                            nextTurn=true;
                             //Test if a promotion
                             //If it is a white pawn
                             if(rank == 7 && find_piece(image) instanceof White_Pawn) {
@@ -480,6 +548,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             //Not a promotion, moving as usual
+
                             make_move(image, i);
                             return;
 
@@ -537,6 +606,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             sync_boards();
             //Set the image to the new piece
             image = get_image_from_piece(temp);
+
             make_move(image, dest_image);
             dest_image = null;
         }
@@ -548,6 +618,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             sync_boards();
             //Set the image to the new piece
             image = get_image_from_piece(temp);
+
             make_move(image, dest_image);
             dest_image = null;
         }
@@ -646,6 +717,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     //Makes a move after it has been validated
     public void make_move(ImageView from_pos, ImageView to_pos) {
+        for (int i=0;i<8;i++){
+            for (int j=0;j<8;j++){
+                MainController.prevBoard[i][j] = MainController.board[i][j];
+            }
+        }
+
 
         //Get the position to move from
         String move_from = from_pos.getResources().getResourceEntryName(from_pos.getId());
@@ -838,8 +915,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void saveGame(String name, ArrayList<String> moves, Calendar cal){
-        /*
+    public void saveGame(String name, ArrayList<String> moves, Calendar cal)throws IOException{
+
         Game g = new Game(cal);
         g.setName(name);
         for (int i=0;i<moves.size();i++){
@@ -850,6 +927,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }catch(IOException e){
             throw e;
         }
-*/
+
+
     }
 }

@@ -2,10 +2,11 @@ package model;
 
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Game{
+public class Game implements Serializable {
     private ArrayList<String> moves;
     private String name;
     private Calendar date;

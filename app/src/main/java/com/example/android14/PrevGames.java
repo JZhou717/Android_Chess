@@ -8,6 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import model.Game;
@@ -19,7 +23,26 @@ public class PrevGames extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prev_games);
+        try{
+            /*
+            System.out.println("Reading");
+            File f = new File("prevGames.dat");
+            FileInputStream fis = new FileInputStream(f);
+            */
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("dat/Admin.dat"));
 
+            ArrayList<Game> games = (ArrayList<Game>) ois.readObject();
+            if (games.size()>0){
+                System.out.println("Got some games");
+            }
+            MainModel.resetGames(games);
+        }catch(FileNotFoundException e){
+
+        }catch(IOException e){
+
+        }catch(ClassNotFoundException e) {
+
+        }
         ListView games = findViewById(R.id.games_list);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
         games.setAdapter(adapter);
