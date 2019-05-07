@@ -35,7 +35,7 @@ import model.White_Pawn;
 3. In-Game crashes with checks and checkmates and whatnot
 4. King can put himself in check
     Any piece can put king its own king in check
-
+5. Replay with promotion?
 
 
 */
@@ -400,7 +400,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
                     switch_sides();
                     sync_boards();
-
+                    moves.remove(moves.size()-1);
                     return;
                 }
 
@@ -750,7 +750,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         str = from + " " + move_to;
         moves.add(str);
-        System.out.println(str);
+
 
         //Update imageview board to match MainController.board
         sync_boards();
