@@ -25,16 +25,22 @@ import model.Piece;
 import model.White_Pawn;
 
 
-//CURRENT THESE THINGS NEED TO BE DONE
+/*CURRENT THESE THINGS NEED TO BE DONE
 
-//1. PROMOTION
-    //Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
-//2. Saving games
-    //Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
-//3. Crash when moving same piece that was undid
-    //Seems like the board is displaying everything correctly, but problem with trying to read from a null object reference
-//4. In-Game crashes with checks and checkmates and whatnot
+1. PROMOTION
+    Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
+    AI Promotion
+2. Saving games
+    Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
+3. Crash when moving same piece that was undid
+    Seems like the board is displaying everything correctly, but problem with trying to read from a null object reference
+4. In-Game crashes with checks and checkmates and whatnot
+5. King can put himself in check
+    Any piece can put king its own king in check
 
+
+
+*/
 
 
 
