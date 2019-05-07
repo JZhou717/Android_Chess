@@ -35,7 +35,7 @@ import model.White_Pawn;
 3. In-Game crashes with checks and checkmates and whatnot
 4. King can put himself in check
     Any piece can put king its own king in check
-5. Replay with promotion?
+
 
 
 */
@@ -279,7 +279,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             //If it is the resign button
             if(!game_over && v == resign_button) {
-
+                for (int i=0;i<moves.size();i++){
+                    System.out.println(moves.get(i));
+                }
                 game_over = true;
 
                 //Create a game over dialog
@@ -630,6 +632,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             make_move(image, dest_image);
             dest_image = null;
         }
+        String s = moves.remove(moves.size()-1);
+        s = s + " " + promote_to;
+
+        moves.add(s);
+
     }
 
     //AI button makes a valid move for the current side
@@ -732,6 +739,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         */
+
         MainController.prevBoard = MainController.copyBoard();
 
 

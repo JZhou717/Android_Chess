@@ -147,6 +147,9 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 return;
             }
+            if (count > moves.size()-1){
+                return;
+            }
             String s = moves.get(count);
             System.out.println(s);
             count++;
@@ -156,7 +159,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             int b1 = Character.getNumericValue(arr[1].charAt(1));
 
 
-            MainController.board[a2][a1].move(arr[1]);
+
             if (arr.length > 2){
                 String pro = arr[2];
 
@@ -186,6 +189,9 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
                     ((model.White_Pawn) (MainController.board[a2][a1])).promote("n");
                 }
             }
+            sync_boards();
+
+            MainController.board[a2][a1].move(arr[1]);
             sync_boards();
             switch_sides();
 
@@ -287,4 +293,5 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
+
 }
