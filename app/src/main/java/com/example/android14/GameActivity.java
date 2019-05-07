@@ -378,6 +378,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
                 }
                 undid=false;
+
+                //If there is already a selection before ai_move
+                if(image != null) {
+                    //Find the rank and file of the image
+                    String pos = image.getResources().getResourceEntryName(image.getId());
+                    int file = MainController.fileToNum(pos.charAt(0));
+                    int rank = Character.getNumericValue(pos.charAt(1)) - 1;
+                    deselect(rank, file);
+                }
+
                 make_ai_move();
                 return;
 
