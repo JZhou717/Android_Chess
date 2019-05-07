@@ -15,7 +15,7 @@ public class MainController {
 
     public static void display(Piece[][] board) {
         Piece piece;
-        for(int i = 7; i > 0; i--) {
+        for(int i = 7; i >= 0; i--) {
             for(int j = 0; j < 8; j++) {
                 if(board[i][j] == null) {
                     if((i+j) % 2 == 0) {
@@ -220,7 +220,7 @@ public class MainController {
     }
 
     /**
-     * putsOwnKingInCheck checks to see if the current side playing, indicated by the global variable {@link #white_moves white_moves}, is in check. This method is called before any move is committed since players are not allowed to place their own King in check with a move. This method is also called by every pieces' allValidMoves method that finds all of that piece instance's valid moves. These moves are first checked to ensure they do not place the piece's own King in check before they are considered valid.
+     * putsOwnKingInCheck checks to see if the current side playing, indicated by the global variable white_moves, is in check. This method is called before any move is committed since players are not allowed to place their own King in check with a move. This method is also called by every pieces' allValidMoves method that finds all of that piece instance's valid moves. These moves are first checked to ensure they do not place the piece's own King in check before they are considered valid.
      *
      * @author Jake
      * @param board_copy - a copy of the global board created by {@link #copyBoard()} after a move has been made on the board_copy

@@ -23,23 +23,15 @@ public class King extends Piece {
 
     public void move(String move_to)  throws IllegalArgumentException {
 
-        /*Trying to move opponent's piece
-        if(this.white_side != MainController.white_moves) {
-            throw new IllegalArgumentException();
-        }*/
-
+        //Get the positions to move to
         char move_file = move_to.toLowerCase().charAt(0);
         int move_rank = Character.getNumericValue(move_to.charAt(1));
-
-        /*If trying to move to the same spot
-        if(move_file == this.file && move_rank == this.rank) {
-            throw new IllegalArgumentException();
-        }*/
 
         //Trying to move more than two squares away
         if(Math.abs(move_rank - this.rank) + Math.abs(MainController.fileToNum(move_file) - MainController.fileToNum(this.file)) > 2) {
             throw new IllegalArgumentException();
-        } //Valid move
+        }
+        //Valid move
         else {
 
             //Creating a copy of the MainController.board to brute force test if this move will put King in check
@@ -86,7 +78,6 @@ public class King extends Piece {
                             throw new IllegalArgumentException();
                         }
                         if (!MainController.board[0][MainController.fileToNum('h')].name.equals("wR")) {
-
                             throw new IllegalArgumentException();
                         }
                         if (((Rook) MainController.board[0][MainController.fileToNum('h')]).has_moved == true) {
