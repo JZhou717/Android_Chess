@@ -26,9 +26,7 @@ import model.White_Pawn;
 
 
 /*CURRENT THESE THINGS NEED TO BE DONE
-
-1. PROMOTION
-    AI Promotion
+1. Display Illegal Move, Try Again message
 2. Saving games
     Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
 3. In-Game crashes with checks and checkmates and whatnot
@@ -681,7 +679,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     promo_type = "b";
                 }
+                image = set_image_to_piece(temp);
+                dest_image = set_image_to_position(move);
                 do_promotion(promo_type);
+                return;
             }
 
         }
@@ -704,7 +705,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     promo_type = "b";
                 }
+                image = set_image_to_piece(temp);
+                dest_image = set_image_to_position(move);
                 do_promotion(promo_type);
+                return;
             }
         }
 
@@ -715,6 +719,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Switch sides
         switch_sides();
 
+    }
+
+    private ImageView set_image_to_position(String pos) {
+        //Get the rank
+        int rank = Integer.parseInt(pos.substring(1));
+        //Get the file
+        char file = pos.charAt(0);
+        //Return the imageview at that position
+        return iv_board[rank][MainController.fileToNum(file)];
+    }
+
+    private ImageView set_image_to_piece(Piece p) {
+        //Get the rank from the piece
+        int rank = p.rank;
+        //Get the file from the piece
+        char file = p.file;
+        //Return the imageview at that position
+        return iv_board[rank][MainController.fileToNum(file)];
     }
 
     //Makes a move after it has been validated
