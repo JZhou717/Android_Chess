@@ -277,13 +277,7 @@ public class King extends Piece {
 
             }
 
-            //Checking to see if path clear
-            if (MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
-                //Checking if same side
-                if (MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
-                    throw new IllegalArgumentException();
-                }
-            }
+
             //Moving on the MainController.board copy
             board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
             board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -399,146 +393,77 @@ public class King extends Piece {
      */
     public ArrayList<String> allValidMoves() {
 
-        //System.out.println("TESTING: King Valid Moves");
-
         ArrayList<String> result = new ArrayList<String>();
         String move;
-        Piece[][] board_copy;
-        final boolean side_playing = MainController.white_moves;
-
-        //System.out.println("TESTING: side_playing: MainController.white_moves: " + side_playing);
 
         //Checking Above
         if(this.rank != 7) {
             //Checking up-center
+            //If there is no piece there
             if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)] == null) {
-                //Making sure it doesn't put itself in check
-                board_copy = MainController.copyBoard();
-                board_copy[this.rank + 1][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank = board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank + 1;
 
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum(this.file)].white_side;
-
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-
-                if(!MainController.putsOwnKingInCheck(board_copy)) {
-                    move = String.valueOf(this.file).concat((this.rank + 1) + "");
+                //If the move does not cause self check
+                if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, this.file)) {
+                    move = Character.toString(this.file).concat((this.rank + 1) + "");
                     result.add(move);
                 }
-                MainController.white_moves = side_playing;
             }
+            //There is a piece there
             else {
+                //The piece is on the other side
                 if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)].white_side != this.white_side) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank + 1][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank = board_copy[this.rank + 1][MainController.fileToNum(this.file)].rank + 1;
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum(this.file)].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf(this.file).concat((this.rank + 1) + "");
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, this.file)) {
+                        move = Character.toString(this.file).concat((this.rank + 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
             }
             //Checking up-right
             if(this.file != 'h') {
+                //If there is no piece there
                 if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] == null) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank + 1;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char ) (this.file + 1)).concat((this.rank + 1) + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
+                        move = Character.toString((char) (this.file + 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
+                //There is a piece there
                 else {
+                    //The piece is on the other side
                     if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
-                        //Making sure it doesn't put itself in check
-                        board_copy = MainController.copyBoard();
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank + 1;
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
 
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        if(!MainController.putsOwnKingInCheck(board_copy)) {
-                            move = String.valueOf((char) (this.file + 1)).concat((this.rank + 1) + "");
+                        //If the move does not cause self check
+                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
+                            move = Character.toString((char) (this.file + 1)).concat((this.rank + 1) + "");
                             result.add(move);
                         }
-                        MainController.white_moves = side_playing;
                     }
                 }
             }
             //Checking up-left
             if(this.file != 'a') {
+                //If there is no piece there
                 if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] == null) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank + 1;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char ) (this.file - 1)).concat((this.rank + 1) + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
+                        move = Character.toString((char) (this.file - 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
+                //There is a piece there
                 else {
+                    //The piece is on the other side
                     if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
-                        //Making sure it doesn't put itself in check
-                        board_copy = MainController.copyBoard();
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].rank + 1;
-                        board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        if(!MainController.putsOwnKingInCheck(board_copy)) {
-                            move = String.valueOf((char) (this.file - 1)).concat((this.rank + 1) + "");
+                        //If the move does not cause self check
+                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
+                            move = Character.toString((char) (this.file - 1)).concat((this.rank + 1) + "");
                             result.add(move);
                         }
-                        MainController.white_moves = side_playing;
                     }
                 }
             }
@@ -546,143 +471,64 @@ public class King extends Piece {
         //Checking Below
         if(this.rank != 0) {
 
-            //System.out.println("TESTING: Checking valid King moves below");
-
             //Checking down-center
+            //If there is no piece there
             if(MainController.board[this.rank - 1][MainController.fileToNum(this.file)] == null) {
 
-                //Making sure it doesn't put itself in check
-                board_copy = MainController.copyBoard();
-                board_copy[this.rank - 1][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[this.rank - 1][MainController.fileToNum(this.file)].rank = board_copy[this.rank - 1][MainController.fileToNum(this.file)].rank - 1;
-
-                //System.out.println("TESTING: below king: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum(this.file)].white_side;
-
-                //System.out.println("TESTING: below king set: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                if(!MainController.putsOwnKingInCheck(board_copy)) {
-                    move = String.valueOf(this.file).concat((this.rank - 1) + "");
+                //If the move does not cause self check
+                if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, this.file)) {
+                    move = Character.toString(this.file).concat((this.rank - 1) + "");
                     result.add(move);
                 }
-                MainController.white_moves = side_playing;
             }
             else {
                 if(MainController.board[this.rank - 1][MainController.fileToNum(this.file)].white_side != this.white_side) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank - 1][MainController.fileToNum(this.file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank - 1][MainController.fileToNum(this.file)].rank = board_copy[this.rank - 1][MainController.fileToNum(this.file)].rank - 1;
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum(this.file)].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf(this.file).concat((this.rank - 1) + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                        move = Character.toString(this.file).concat((this.rank - 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
             }
             //Checking down-right
             if(this.file != 'h') {
                 if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))] == null) {
 
-                    //System.out.println("TESTING: Checking valid King moves below - no piece down-right");
-
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].rank - 1;
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
-
-                    //System.out.println("TESTING: board_copy");
-                    //display(board_copy);
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                    //System.out.println("TESTING: After setting: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        //System.out.println("TESTING: AM I GETTING HERE?????");
-                        move = String.valueOf((char ) (this.file + 1)).concat((this.rank - 1) + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
+                        move = Character.toString((char) (this.file + 1)).concat((this.rank - 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
                 else {
                     if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
-                        //Making sure it doesn't put itself in check
-                        board_copy = MainController.copyBoard();
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].rank - 1;
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
-
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        if(!MainController.putsOwnKingInCheck(board_copy)) {
-                            move = String.valueOf((char) (this.file + 1)).concat((this.rank - 1) + "");
+                        //If the move does not cause self check
+                    }
+                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
+                            move = Character.toString((char) (this.file + 1)).concat((this.rank - 1) + "");
                             result.add(move);
                         }
-                        MainController.white_moves = side_playing;
-                    }
                 }
             }
             //Checking down-left
             if(this.file != 'a') {
                 if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))] == null) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].rank = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].rank - 1;
-                    board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char ) (this.file - 1)).concat((this.rank - 1) + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                        move = Character.toString((char) (this.file - 1)).concat((this.rank - 1) + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
                 else {
                     if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
-                        //Making sure it doesn't put itself in check
-                        board_copy = MainController.copyBoard();
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                        board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].rank = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].rank - 1;
-                        board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        MainController.white_moves = board_copy[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                        //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                        if(!MainController.putsOwnKingInCheck(board_copy)) {
-                            move = String.valueOf((char) (this.file - 1)).concat((this.rank - 1) + "");
+                        //If the move does not cause self check
+                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                            move = Character.toString((char) (this.file - 1)).concat((this.rank - 1) + "");
                             result.add(move);
                         }
-                        MainController.white_moves = side_playing;
                     }
                 }
             }
@@ -690,89 +536,66 @@ public class King extends Piece {
         //Checking Right
         if(this.file != 'h') {
             if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + 1))] == null) {
-                //Making sure it doesn't put itself in check
-                board_copy = MainController.copyBoard();
-                board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].file + 1);
 
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                MainController.white_moves = board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                if(!MainController.putsOwnKingInCheck(board_copy)) {
-                    move = String.valueOf((char) (this.file + 1)).concat(this.rank + "");
+                //If the move does not cause self check
+                if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                    move = Character.toString((char) (this.file + 1)).concat(this.rank + "");
                     result.add(move);
                 }
-                MainController.white_moves = side_playing;
             }
             else {
                 if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].file + 1);
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char) (this.file + 1)).concat(this.rank + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                        move = Character.toString((char) (this.file + 1)).concat(this.rank + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
             }
         }
         //Checking Left
         if(this.file != 'a') {
             if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - 1))] == null) {
-                //Making sure it doesn't put itself in check
-                board_copy = MainController.copyBoard();
-                board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                MainController.white_moves = board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                if(!MainController.putsOwnKingInCheck(board_copy)) {
-                    move = String.valueOf((char) (this.file - 1)).concat(this.rank + "");
+                //If the move does not cause self check
+                if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                    move = Character.toString((char) (this.file - 1)).concat(this.rank + "");
                     result.add(move);
                 }
-                MainController.white_moves = side_playing;
             }
             else {
                 if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
-                    //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].file = (char) (board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].file - 1);
 
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    MainController.white_moves = board_copy[this.rank][MainController.fileToNum((char) (this.file - 1))].white_side;
-
-                    //System.out.println("TESTING: WHITE_SIDE = TRUE?: " + MainController.white_moves);
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char) (this.file - 1)).concat(this.rank + "");
+                    //If the move does not cause self check
+                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                        move = Character.toString((char) (this.file - 1)).concat(this.rank + "");
                         result.add(move);
                     }
-                    MainController.white_moves = side_playing;
                 }
             }
         }
+        //Check for castling
+
+
+
+
+
+
+        System.out.println(this.name + " valid moves:");
+        System.out.println(result);
+        System.out.println("//");
+        System.out.println();
+
+
+
+
+
+
+
+
+
+
+
 
         return result;
     }

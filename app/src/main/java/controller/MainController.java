@@ -241,13 +241,8 @@ public class MainController {
                 if(board_copy[r][f] != null) {
                     temp = board_copy[r][f];
 
-                    //System.out.println("\nTESITNG:\nName: " + temp.name + "\nFile: " + String.valueOf(temp.file) + "\nRank: " + temp.rank);
-
                     //If the piece is not the current side playing
                     if(temp.white_side != white_moves) {
-
-                        //System.out.println("\nTESITNG: temp's white_side = : " + temp.white_side);
-
                         if(temp.check(board_copy)) {
                             //if the move in the input board has current side's King in check
                             return true;
@@ -258,6 +253,72 @@ public class MainController {
         }
 
         return false;
+    }
+
+    /**
+     * Tests if the move puts the same side's king in check
+     * Inputs: from_rank, from_file,
+     */
+    public static boolean move_causes_own_check(int from_rank, char from_file, int to_rank, char to_file) {
+
+        //True if the piece in the from position is white side, false if black side
+        boolean white_playing = board[from_rank][fileToNum(from_file)].white_side;
+
+        //Create a copy of the board
+        Piece[][] board_copy =  copyBoard();
+
+        //Moving the piece on the copy to test
+        board_copy[to_rank][fileToNum(to_file)] = board_copy[from_rank][fileToNum(from_file)];
+            //Setting the piece's position to where it now is
+            board_copy[to_rank][fileToNum(to_file)].rank = to_rank;
+            board_copy[to_rank][fileToNum(to_file)].file = to_file;
+        board_copy[from_rank][fileToNum(from_file)] = null;
+
+        //Testing the board with the move implemented to see if it puts the king in check
+        Piece temp;
+        //Going through all the ranks
+        for(int r = 0; r < 8; r++) {
+            //Going through all the files
+            for(int f = 0; f < 8; f++) {
+                //If there is a piece in this spot
+                if(board_copy[r][f] != null) {
+                    temp = board_copy[r][f];
+                    //If the piece is on the other side
+                    if(temp.white_side != white_playing) {
+                        if(temp.check(board_copy)) {
+                            //The piece does place the King in check
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+
+        //This is what we are replacing:
+        //Using an example from King's valid moves
+        /*
+        //Making sure it doesn't put itself in check
+                    board_copy = MainController.copyBoard();
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
+                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank + 1;
+                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
+
+
+
+                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side;
+
+
+
+                    if(!MainController.putsOwnKingInCheck(board_copy)) {
+                        move = String.valueOf((char ) (this.file + 1)).concat((this.rank + 1) + "");
+                        result.add(move);
+                    }
+                    MainController.white_moves = side_playing;
+         */
+
     }
 
     /**
@@ -416,64 +477,5 @@ public class MainController {
         System.out.println("\ndraw");
         //System.exit(0);
         System.out.println("STALLLEJFLSKFJ:SLEJFS:LEKFJ EMATE");
-    }
-    public static Piece[][] prevCopyBoard() {
-        Piece[][] board_copy = new Piece[8][8];
-        Piece original;
-        Piece copy;
-
-        for(int r = 0; r < 8; r++) {
-            for(int f = 0; f < 8; f++) {
-                if(prevBoard[r][f] != null) {
-                    //Create a copy of the piece there
-                    original = prevBoard[r][f];
-                    //If the piece is a White_Pawn
-                    if(original.name.equals("wp")) {
-                        copy = new White_Pawn(original.file, original.rank);
-                        copy.white_side = original.white_side;
-                    }//If the piece is a Black_Pawn
-                    else if(original.name.equals("bp")) {
-                        copy = new Black_Pawn(original.file, original.rank);
-                        copy.white_side = original.white_side;
-                    }//If the piece is a rook
-                    else if(original.name.charAt(1) == 'R') {
-                        copy = new Rook(original.file, original.rank);
-                        copy.name = original.name;
-                        copy.white_side = original.white_side;
-                        ((Rook) copy).has_moved = ((Rook) original).has_moved;
-                    }//If the piece is a knight
-                    else if(original.name.charAt(1) == 'N') {
-                        copy = new Knight(original.file, original.rank);
-                        copy.name = original.name;
-                        copy.white_side = original.white_side;
-                    }//If the piece is a bishop
-                    else if(original.name.charAt(1) == 'B') {
-                        copy = new Bishop(original.file, original.rank);
-                        copy.name = original.name;
-                        copy.white_side = original.white_side;
-                    }//If the piece is a Queen
-                    else if(original.name.charAt(1) == 'Q') {
-                        copy = new Queen(original.file, original.rank);
-                        copy.name = original.name;
-                        copy.white_side = original.white_side;
-                    }//The piece is a King
-                    else {
-                        copy = new King(original.file, original.rank);
-                        copy.name = original.name;
-                        copy.white_side = original.white_side;
-                        ((King) copy).has_moved = ((King) original).has_moved;
-                    }
-
-                    board_copy[r][f] = copy;
-
-                }else if(prevBoard[r][f]==null){
-                    board_copy[r][f]=null;
-                }
-
-
-            }
-        }
-
-        return board_copy;
     }
 }
