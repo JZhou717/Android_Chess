@@ -28,13 +28,10 @@ import model.White_Pawn;
 /*CURRENT THESE THINGS NEED TO BE DONE
 
 1. PROMOTION
-    Promote throwing invalid argument exception for when pawn is in last rank. Should not be happening
     AI Promotion
 2. Saving games
     Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
 3. In-Game crashes with checks and checkmates and whatnot
-4. King can put himself in check
-    Any piece can put king its own king in check
 
 
 

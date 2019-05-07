@@ -1,12 +1,20 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.IllformedLocaleException;
 
 import controller.MainController;
 
 public class King extends Piece {
 
     public boolean has_moved = false;
+
+    //These values are used in king_can_castle to determine what side
+    final int WHITE_LEFT = 0;
+    final int WHITE_RIGHT = 1;
+    final int BLACK_LEFT = 2;
+    final int BLACK_RIGHT = 3;
+
 
     /**
      * Constructor initializes the piece's name as "K", its file as the input file, its rank as the input rank. A "w" or "b" is added before the name and its white_side value is set when the piece is created in initialize()
@@ -69,39 +77,12 @@ public class King extends Piece {
                 if (this.white_side) {
                     //Trying to castle kingside
                     if (move_to.equals("g0")) {
-                        //If this king has already moved
-                        if (this.has_moved) {
+
+                        //Testing to see if this king can castle
+                        if(!king_can_castle(WHITE_RIGHT)) {
                             throw new IllegalArgumentException();
                         }
-                        //Checking if King Rook Moved
-                        if (MainController.board[0][MainController.fileToNum('h')] == null) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (!MainController.board[0][MainController.fileToNum('h')].name.equals("wR")) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (((Rook) MainController.board[0][MainController.fileToNum('h')]).has_moved == true) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking if path clear
-                        for (int i = 1; i < 3; i++) {
-                            if (MainController.board[this.rank][MainController.fileToNum((char) (this.file + i))] != null) {
-                                throw new IllegalArgumentException();
-                            }
-                        }
-                        //Making sure King doesn't pass through check
-                        //Checking for f1 space
-                        board_copy[0][MainController.fileToNum('f')] = board_copy[0][MainController.fileToNum('e')];
-                        board_copy[0][MainController.fileToNum('e')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking for g1 space
-                        board_copy[0][MainController.fileToNum('g')] = board_copy[0][MainController.fileToNum('f')];
-                        board_copy[0][MainController.fileToNum('f')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
+
                         //Moving King
                         MainController.board[move_rank][MainController.fileToNum(move_file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
@@ -118,39 +99,12 @@ public class King extends Piece {
                         return;
                     } //Trying to castle queenside
                     else if (move_to.equals("c0")) {
-                        //If this king has already moved
-                        if (this.has_moved) {
+
+                        //Testing to see if this king can castle
+                        if(!king_can_castle(WHITE_LEFT)) {
                             throw new IllegalArgumentException();
                         }
-                        //Checking if Queen Rook Moved
-                        if (MainController.board[0][MainController.fileToNum('a')] == null) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (!MainController.board[0][MainController.fileToNum('a')].name.equals("wR")) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (((Rook) MainController.board[0][MainController.fileToNum('a')]).has_moved == true) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking if path clear
-                        for (int i = 1; i < 3; i++) {
-                            if (MainController.board[this.rank][MainController.fileToNum((char) (this.file - i))] != null) {
-                                throw new IllegalArgumentException();
-                            }
-                        }
-                        //Making sure King doesn't pass through check
-                        //Checking for d1 space
-                        board_copy[0][MainController.fileToNum('d')] = board_copy[0][MainController.fileToNum('e')];
-                        board_copy[0][MainController.fileToNum('e')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking for c1 space
-                        board_copy[0][MainController.fileToNum('c')] = board_copy[0][MainController.fileToNum('d')];
-                        board_copy[0][MainController.fileToNum('d')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
+
                         //Moving King
                         MainController.board[move_rank][MainController.fileToNum(move_file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
@@ -173,39 +127,12 @@ public class King extends Piece {
                 else {
                     //Trying to castle kingside
                     if (move_to.equals("g7")) {
-                        //If this king has already moved
-                        if (this.has_moved) {
+
+                        //Testing to see if this king can castle
+                        if(!king_can_castle(BLACK_RIGHT)) {
                             throw new IllegalArgumentException();
                         }
-                        //Checking if King Rook Moved
-                        if (MainController.board[7][MainController.fileToNum('h')] == null) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (!MainController.board[7][MainController.fileToNum('h')].name.equals("bR")) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (((Rook) MainController.board[7][MainController.fileToNum('h')]).has_moved == true) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking if path clear
-                        for (int i = 1; i < 3; i++) {
-                            if (MainController.board[this.rank][MainController.fileToNum((char) (this.file + i))] != null) {
-                                throw new IllegalArgumentException();
-                            }
-                        }
-                        //Making sure King doesn't pass through check
-                        //Checking for f8 space
-                        board_copy[7][MainController.fileToNum('f')] = board_copy[7][MainController.fileToNum('e')];
-                        board_copy[7][MainController.fileToNum('e')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking for g1 space
-                        board_copy[7][MainController.fileToNum('g')] = board_copy[7][MainController.fileToNum('f')];
-                        board_copy[7][MainController.fileToNum('f')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
+
                         //Moving King
                         MainController.board[move_rank][MainController.fileToNum(move_file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
@@ -222,39 +149,12 @@ public class King extends Piece {
                         return;
                     } //Trying to castle queenside
                     else if (move_to.equals("c7")) {
-                        //If this king has already moved
-                        if (this.has_moved) {
+
+                        //Testing to see if this king can castle
+                        if(!king_can_castle(BLACK_LEFT)) {
                             throw new IllegalArgumentException();
                         }
-                        //Checking if Queen Rook Moved
-                        if (MainController.board[7][MainController.fileToNum('a')] == null) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (!MainController.board[7][MainController.fileToNum('a')].name.equals("bR")) {
-                            throw new IllegalArgumentException();
-                        }
-                        if (((Rook) MainController.board[7][MainController.fileToNum('a')]).has_moved == true) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking if path clear
-                        for (int i = 1; i < 3; i++) {
-                            if (MainController.board[this.rank][MainController.fileToNum((char) (this.file - i))] != null) {
-                                throw new IllegalArgumentException();
-                            }
-                        }
-                        //Making sure King doesn't pass through check
-                        //Checking for d8 space
-                        board_copy[7][MainController.fileToNum('d')] = board_copy[7][MainController.fileToNum('e')];
-                        board_copy[7][MainController.fileToNum('e')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
-                        //Checking for c8 space
-                        board_copy[7][MainController.fileToNum('c')] = board_copy[7][MainController.fileToNum('d')];
-                        board_copy[7][MainController.fileToNum('d')] = null;
-                        if (MainController.putsOwnKingInCheck(board_copy)) {
-                            throw new IllegalArgumentException();
-                        }
+
                         //Moving King
                         MainController.board[move_rank][MainController.fileToNum(move_file)] = MainController.board[this.rank][MainController.fileToNum(this.file)];
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
@@ -577,28 +477,177 @@ public class King extends Piece {
             }
         }
         //Check for castling
+        //If it is the white king
+        if(this.white_side) {
+            if(king_can_castle(WHITE_LEFT)) {
+                result.add("c0");
+            }
+            if(king_can_castle(WHITE_RIGHT)) {
+                result.add("g0");
+            }
+        }
+        //If it is the black king
+        else {
+            if(king_can_castle(BLACK_LEFT)) {
+                result.add("c7");
+            }
+            if(king_can_castle(BLACK_RIGHT)) {
+                result.add("g7");
+            }
+        }
 
 
 
 
-
-//        System.out.println("Starting pos: " + Character.toString(this.file) + this.rank);
-//        System.out.println(this.name + " valid moves:");
-//        System.out.println(result);
-//        System.out.println("//");
-//        System.out.println();
-
-
-
-
-
-
-
-
+        System.out.println("Starting pos: " + Character.toString(this.file) + this.rank);
+        System.out.println(this.name + " valid moves:");
+        System.out.println(result);
+        System.out.println("//");
+        System.out.println();
 
 
 
 
         return result;
+    }
+
+    private boolean king_can_castle(int where) {
+
+        //This King has already moved, cannot castle
+        if(this.has_moved) {
+            return false;
+        }
+
+        if(where == WHITE_LEFT) {
+            //Checking if Rook moved
+            if(MainController.board[this.rank][MainController.fileToNum('a')] == null) {
+                return false;
+            }
+            if(!MainController.board[this.rank][MainController.fileToNum('a')].name.equalsIgnoreCase("wR")) {
+                return false;
+            }
+            if(((Rook) MainController.board[this.rank][MainController.fileToNum('a')]).has_moved) {
+                return false;
+            }
+
+            //Checking if path clear
+            for(int i = 1; i < 4; i++) {
+                if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - i))] != null) {
+                    return false;
+                }
+            }
+
+            //Making sure the King doesn't pass through check
+            //Checking for one space
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                return false;
+            }
+            //Checking for two spaces
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 2))) {
+                return false;
+            }
+
+            //Everything valid
+            return true;
+        }
+        else if(where == WHITE_RIGHT) {
+            //Checking if Rook moved
+            if(MainController.board[this.rank][MainController.fileToNum('h')] == null) {
+                return false;
+            }
+            if(!MainController.board[this.rank][MainController.fileToNum('h')].name.equalsIgnoreCase("wR")) {
+                return false;
+            }
+            if(((Rook) MainController.board[this.rank][MainController.fileToNum('h')]).has_moved) {
+                return false;
+            }
+
+            //Checking if path clear
+            for(int i = 1; i < 3; i++) {
+                if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + i))] != null) {
+                    return false;
+                }
+            }
+
+            //Making sure the King doesn't pass through check
+            //Checking for one space
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                return false;
+            }
+            //Checking for two spaces
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 2))) {
+                return false;
+            }
+
+            //Everything valid
+            return true;
+        }
+        else if(where == BLACK_LEFT) {
+            //Checking if Rook moved
+            if(MainController.board[this.rank][MainController.fileToNum('a')] == null) {
+                return false;
+            }
+            if(!MainController.board[this.rank][MainController.fileToNum('a')].name.equalsIgnoreCase("bR")) {
+                return false;
+            }
+            if(((Rook) MainController.board[this.rank][MainController.fileToNum('a')]).has_moved) {
+                return false;
+            }
+
+            //Checking if path clear
+            for(int i = 1; i < 4; i++) {
+                if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - i))] != null) {
+                    return false;
+                }
+            }
+
+            //Making sure the King doesn't pass through check
+            //Checking for one space
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                return false;
+            }
+            //Checking for two spaces
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 2))) {
+                return false;
+            }
+
+            //Everything valid
+            return true;
+        }
+        else if(where == BLACK_RIGHT) {
+            //Checking if Rook moved
+            if(MainController.board[this.rank][MainController.fileToNum('h')] == null) {
+                return false;
+            }
+            if(!MainController.board[this.rank][MainController.fileToNum('h')].name.equalsIgnoreCase("bR")) {
+                return false;
+            }
+            if(((Rook) MainController.board[this.rank][MainController.fileToNum('h')]).has_moved) {
+                return false;
+            }
+
+            //Checking if path clear
+            for(int i = 1; i < 3; i++) {
+                if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + i))] != null) {
+                    return false;
+                }
+            }
+
+            //Making sure the King doesn't pass through check
+            //Checking for one space
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                return false;
+            }
+            //Checking for two spaces
+            if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 2))) {
+                return false;
+            }
+
+            //Everything valid
+            return true;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 }
