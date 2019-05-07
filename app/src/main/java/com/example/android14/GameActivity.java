@@ -279,45 +279,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 game_over = true;
 
-                //Create a game over dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
 
                 //White resigns
                 if(MainController.white_moves) {
-                    builder.setTitle("Black wins by resignation");
+
+                    endGame("Black wins by resignation");
                 }
                 //Black resigns
                 else {
-                    builder.setTitle("White wins by resignation");
+
+                    endGame("White wins by resignation");
                 }
-
-                builder.setMessage("Save Game?");
-                //AlertDialog dialog = builder.create();
-                final EditText input = new EditText(this);
-                builder.setView(input);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        nameOfGame = input.getText().toString();
-                        try{
-                            saveGame(nameOfGame, moves, Calendar.getInstance());
-
-                        }catch(IOException e){
-
-                        }
-
-
-
-
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
 
                 return;
             }
@@ -325,31 +299,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             else if(!game_over && v == draw_button) {
                 if (drawBool==true&&nextTurn==true){
                     game_over=true;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Draw");
-                    builder.setMessage("Save Game?");
-                    //AlertDialog dialog = builder.create();
-                    final EditText input = new EditText(this);
-                    builder.setView(input);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            nameOfGame = input.getText().toString();
-                            try{
-                                saveGame(nameOfGame, moves, Calendar.getInstance());
-
-                            }catch(IOException e){
-
-                            }
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
+                    endGame("draw");
                     drawBool=false;
                     return;
                 }
@@ -789,36 +739,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(MainController.stalemate()) {
             //Set the game over message
             game_over = true;
-            //Create a game over dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            builder.setTitle("Draw by resignation");
+            endGame("Draw by resignation");
 
-            builder.setMessage("Save Game?");
-            //AlertDialog dialog = builder.create();
-            final EditText input = new EditText(this);
-            builder.setView(input);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    nameOfGame = input.getText().toString();
-
-                    try{
-                        saveGame(nameOfGame, moves, Calendar.getInstance());
-
-                    }catch(IOException e){
-
-                    }
-
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            builder.show();
 
         }
 
@@ -997,5 +920,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+    }
+    public void endGame(String winner){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(winner);
+        builder.setMessage("Save Game?");
+        //AlertDialog dialog = builder.create();
+        final EditText input = new EditText(this);
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                nameOfGame = input.getText().toString();
+                if (MainModel.byName.indexOf(nameOfGame) != -1){
+                    endGame("Use a unique name please");
+                    return;
+                }
+                try{
+                    saveGame(nameOfGame, moves, Calendar.getInstance());
+
+                }catch(IOException e){
+
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }

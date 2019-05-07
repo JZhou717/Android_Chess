@@ -20,7 +20,7 @@ public class MainModel implements Serializable {
     //Might not want to initialize it here, but fine for now
     public static ArrayList<Game> prevGames = new ArrayList<Game>();
     public static ArrayList<String> byName = new ArrayList<String>();
-    public static ArrayList<String> byDate = new ArrayList<String>();
+    public static ArrayList<Game> nameOne = new ArrayList<Game>();
 
 
 
@@ -52,6 +52,7 @@ public class MainModel implements Serializable {
 
 
     public static Game getGameByName(int s){
+
         String str = byName.get(s);
         for (int i=0;i<prevGames.size();i++){
             if (prevGames.get(i).getName().equals(str)){
