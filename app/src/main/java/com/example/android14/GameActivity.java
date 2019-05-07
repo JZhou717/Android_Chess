@@ -32,10 +32,8 @@ import model.White_Pawn;
     AI Promotion
 2. Saving games
     Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
-3. Crash when moving same piece that was undid
-    Seems like the board is displaying everything correctly, but problem with trying to read from a null object reference
-4. In-Game crashes with checks and checkmates and whatnot
-5. King can put himself in check
+3. In-Game crashes with checks and checkmates and whatnot
+4. King can put himself in check
     Any piece can put king its own king in check
 
 
@@ -367,11 +365,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
             //If it is the AI button
             else if(!game_over && v == ai_button) {
+                MainController.prevBoard = MainController.copyBoard();
+                /*
                 for (int i=0;i<8;i++){
                     for (int j=0;j<8;j++){
                         MainController.prevBoard[i][j] = MainController.board[i][j];
                     }
                 }
+                */
                 if (nextTurn==false){
                     nextTurn=true;
                 }
@@ -389,16 +390,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (!undid){
                     undid=true;
-                    MainController.board = MainController.prevCopyBoard();
+                    MainController.board = MainController.prevBoard;
 
 
-                    MainController.display(MainController.board);
+
                     draw_button.setBackgroundColor(Color.rgb(200, 70, 70));
                     drawBool=false;
                     nextTurn=false;
 
                     switch_sides();
                     sync_boards();
+
                     return;
                 }
 
@@ -723,11 +725,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     //Makes a move after it has been validated
     public void make_move(ImageView from_pos, ImageView to_pos) {
+        /*
         for (int i=0;i<8;i++){
             for (int j=0;j<8;j++){
                 MainController.prevBoard[i][j] = MainController.board[i][j];
             }
         }
+        */
+        MainController.prevBoard = MainController.copyBoard();
 
 
         //Get the position to move from
