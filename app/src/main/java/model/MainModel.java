@@ -13,10 +13,15 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 
 public class MainModel implements Serializable {
     //Might not want to initialize it here, but fine for now
     private static ArrayList<Game> prevGames = new ArrayList<Game>();
+    public static ArrayList<String> byName = new ArrayList<String>();
+    public static ArrayList<String> byDate = new ArrayList<String>();
+
 
 
 
@@ -25,14 +30,33 @@ public class MainModel implements Serializable {
     }
     public static ArrayList<String> getGameNames(){
         ArrayList<String> names = new ArrayList<String>();
+
         for (int i=0;i<prevGames.size();i++){
             names.add(prevGames.get(i).getName());
         }
-
+        Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
         return names;
+    }
+    public static ArrayList<String> getGamesDate(){/////////WRITE THIS METHOD DUMMY
+       ArrayList<String> names = new ArrayList<String>();
+       for (int i=0;i<prevGames.size();i++){
+           names.add(prevGames.get(i).getName());
+       }
+       return names;
     }
     public static Game getGameAt(int i){
         return prevGames.get(i);
+    }
+
+
+
+    public static Game getGameByName(String s){
+        for (int i=0;i<prevGames.size();i++){
+            if (prevGames.get(i).getName().equals(s)){
+                return prevGames.get(i);
+            }
+        }
+        return null;
     }
 
     public static void resetGames(ArrayList<Game> arr){
@@ -43,23 +67,27 @@ public class MainModel implements Serializable {
     public static void addGame(Game g) throws IOException {
 
         prevGames.add(g);
-        ;
+        byName.add(g.getName());
+        Collections.sort(byName, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(prevGames);
+
         ArrayList<Game> ins = new ArrayList<Game>();
         for (int i=0;i<prevGames.size();i++){
             ins.add(prevGames.get(i));
         }
-        /*
+
+/*
         String filename = "save.txt";
         FileOutputStream outputStream;
         try {
 
-            outputStream = Context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
             outputStream.writeObject(ins);
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        */
+        }*/
+
         /*
         try {
 
@@ -92,6 +120,7 @@ public class MainModel implements Serializable {
 */
 
     }
+
 
 }
 

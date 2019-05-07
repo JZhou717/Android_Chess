@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.io.FileInputStream;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import model.Game;
 import model.MainModel;
 
-public class PrevGames extends AppCompatActivity {
-
+public class PrevGames extends AppCompatActivity implements View.OnClickListener {
+    Button date_button;
+    Button name_button;
+    ListView games;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,8 @@ public class PrevGames extends AppCompatActivity {
         }catch(ClassNotFoundException e) {
 
         }
-        ListView games = findViewById(R.id.games_list);
+
+        games = findViewById(R.id.games_list);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
         games.setAdapter(adapter);
 
@@ -73,4 +77,20 @@ public class PrevGames extends AppCompatActivity {
         });
 
     }
+    //User Click for pieces or buttons
+    @Override
+    public void onClick(View v) {
+        //If it is one of the buttons
+        if (v instanceof Button) {
+            if (v == date_button){
+                ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGamesDate());
+                games.setAdapter(adapter);
+            }
+            if (v == name_button){
+                ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
+                games.setAdapter(adapter);
+            }
+        }
+    }
+
 }

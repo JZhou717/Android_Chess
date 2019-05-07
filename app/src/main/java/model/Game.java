@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Game implements Serializable {
+public class Game implements Serializable, Comparable<Game> {
     private ArrayList<String> moves;
     private String name;
 
@@ -35,6 +35,11 @@ public class Game implements Serializable {
     }
     public void setName(String s){
         this.name = s;
+    }
+
+    @Override
+    public int compareTo(Game g) {
+        return getDate().compareTo(g.getDate());
     }
 
 }
