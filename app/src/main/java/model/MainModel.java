@@ -32,16 +32,17 @@ public class MainModel implements Serializable {
         ArrayList<String> names = new ArrayList<String>();
 
         for (int i=0;i<prevGames.size();i++){
-            names.add(prevGames.get(i).getName());
+            names.add(prevGames.get(i).getNameAndDate());
         }
         Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
         return names;
     }
-    public static ArrayList<String> getGamesDate(){/////////WRITE THIS METHOD DUMMY
+    public static ArrayList<String> getGamesDate(){
        ArrayList<String> names = new ArrayList<String>();
        for (int i=0;i<prevGames.size();i++){
-           names.add(prevGames.get(i).getName());
+           names.add(prevGames.get(i).getNameAndDate());
        }
+
        return names;
     }
     public static Game getGameAt(int i){
@@ -50,9 +51,10 @@ public class MainModel implements Serializable {
 
 
 
-    public static Game getGameByName(String s){
+    public static Game getGameByName(int s){
+        String str = byName.get(s);
         for (int i=0;i<prevGames.size();i++){
-            if (prevGames.get(i).getName().equals(s)){
+            if (prevGames.get(i).getName().equals(str)){
                 return prevGames.get(i);
             }
         }
@@ -86,8 +88,8 @@ public class MainModel implements Serializable {
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
-
+        }
+*/
         /*
         try {
 

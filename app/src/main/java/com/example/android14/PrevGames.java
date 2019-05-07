@@ -22,6 +22,7 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
     Button date_button;
     Button name_button;
     ListView games;
+    Boolean nameOrDate = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,11 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
         }catch(ClassNotFoundException e) {
 
         }
+        date_button = findViewById(R.id.date_button);
+        name_button = findViewById(R.id.name_button);
 
+        date_button.setOnClickListener(this);
+        name_button.setOnClickListener(this);
         games = findViewById(R.id.games_list);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
         games.setAdapter(adapter);
@@ -55,9 +60,14 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
         games.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Game g;
                 Bundle bundle = new Bundle();
+                if (nameOrDate == true){
+                    g = MainModel.getGameAt(position);
+                }else{
+                    g = MainModel.getGameByName(position);
+                }
 
-                Game g = MainModel.getGameAt(position);
 
                 ArrayList<String> mo = g.getMoves();
                 bundle.putInt("Size", mo.size());
@@ -83,12 +93,18 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
         //If it is one of the buttons
         if (v instanceof Button) {
             if (v == date_button){
+
+                games = findViewById(R.id.games_list);
                 ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGamesDate());
                 games.setAdapter(adapter);
+                nameOrDate = true;
             }
             if (v == name_button){
+
+                games = findViewById(R.id.games_list);
                 ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
                 games.setAdapter(adapter);
+                nameOrDate = false;
             }
         }
     }

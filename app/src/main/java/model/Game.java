@@ -24,6 +24,9 @@ public class Game implements Serializable, Comparable<Game> {
     public String getName(){
         return this.name;
     }
+    public String getNameAndDate(){
+        return this.name + "\nDate: " + this.getDate();
+    }
     public String getDate(){
         return this.date.toString();
     }

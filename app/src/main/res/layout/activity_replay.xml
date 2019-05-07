@@ -181,7 +181,7 @@
         android:layout_width="90dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        android:text="Main Menu" />
+        android:text="Back to List" />
 
 
 </LinearLayout>

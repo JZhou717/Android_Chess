@@ -143,7 +143,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         if (v instanceof Button) {
             //ROW EQUALS RANK
             if (v==back_button){
-                Intent intent = new Intent(Replay.this, MainActivity.class);
+                Intent intent = new Intent(Replay.this, PrevGames.class);
                 startActivity(intent);
                 return;
             }
