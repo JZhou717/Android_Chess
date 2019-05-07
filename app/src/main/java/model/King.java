@@ -322,7 +322,7 @@ public class King extends Piece {
                 }
                 //Check up left
                 if(this.file != 'a') {
-                    temp =board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))];
+                    temp = board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))];
                     //if it's the opposite king
                     if(temp instanceof King) {
                         //checkmate((char) temp.file, temp.rank);
@@ -336,7 +336,7 @@ public class King extends Piece {
         if(this.rank != 0) {
 
             //Check down center
-            temp = MainController.board[this.rank - 1][MainController.fileToNum(this.file)];
+            temp = board[this.rank - 1][MainController.fileToNum(this.file)];
             if(temp != null) {
                 //if it's the opposite king
                 if(temp instanceof King) {
@@ -345,7 +345,7 @@ public class King extends Piece {
                 }
                 //Check down right
                 if(this.file != 'h') {
-                    temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
+                    temp = board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
                     //if it's the opposite king
                     if(temp instanceof King) {
                         //checkmate((char) temp.file, temp.rank);
@@ -354,7 +354,7 @@ public class King extends Piece {
                 }
                 //Check down left
                 if(this.file != 'a') {
-                    temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
+                    temp = board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
                     //if it's the opposite king
                     if(temp instanceof King) {
                         //checkmate((char) temp.file, temp.rank);
@@ -365,7 +365,7 @@ public class King extends Piece {
         }
         //Check right
         if(this.file != 'h') {
-            temp = MainController.board[this.rank][MainController.fileToNum((char) (this.file + 1))];
+            temp = board[this.rank][MainController.fileToNum((char) (this.file + 1))];
             //if it's the opposite king
             if(temp instanceof King) {
                 //checkmate((char) temp.file, temp.rank);
@@ -374,7 +374,7 @@ public class King extends Piece {
         }
         //Check left
         if(this.file != 'a') {
-            temp = MainController.board[this.rank][MainController.fileToNum((char) (this.file - 1))];
+            temp = board[this.rank][MainController.fileToNum((char) (this.file - 1))];
             //if it's the opposite king
             if(temp instanceof King) {
                 //checkmate((char) temp.file, temp.rank);
@@ -403,7 +403,7 @@ public class King extends Piece {
             if(MainController.board[this.rank + 1][MainController.fileToNum(this.file)] == null) {
 
                 //If the move does not cause self check
-                if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, this.file)) {
+                if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, this.file)) {
                     move = Character.toString(this.file).concat((this.rank + 1) + "");
                     result.add(move);
                 }
@@ -425,7 +425,7 @@ public class King extends Piece {
                 if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] == null) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
                         move = Character.toString((char) (this.file + 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
@@ -436,7 +436,7 @@ public class King extends Piece {
                     if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
 
                         //If the move does not cause self check
-                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
+                        if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file + 1))) {
                             move = Character.toString((char) (this.file + 1)).concat((this.rank + 1) + "");
                             result.add(move);
                         }
@@ -449,7 +449,7 @@ public class King extends Piece {
                 if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))] == null) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
                         move = Character.toString((char) (this.file - 1)).concat((this.rank + 1) + "");
                         result.add(move);
                     }
@@ -460,7 +460,7 @@ public class King extends Piece {
                     if(MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
 
                         //If the move does not cause self check
-                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
+                        if(!MainController.move_causes_own_check(this.rank, this.file, this.rank + 1, (char) (this.file - 1))) {
                             move = Character.toString((char) (this.file - 1)).concat((this.rank + 1) + "");
                             result.add(move);
                         }
@@ -476,16 +476,18 @@ public class King extends Piece {
             if(MainController.board[this.rank - 1][MainController.fileToNum(this.file)] == null) {
 
                 //If the move does not cause self check
-                if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, this.file)) {
+                if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, this.file)) {
                     move = Character.toString(this.file).concat((this.rank - 1) + "");
                     result.add(move);
                 }
             }
+            //If there is a piece there
             else {
+                //If the piece is on the other side
                 if(MainController.board[this.rank - 1][MainController.fileToNum(this.file)].white_side != this.white_side) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, this.file)) {
                         move = Character.toString(this.file).concat((this.rank - 1) + "");
                         result.add(move);
                     }
@@ -496,7 +498,7 @@ public class King extends Piece {
                 if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))] == null) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
                         move = Character.toString((char) (this.file + 1)).concat((this.rank - 1) + "");
                         result.add(move);
                     }
@@ -505,7 +507,7 @@ public class King extends Piece {
                     if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
                         //If the move does not cause self check
                     }
-                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
+                        if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
                             move = Character.toString((char) (this.file + 1)).concat((this.rank - 1) + "");
                             result.add(move);
                         }
@@ -516,7 +518,7 @@ public class King extends Piece {
                 if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))] == null) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
                         move = Character.toString((char) (this.file - 1)).concat((this.rank - 1) + "");
                         result.add(move);
                     }
@@ -525,7 +527,7 @@ public class King extends Piece {
                     if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
 
                         //If the move does not cause self check
-                        if(MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
+                        if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file - 1))) {
                             move = Character.toString((char) (this.file - 1)).concat((this.rank - 1) + "");
                             result.add(move);
                         }
@@ -538,7 +540,7 @@ public class King extends Piece {
             if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + 1))] == null) {
 
                 //If the move does not cause self check
-                if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                if(!MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
                     move = Character.toString((char) (this.file + 1)).concat(this.rank + "");
                     result.add(move);
                 }
@@ -546,7 +548,7 @@ public class King extends Piece {
             else {
                 if(MainController.board[this.rank][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file + 1))) {
                         move = Character.toString((char) (this.file + 1)).concat(this.rank + "");
                         result.add(move);
                     }
@@ -558,7 +560,7 @@ public class King extends Piece {
             if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - 1))] == null) {
 
                 //If the move does not cause self check
-                if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                if(!MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
                     move = Character.toString((char) (this.file - 1)).concat(this.rank + "");
                     result.add(move);
                 }
@@ -567,7 +569,7 @@ public class King extends Piece {
                 if(MainController.board[this.rank][MainController.fileToNum((char) (this.file - 1))].white_side != this.white_side) {
 
                     //If the move does not cause self check
-                    if(MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
+                    if(!MainController.move_causes_own_check(this.rank, this.file, this.rank, (char) (this.file - 1))) {
                         move = Character.toString((char) (this.file - 1)).concat(this.rank + "");
                         result.add(move);
                     }
@@ -580,7 +582,7 @@ public class King extends Piece {
 
 
 
-
+        System.out.println("Starting pos: " + Character.toString(this.file) + this.rank);
         System.out.println(this.name + " valid moves:");
         System.out.println(result);
         System.out.println("//");

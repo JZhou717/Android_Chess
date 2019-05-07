@@ -104,7 +104,7 @@ public class MainController {
                 board[i][j] = null;
             }
         }
-        white_moves =true;
+        white_moves = true;
     }
 
     /**
@@ -264,6 +264,12 @@ public class MainController {
         //True if the piece in the from position is white side, false if black side
         boolean white_playing = board[from_rank][fileToNum(from_file)].white_side;
 
+
+
+
+
+        System.out.println("White Playing? " + white_playing);
+
         //Create a copy of the board
         Piece[][] board_copy =  copyBoard();
 
@@ -285,6 +291,13 @@ public class MainController {
                     temp = board_copy[r][f];
                     //If the piece is on the other side
                     if(temp.white_side != white_playing) {
+
+                        System.out.println("Piece: " + Character.toString(temp.file) + temp.rank + temp.name);
+                        System.out.println("Piece's white_side: " + temp.white_side);
+
+
+
+
                         if(temp.check(board_copy)) {
                             //The piece does place the King in check
                             return true;

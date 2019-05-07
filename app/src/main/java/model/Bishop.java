@@ -197,7 +197,7 @@ public class Bishop extends Piece {
             if(f > 7) {
                 break;
             }
-            temp = MainController.board[r][f];
+            temp = board[r][f];
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
@@ -219,7 +219,7 @@ public class Bishop extends Piece {
             if(f < 0) {
                 break;
             }
-            temp = MainController.board[r][f];
+            temp = board[r][f];
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
@@ -241,7 +241,7 @@ public class Bishop extends Piece {
             if(f > 7) {
                 break;
             }
-            temp = MainController.board[r][f];
+            temp = board[r][f];
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
@@ -263,7 +263,7 @@ public class Bishop extends Piece {
             if(f < 0) {
                 break;
             }
-            temp = MainController.board[r][f];
+            temp = board[r][f];
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {

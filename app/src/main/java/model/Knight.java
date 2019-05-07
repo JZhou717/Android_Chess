@@ -118,7 +118,7 @@ public class Knight extends Piece {
         if(this.rank <= 6) {
             //Check up-left one
             if(this.file >= 'c') {
-                temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file - 2))];
+                temp = board[this.rank + 1][MainController.fileToNum((char) (this.file - 2))];
                 if(temp != null) {
                     if(temp.white_side != this.white_side && temp instanceof King) {
                         //checkmate(temp.file, temp.rank);
@@ -128,7 +128,7 @@ public class Knight extends Piece {
             }
             //Check up-right one
             if(this.file <= 'f') {
-                temp = MainController.board[this.rank + 1][MainController.fileToNum((char) (this.file + 2))];
+                temp = board[this.rank + 1][MainController.fileToNum((char) (this.file + 2))];
                 if(temp != null) {
                     if(temp.white_side != this.white_side && temp instanceof King) {
                         //checkmate(temp.file, temp.rank);
@@ -140,7 +140,7 @@ public class Knight extends Piece {
             if(this.rank <= 5) {
                 //Check up-left two
                 if(this.file >= 'b') {
-                    temp = MainController.board[this.rank + 2][MainController.fileToNum((char) (this.file - 1))];
+                    temp = board[this.rank + 2][MainController.fileToNum((char) (this.file - 1))];
                     if(temp != null) {
                         if(temp.white_side != this.white_side && temp instanceof King) {
                             //checkmate(temp.file, temp.rank);
@@ -150,7 +150,7 @@ public class Knight extends Piece {
                 }
                 //Check up-right two
                 if(this.file <= 'g') {
-                    temp = MainController.board[this.rank + 2][MainController.fileToNum((char) (this.file + 1))];
+                    temp = board[this.rank + 2][MainController.fileToNum((char) (this.file + 1))];
                     if(temp != null) {
                         if(temp.white_side != this.white_side && temp instanceof King) {
                             //checkmate(temp.file, temp.rank);
@@ -164,7 +164,7 @@ public class Knight extends Piece {
         if(this.rank >= 1) {
             //Check down-left one
             if(this.file >= 'c') {
-                temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 2))];
+                temp = board[this.rank - 1][MainController.fileToNum((char) (this.file - 2))];
                 if(temp != null) {
                     if(temp.white_side != this.white_side && temp instanceof King) {
                         //checkmate(temp.file, temp.rank);
@@ -174,7 +174,7 @@ public class Knight extends Piece {
             }
             //Check down-right one
             if(this.file <= 'f') {
-                temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 2))];
+                temp = board[this.rank - 1][MainController.fileToNum((char) (this.file + 2))];
                 if(temp != null) {
                     if(temp.white_side != this.white_side && temp instanceof King) {
                         //checkmate(temp.file, temp.rank);
@@ -186,7 +186,7 @@ public class Knight extends Piece {
             if(this.rank >= 2) {
                 //Check down-left two
                 if(this.file >= 'b') {
-                    temp = MainController.board[this.rank - 2][MainController.fileToNum((char) (this.file - 1))];
+                    temp = board[this.rank - 2][MainController.fileToNum((char) (this.file - 1))];
                     if(temp != null) {
                         if(temp.white_side != this.white_side && temp instanceof King) {
                             //checkmate(temp.file, temp.rank);
@@ -196,7 +196,7 @@ public class Knight extends Piece {
                 }
                 //Check down-right two
                 if(this.file <= 'g') {
-                    temp = MainController.board[this.rank - 2][MainController.fileToNum((char) (this.file + 1))];
+                    temp = board[this.rank - 2][MainController.fileToNum((char) (this.file + 1))];
                     if(temp != null) {
                         if(temp.white_side != this.white_side && temp instanceof King) {
                             //checkmate(temp.file, temp.rank);

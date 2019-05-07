@@ -215,7 +215,7 @@ public class Black_Pawn extends Piece {
         //a pawns only check one side
         if(this.file == 'a') {
             //checking down 1 right 1
-            temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
+            temp = board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
             if(temp != null) {
                 //checking if white King
                 if(temp.name.equals("wK")) {
@@ -226,7 +226,7 @@ public class Black_Pawn extends Piece {
         } //h pawns only check one side
         else if(this.file == 'h') {
             //checking down 1 left 1
-            temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
+            temp = board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
             if(temp != null) {
                 //checking if white King
                 if(temp.name.equals("wK")) {
@@ -237,7 +237,7 @@ public class Black_Pawn extends Piece {
         } //middle pawns check for two sides
         else {
             //checking down 1 right 1
-            temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
+            temp = board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))];
             if(temp != null) {
                 //checking if white King
                 if(temp.name.equals("wK")) {
@@ -246,7 +246,7 @@ public class Black_Pawn extends Piece {
                 }
             }
             //checking down 1 left 1
-            temp = MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
+            temp = board[this.rank - 1][MainController.fileToNum((char) (this.file - 1))];
             if(temp != null) {
                 //checking if white King
                 if(temp.name.equals("wK")) {

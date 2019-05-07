@@ -191,10 +191,10 @@ public class Rook extends Piece {
 
         //Check for checks on the row to the left
         for(int f = MainController.fileToNum(this.file) - 1; f >= 0; f--) {
-            temp = MainController.board[this.rank][f];
+            temp = board[this.rank][f];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
+
                     return true;
                 } //Piece blocking king
                 else {
@@ -204,10 +204,10 @@ public class Rook extends Piece {
         }
         //Check for checks on the row to the right
         for(int f = MainController.fileToNum(this.file) + 1; f < 8; f++) {
-            temp = MainController.board[this.rank][f];
+            temp = board[this.rank][f];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
+
                     return true;
                 } //Piece blocking king
                 else {
@@ -217,10 +217,10 @@ public class Rook extends Piece {
         }
         //Checks for checks on top
         for(int r = this.rank + 1; r < 8; r++) {
-            temp = MainController.board[r][MainController.fileToNum(this.file)];
+            temp = board[r][MainController.fileToNum(this.file)];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
+
                     return true;
                 } //Piece blocking king
                 else {
@@ -230,10 +230,10 @@ public class Rook extends Piece {
         }
         //Check for checks below
         for(int r = this.rank - 1; r >= 0; r--) {
-            temp = MainController.board[r][MainController.fileToNum(this.file)];
+            temp = board[r][MainController.fileToNum(this.file)];
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
+
                     return true;
                 } //Piece blocking king
                 else {
