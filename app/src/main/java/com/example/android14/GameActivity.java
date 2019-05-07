@@ -73,7 +73,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     ImageView[][] iv_board = new ImageView[8][8];
     //The current selected piece
     ImageView image = null;
-    //The destination for that poiece
+    //The destination for that piece
     ImageView dest_image = null;
     //The piece that image represents, is null if not piece in that image
     Piece image_piece = null;
@@ -610,26 +610,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         //White promoting
         if(MainController.white_moves) {
-            //Saving the piece that the pawn promoted to
-            Piece temp = ((White_Pawn) find_piece(image)).promote(promote_to);
-            //Sync the view board and the game board
-            sync_boards();
-            //Set the image to the new piece
-            image = get_image_from_piece(temp);
-
             make_move(image, dest_image);
+            ((White_Pawn) find_piece(dest_image)).promote(promote_to);
+            sync_boards();
             dest_image = null;
         }
         //Black promoting
         else {
-            //Saving the piece that the pawn promoted to
-            Piece temp = ((Black_Pawn) find_piece(image)).promote(promote_to);
-            //Sync the view board and the game board
-            sync_boards();
-            //Set the image to the new piece
-            image = get_image_from_piece(temp);
-
             make_move(image, dest_image);
+            ((Black_Pawn) find_piece(dest_image)).promote(promote_to);
+            sync_boards();
             dest_image = null;
         }
         String s = moves.remove(moves.size()-1);

@@ -268,7 +268,7 @@ public class MainController {
 
 
 
-        System.out.println("White Playing? " + white_playing);
+        //System.out.println("White Playing? " + white_playing);
 
         //Create a copy of the board
         Piece[][] board_copy =  copyBoard();
@@ -292,8 +292,8 @@ public class MainController {
                     //If the piece is on the other side
                     if(temp.white_side != white_playing) {
 
-                        System.out.println("Piece: " + Character.toString(temp.file) + temp.rank + temp.name);
-                        System.out.println("Piece's white_side: " + temp.white_side);
+                        /*System.out.println("Piece: " + Character.toString(temp.file) + temp.rank + temp.name);
+                        System.out.println("Piece's white_side: " + temp.white_side);*/
 
 
 
