@@ -29,7 +29,7 @@ public class PrevGames extends AppCompatActivity {
             File f = new File("prevGames.dat");
             FileInputStream fis = new FileInputStream(f);
             */
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("dat/Admin.dat"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("save.txt"));
 
             ArrayList<Game> games = (ArrayList<Game>) ois.readObject();
             if (games.size()>0){

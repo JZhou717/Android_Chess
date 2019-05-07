@@ -1,5 +1,7 @@
 package model;
 
+import android.content.Context;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,13 +43,26 @@ public class MainModel implements Serializable {
     public static void addGame(Game g) throws IOException {
 
         prevGames.add(g);
+        ;
         ArrayList<Game> ins = new ArrayList<Game>();
         for (int i=0;i<prevGames.size();i++){
             ins.add(prevGames.get(i));
         }
-
+        /*
+        String filename = "save.txt";
+        FileOutputStream outputStream;
         try {
-/*
+
+            outputStream = Context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.writeObject(ins);
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
+        /*
+        try {
+
             File f = new File("dat/prevGames.dat");
             if (f.createNewFile()){
                 System.out.println("Created");
@@ -55,14 +70,15 @@ public class MainModel implements Serializable {
                 System.out.println("Exists");
             }
             FileOutputStream fos = new FileOutputStream(f);
-            */
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("dat/Admin.dat"));
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Admin.txt"));
+            System.out.println("Writing");
             oos.writeObject(ins);
             oos.close();
         }catch(FileNotFoundException e) {
+            e.printStackTrace();
 
-            System.out.println("Created new file");
-            File f = new File("dat/Admin.dat");
+            File f = new File("Admin.txt");
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -73,7 +89,7 @@ public class MainModel implements Serializable {
             System.out.println("Problem man");
             e.printStackTrace();
         }
-
+*/
 
     }
 

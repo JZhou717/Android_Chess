@@ -5,13 +5,16 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Game implements Serializable {
     private ArrayList<String> moves;
     private String name;
-    private Calendar date;
+
+    private Date date;
+
     public Game(Calendar d){
-        this.date = d;
+        this.date = d.getTime();
         this.name = "No Name";
         this.moves = new ArrayList<String>();
     }
