@@ -496,18 +496,6 @@ public class King extends Piece {
             }
         }
 
-
-
-
-        System.out.println("Starting pos: " + Character.toString(this.file) + this.rank);
-        System.out.println(this.name + " valid moves:");
-        System.out.println(result);
-        System.out.println("//");
-        System.out.println();
-
-
-
-
         return result;
     }
 

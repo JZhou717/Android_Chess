@@ -741,13 +741,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     //Makes a move after it has been validated
     public void make_move(ImageView from_pos, ImageView to_pos) {
-        /*
-        for (int i=0;i<8;i++){
-            for (int j=0;j<8;j++){
-                MainController.prevBoard[i][j] = MainController.board[i][j];
-            }
-        }
-        */
 
         MainController.prevBoard = MainController.copyBoard();
 
@@ -768,7 +761,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         str = from + " " + move_to;
         moves.add(str);
 
-
         //Update imageview board to match MainController.board
         sync_boards();
         //Deselect the move from position
@@ -780,7 +772,45 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     //Changes the current player and the message
     public void switch_sides() {
+
         MainController.white_moves = !MainController.white_moves;
+
+        //Check for stalemate
+        if(MainController.stalemate()) {
+            //Set the game over message
+            game_over = true;
+            //Create a game over dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Draw by resignation");
+
+            builder.setMessage("Save Game?");
+            //AlertDialog dialog = builder.create();
+            final EditText input = new EditText(this);
+            builder.setView(input);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    nameOfGame = input.getText().toString();
+
+                    try{
+                        saveGame(nameOfGame, moves, Calendar.getInstance());
+
+                    }catch(IOException e){
+
+                    }
+
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+
+        }
 
         //Set the message
         //If it is white's turn

@@ -452,9 +452,7 @@ public class MainController {
      *
      * @author Jake
      */
-    public static void stalemate() {
-
-        //System.out.println("TESTING: IN STALEMATE");
+    public static boolean stalemate() {
 
         Piece temp;
         ArrayList<String> tempMoves;
@@ -479,16 +477,12 @@ public class MainController {
                         //If there is a valid move
                         if(tempMoves.size() != 0) {
                             //There is no stalemate
-                            return;
+                            return false;
                         }
                     }
                 }
             }
         }
-        //Went through the entire board and no pieces on this side has a valid move
-        System.out.println("\nStalemate");
-        System.out.println("\ndraw");
-        //System.exit(0);
-        System.out.println("STALLLEJFLSKFJ:SLEJFS:LEKFJ EMATE");
+        return true;
     }
 }

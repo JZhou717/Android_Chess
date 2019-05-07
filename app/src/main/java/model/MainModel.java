@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class MainModel implements Serializable {
     //Might not want to initialize it here, but fine for now
-    private static ArrayList<Game> prevGames = new ArrayList<Game>();
+    public static ArrayList<Game> prevGames = new ArrayList<Game>();
     public static ArrayList<String> byName = new ArrayList<String>();
     public static ArrayList<String> byDate = new ArrayList<String>();
 
