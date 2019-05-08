@@ -930,9 +930,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             if (rank % 2 != file % 2 ) {
-                iv_board[rank][file].setBackgroundColor(Color.rgb(50, 205, 50));
+                iv_board[rank][file].setBackgroundColor(Color.rgb(174, 150, 221));
             } else {
-                iv_board[rank][file].setBackgroundColor(Color.rgb(0, 128, 0));
+                iv_board[rank][file].setBackgroundColor(Color.rgb(65, 43, 109));
             }
         }
     }
@@ -954,36 +954,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
              oos.close();
 
-        /*
-        try {
-
-            File f = new File("dat/prevGames.dat");
-            if (f.createNewFile()){
-                System.out.println("Created");
-            }else{
-                System.out.println("Exists");
-            }
-            FileOutputStream fos = new FileOutputStream(f);
-
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Admin.txt"));
-            System.out.println("Writing");
-            oos.writeObject(ins);
-            oos.close();
-        }catch(FileNotFoundException e) {
-            e.printStackTrace();
-
-            File f = new File("Admin.txt");
-            f.createNewFile();
-            FileOutputStream fos = new FileOutputStream(f);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(ins);
-            oos.close();
-
-        }catch(IOException e){
-            System.out.println("Problem man");
-            e.printStackTrace();
-        }
-*/
         }catch(IOException e){
             e.printStackTrace();
         }

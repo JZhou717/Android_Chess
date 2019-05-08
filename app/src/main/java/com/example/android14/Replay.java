@@ -127,10 +127,10 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) {
-                    iv_board[i][j].setBackgroundColor(Color.rgb(0, 128, 0));
+                    iv_board[i][j].setBackgroundColor(Color.rgb(65, 43, 109));
 
                 } else {
-                    iv_board[i][j].setBackgroundColor(Color.rgb(50, 205, 50));
+                    iv_board[i][j].setBackgroundColor(Color.rgb(174, 150, 221));
                 }
             }
         }

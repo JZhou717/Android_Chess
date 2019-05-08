@@ -1,33 +1,16 @@
 package model;
 
-import android.content.Context;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.android14.MainActivity;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 
 public class MainModel extends AppCompatActivity implements Serializable {
     //Might not want to initialize it here, but fine for now
     public static ArrayList<Game> prevGames = new ArrayList<Game>();
     public static ArrayList<String> byName = new ArrayList<String>();
-    public static ArrayList<Game> nameOne = new ArrayList<Game>();
-
-
-
 
     public static ArrayList<Game> getGames(){
         return prevGames;
