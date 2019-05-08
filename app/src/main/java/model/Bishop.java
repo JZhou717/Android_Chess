@@ -32,13 +32,9 @@ public class Bishop extends Piece {
 
         Piece[][] board_copy = MainController.copyBoard();
 
-        /*If trying to move to the same spot
-        if(move_file == this.file && move_rank == this.rank) {
-            throw new IllegalArgumentException();
-        }*/
         //If not moving on a diagonal
         if(Math.abs(move_rank - this.rank) != Math.abs(MainController.fileToNum(move_file) - MainController.fileToNum(this.file))) {
-            //System.out.println("TESTING DIAGONAL MATH WRONG");
+
             throw new IllegalArgumentException();
         } //Moving diagonally
         else {
@@ -47,18 +43,10 @@ public class Bishop extends Piece {
                 //Checking to see if path clear
                 for (int i = (move_rank - this.rank) - 1; i > 0; i--) {
                     if (MainController.board[this.rank + i][MainController.fileToNum((char) (this.file + i))] != null) {
-                        //System.out.println("TESTING PATH NOT CLEAR");
+
                         throw new IllegalArgumentException();
                     }
                 }
-                /*Seeing if there is a piece there
-                if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
-                    //Checking its side
-                    if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
-                        //System.out.println("TESTING PIECE IN POSITION");
-                        throw new IllegalArgumentException();
-                    }
-                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -73,26 +61,17 @@ public class Bishop extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } //Moving up left
             else if (move_file < this.file && move_rank > this.rank) {
                 //Checking to see if path clear
                 for (int i = (move_rank - this.rank) - 1; i > 0; i--) {
                     if (MainController.board[this.rank + i][MainController.fileToNum((char) (this.file - i))] != null) {
-                        //System.out.println("TESTING PATH NOT CLEAR");
+
                         throw new IllegalArgumentException();
                     }
                 }
-                /*Seeing if there is a piece there
-                if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
-                    //Checking its side
-                    if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
-                        //System.out.println("TESTING PIECE IN POSITION");
-                        throw new IllegalArgumentException();
-                    }
-                }*/
-                //Checking on board_copy first
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -107,7 +86,7 @@ public class Bishop extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } //Moving down right
             else if (move_file > this.file && move_rank < this.rank) {
@@ -118,14 +97,6 @@ public class Bishop extends Piece {
                         throw new IllegalArgumentException();
                     }
                 }
-                /*Seeing if there is a piece there
-                if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
-                    //Checking its side
-                    if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
-                        //System.out.println("TESTING PIECE IN POSITION");
-                        throw new IllegalArgumentException();
-                    }
-                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -140,7 +111,7 @@ public class Bishop extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } //Moving down left
             else if (move_file < this.file && move_rank < this.rank) {
@@ -151,14 +122,6 @@ public class Bishop extends Piece {
                         throw new IllegalArgumentException();
                     }
                 }
-                /*Seeing if there is a piece there
-                if(MainController.board[move_rank][MainController.fileToNum(move_file)] != null) {
-                    //Checking its side
-                    if(MainController.board[move_rank][MainController.fileToNum(move_file)].white_side == this.white_side) {
-                        //System.out.println("TESTING PIECE IN POSITION");
-                        throw new IllegalArgumentException();
-                    }
-                }*/
 
                 board_copy[move_rank][MainController.fileToNum(move_file)] = board_copy[this.rank][MainController.fileToNum(this.file)];
                 board_copy[this.rank][MainController.fileToNum(this.file)] = null;
@@ -173,11 +136,11 @@ public class Bishop extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } //Something's wrong
             else {
-                //System.out.println("SOMETHING WRONG");
+
                 throw new IllegalArgumentException();
             }
         }
@@ -201,7 +164,6 @@ public class Bishop extends Piece {
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
                     return true;
                 } //Piece blocking king
                 else {
@@ -223,7 +185,6 @@ public class Bishop extends Piece {
             //Piece on diagonal
             if(temp != null) {
                 if(temp.white_side != this.white_side && temp instanceof King) {
-                    //checkmate(temp.file, temp.rank);
                     return true;
                 } //Piece blocking king
                 else {

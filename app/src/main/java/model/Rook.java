@@ -70,7 +70,6 @@ public class Rook extends Piece {
                 this.rank = move_rank;
                 this.file = move_file;
                 this.has_moved = true;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down the MainController.board
             else {
@@ -102,7 +101,6 @@ public class Rook extends Piece {
                 this.has_moved = true;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             }
         } //Moving along the rank
@@ -138,7 +136,6 @@ public class Rook extends Piece {
                 this.has_moved = true;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving to the left
             else {
@@ -171,7 +168,6 @@ public class Rook extends Piece {
                 this.has_moved = true;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             }
         }

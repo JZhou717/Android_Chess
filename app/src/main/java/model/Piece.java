@@ -11,7 +11,7 @@ public abstract class Piece {
     public boolean white_side;
 
     /**
-     * Move takes an input string of 2 characters composing of a file and a rank of the destination. Move always runs  MainController.putsOwnKingInCheck} before committing the move. Move also checks to see if the move has placed the opponent's king in check with {@link #MainController.checkForCheck(Piece[][]) MainController.checkForCheck} method. If a move were valid and to be committed, the Piece's position on the global MainController.board is changed and its file and rank fields are updated. More specific descriptions of move exists for each class that extends Piece.
+     * Move takes an input string of 2 characters composing of a file and a rank of the destination. Move always runs  MainController.putsOwnKingInCheck} before committing the move. Move also checks to see if the move has placed the opponent's king in check with checkForCheck method. If a move were valid and to be committed, the Piece's position on the global MainController.board is changed and its file and rank fields are updated. More specific descriptions of move exists for each class that extends Piece.
      *
      * @author Jake
      * @param move_to a two part String with the file and the rank that they are to move to

@@ -63,7 +63,7 @@ public class Black_Pawn extends Piece {
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                         this.rank = move_rank;
                         this.file = move_file;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     }
                     else {
@@ -89,7 +89,7 @@ public class Black_Pawn extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } else if (move_file == (this.file - 1) && move_rank == (this.rank - 1)) {
                 //System.out.println("Pawn moving down-left");
@@ -115,7 +115,7 @@ public class Black_Pawn extends Piece {
                         MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                         this.rank = move_rank;
                         this.file = move_file;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     }
                     else {
@@ -140,7 +140,7 @@ public class Black_Pawn extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } else {
                 //System.out.println("Something wrong");
@@ -167,7 +167,7 @@ public class Black_Pawn extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             } //Moving 2 spaces
             else if(move_rank == rank - 2 && this.rank == 6) {
@@ -192,7 +192,7 @@ public class Black_Pawn extends Piece {
                 this.rank = move_rank;
                 this.file = move_file;
                 MainController.black_enpassant = this.file;
-                MainController.checkForCheck(MainController.board);
+
                 return;
             }
             else {
@@ -272,10 +272,7 @@ public class Black_Pawn extends Piece {
             newPiece.name = "b" + newPiece.name;
             newPiece.white_side = false;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            boolean white_playing = MainController.white_moves;
-            MainController.white_moves = false;
-            MainController.checkForCheck(MainController.board);
-            MainController.white_moves = white_playing;
+
             return newPiece;
         }
         else if(promote_to.equals("n")) {
@@ -283,10 +280,7 @@ public class Black_Pawn extends Piece {
             newPiece.name = "b" + newPiece.name;
             newPiece.white_side = false;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            boolean white_playing = MainController.white_moves;
-            MainController.white_moves = false;
-            MainController.checkForCheck(MainController.board);
-            MainController.white_moves = white_playing;
+
             return newPiece;
         }
         else if(promote_to.equals("b")) {
@@ -294,10 +288,7 @@ public class Black_Pawn extends Piece {
             newPiece.name = "b" + newPiece.name;
             newPiece.white_side = false;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            boolean white_playing = MainController.white_moves;
-            MainController.white_moves = false;
-            MainController.checkForCheck(MainController.board);
-            MainController.white_moves = white_playing;
+
             return newPiece;
         }
         else if(promote_to.equals("q")) {
@@ -305,10 +296,6 @@ public class Black_Pawn extends Piece {
             newPiece.name = "b" + newPiece.name;
             newPiece.white_side = false;
             MainController.board[this.rank][MainController.fileToNum(this.file)] = newPiece;
-            boolean white_playing = MainController.white_moves;
-            MainController.white_moves = false;
-            MainController.checkForCheck(MainController.board);
-            MainController.white_moves = white_playing;
             return newPiece;
         } else {
             throw new IllegalArgumentException();

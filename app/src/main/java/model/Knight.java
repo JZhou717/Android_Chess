@@ -64,7 +64,6 @@ public class Knight extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Invalid move
             else {
@@ -96,7 +95,6 @@ public class Knight extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Invalid move
             else {

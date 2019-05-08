@@ -26,13 +26,8 @@ import model.White_Pawn;
 
 
 /*CURRENT THESE THINGS NEED TO BE DONE
-1. Display Illegal Move, Try Again message
-2. Saving games
+1. Saving games
     Should be close, Gotta figure out the file specifics, but it sbould be good to go after that
-3. In-Game crashes with checks and checkmates and whatnot
-
-
-
 */
 
 
@@ -54,6 +49,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     AlertDialog.Builder promotion_dialog;
 
     //The textview above the board
+    TextView player;
+    //The textview below the board
     TextView message;
     //The buttons
     Button resign_button;
@@ -94,6 +91,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         moves = new ArrayList<String>();
         str = "";
         //Linking the items on the XML here
+        player = findViewById(R.id.player);
         message = findViewById(R.id.message);
         resign_button = findViewById(R.id.resign_button);
         draw_button = findViewById(R.id.draw_button);
@@ -567,6 +565,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(MainController.white_moves) {
             make_move(image, dest_image);
             ((White_Pawn) find_piece(dest_image)).promote(promote_to);
+
+            if(MainController.checkForCheck(MainController.board) == MainController.NO_CHECK) {
+                message.setText("");
+            }
+            else if(MainController.checkForCheck(MainController.board) == MainController.CHECK) {
+                message.setText(" Check");
+            }
+            else if(MainController.checkForCheck(MainController.board) == MainController.CHECKMATE) {
+                game_over = true;
+                if(MainController.white_moves) {
+                    endGame("White wins by Checkmate");
+                }
+                else {
+                    endGame("Black wins by Checkmate");
+                }
+            }
+
             sync_boards();
             dest_image = null;
         }
@@ -718,6 +733,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //Move on MainController.board
         MainController.board[from_rank][from_file].move(move_to);
 
+        if(MainController.checkForCheck(MainController.board) == MainController.NO_CHECK) {
+            message.setText("");
+        }
+        else if(MainController.checkForCheck(MainController.board) == MainController.CHECK) {
+            message.setText(" Check");
+        }
+        else if(MainController.checkForCheck(MainController.board) == MainController.CHECKMATE) {
+            game_over = true;
+            if(MainController.white_moves) {
+                endGame("White wins by Checkmate");
+            }
+            else {
+                endGame("Black wins by Checkmate");
+            }
+        }
+
         str = from + " " + move_to;
         moves.add(str);
 
@@ -736,12 +767,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         MainController.white_moves = !MainController.white_moves;
 
         //Check for stalemate
-        if(MainController.stalemate()) {
+        if(!game_over && MainController.stalemate()) {
             //Set the game over message
             game_over = true;
 
-            endGame("Draw by resignation");
-
+            endGame("Draw by stalemate");
 
         }
 
@@ -749,11 +779,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //If it is white's turn
         if(MainController.white_moves) {
             MainController.white_enpassant = 0;
-            message.setText("White Moves: ");
+            player.setText("White Moves: ");
         }
         else {
             MainController.black_enpassant = 0;
-            message.setText("Black Moves: ");
+            player.setText("Black Moves: ");
         }
 
     }

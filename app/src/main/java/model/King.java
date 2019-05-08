@@ -95,7 +95,7 @@ public class King extends Piece {
                         MainController.board[0][MainController.fileToNum('f')].rank = 0;
                         MainController.board[0][MainController.fileToNum('f')].file = 'f';
                         ((Rook) MainController.board[0][MainController.fileToNum('f')]).has_moved = true;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     } //Trying to castle queenside
                     else if (move_to.equals("c0")) {
@@ -117,7 +117,7 @@ public class King extends Piece {
                         MainController.board[0][MainController.fileToNum('d')].rank = 0;
                         MainController.board[0][MainController.fileToNum('d')].file = 'd';
                         ((Rook) MainController.board[0][MainController.fileToNum('d')]).has_moved = true;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     } //Invalid move
                     else {
@@ -145,7 +145,7 @@ public class King extends Piece {
                         MainController.board[7][MainController.fileToNum('f')].rank = 7;
                         MainController.board[7][MainController.fileToNum('f')].file = 'f';
                         ((Rook) MainController.board[7][MainController.fileToNum('f')]).has_moved = true;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     } //Trying to castle queenside
                     else if (move_to.equals("c7")) {
@@ -167,7 +167,7 @@ public class King extends Piece {
                         MainController.board[7][MainController.fileToNum('d')].rank = 7;
                         MainController.board[7][MainController.fileToNum('d')].file = 'd';
                         ((Rook) MainController.board[7][MainController.fileToNum('d')]).has_moved = true;
-                        MainController.checkForCheck(MainController.board);
+
                         return;
                     } //Invalid move
                     else {
@@ -191,7 +191,7 @@ public class King extends Piece {
             this.rank = move_rank;
             this.file = move_file;
             this.has_moved = true;
-            MainController.checkForCheck(MainController.board);
+
             return;
         }
     }
@@ -395,6 +395,7 @@ public class King extends Piece {
             }
             //Checking down-right
             if(this.file != 'h') {
+                //If there is no piece there
                 if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))] == null) {
 
                     //If the move does not cause self check
@@ -403,14 +404,17 @@ public class King extends Piece {
                         result.add(move);
                     }
                 }
+                //There is a piece there
                 else {
+                    //It is on the other side
                     if(MainController.board[this.rank - 1][MainController.fileToNum((char) (this.file + 1))].white_side != this.white_side) {
+
                         //If the move does not cause self check
-                    }
                         if(!MainController.move_causes_own_check(this.rank, this.file, this.rank - 1, (char) (this.file + 1))) {
                             move = Character.toString((char) (this.file + 1)).concat((this.rank - 1) + "");
                             result.add(move);
                         }
+                    }
                 }
             }
             //Checking down-left
@@ -495,6 +499,9 @@ public class King extends Piece {
                 result.add("g7");
             }
         }
+
+        System.out.println("Name: " + this.name);
+        System.out.println(result);
 
         return result;
     }

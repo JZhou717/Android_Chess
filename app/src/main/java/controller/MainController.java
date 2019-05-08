@@ -13,6 +13,12 @@ import model.White_Pawn;
 
 public class MainController {
 
+    public static final int NO_CHECK = 0;
+    public static final int CHECK = 1;
+    public static final int CHECKMATE = 2;
+
+
+
     public static void display(Piece[][] board) {
         Piece piece;
         for(int i = 7; i >= 0; i--) {
@@ -264,10 +270,6 @@ public class MainController {
         //True if the piece in the from position is white side, false if black side
         boolean white_playing = board[from_rank][fileToNum(from_file)].white_side;
 
-
-
-
-
         //System.out.println("White Playing? " + white_playing);
 
         //Create a copy of the board
@@ -308,30 +310,6 @@ public class MainController {
         }
 
         return false;
-
-        //This is what we are replacing:
-        //Using an example from King's valid moves
-        /*
-        //Making sure it doesn't put itself in check
-                    board_copy = MainController.copyBoard();
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))] = board_copy[this.rank][MainController.fileToNum(this.file)];
-                    board_copy[this.rank][MainController.fileToNum(this.file)] = null;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].rank + 1;
-                    board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file = (char) (board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].file + 1);
-
-
-
-                    MainController.white_moves = board_copy[this.rank + 1][MainController.fileToNum((char) (this.file + 1))].white_side;
-
-
-
-                    if(!MainController.putsOwnKingInCheck(board_copy)) {
-                        move = String.valueOf((char ) (this.file + 1)).concat((this.rank + 1) + "");
-                        result.add(move);
-                    }
-                    MainController.white_moves = side_playing;
-         */
-
     }
 
     /**
@@ -340,9 +318,11 @@ public class MainController {
      * @author Jake
      * @param board the board that is being checked for checks on the opponent King. Can be the global board or a temporary board used for {@link #putsOwnKingInCheck(Piece[][]) putsOwnKingInCheck} for instance
      */
-    public static void checkForCheck(Piece[][] board) {
+    public static int checkForCheck(Piece[][] board) {
 
         Piece temp;
+
+        int ret = NO_CHECK;
 
         //Going through all the ranks
         for(int r = 0; r < 8; r++) {
@@ -352,21 +332,25 @@ public class MainController {
                 if(board[r][f] != null) {
                     temp = board[r][f];
 
-                    //System.out.println("\nTESITNG:\nName: " + temp.name + "\nFile: " + String.valueOf(temp.file) + "\nRank: " + temp.rank);
-
                     //If the piece is on the current side playing
                     if(temp.white_side == white_moves) {
 
-                        //System.out.println("\nTESITNG: temp's white_side = : " + temp.white_side);
-
                         if(temp.check(board)) {
-                            checkmate();
-                            return;
+                            //There is a checkmate
+                            if(checkmate()) {
+                                return CHECKMATE;
+                            }
+                            //There is only a check
+                            else {
+                                return CHECK;
+                            }
                         }
                     }
                 }
             }
         }
+
+        return ret;
 
     }
 
@@ -379,11 +363,10 @@ public class MainController {
      *
      * @author Jake
      */
-    public static void checkmate() {
+    public static boolean checkmate() {
 
         Piece temp;
         ArrayList<String> tempMoves;
-        Piece[][] board_copy;
 
         //Going through all the ranks
         for(int r = 0; r < 8; r++) {
@@ -394,57 +377,28 @@ public class MainController {
                     temp = board[r][f];
                     //If the piece is on the opponent side
                     if(temp.white_side != white_moves) {
-                        //System.out.println("\nTESITNG - in checkmate:\nName: " + temp.name + "\nFile: " + String.valueOf(temp.file) + "\nRank: " + temp.rank);
 
                         //Grab their valid moves
                         tempMoves = temp.allValidMoves();
-                        //System.out.println("TESTING - in checkmate: tempMoves.size(): " + tempMoves.size());
 
                         //Go through all their valid moves
                         for(int i = 0; i < tempMoves.size(); i++) {
 
-                            //System.out.println("TESTING - in checkmate: i: " + i + " tempMoves.get(i): " + tempMoves.get(i));
-
-                            int move_file = fileToNum(tempMoves.get(i).charAt(0));
+                            char move_file = tempMoves.get(i).charAt(0);
                             int move_rank = Character.getNumericValue(tempMoves.get(i).charAt(1));
 
-                            board_copy = copyBoard();
-                            //moves them there on the board copy
-                            board_copy[move_rank][move_file] = board_copy[temp.rank][fileToNum(temp.file)];
-                            board_copy[temp.rank][fileToNum(temp.file)] = null;
-                            board_copy[move_rank][move_file].rank = move_rank;
-                            board_copy[move_rank][move_file].file = numToFile(move_file);
-                            //Test to see if the opponent King is still in check after this move
-                            //Have to change the current side since putsOwnKingInCheck only checks if the current side's King is in check
-                            white_moves = !white_moves;
-                            if(!putsOwnKingInCheck(board_copy)) {
-                                white_moves = !white_moves;
-                                //If there is no longer a check after this move
-                                //This is only a check, not a checkmate
-                                System.out.println("\nCheck");
-                                return;
+                            //Testing the valid move to see if it places the king out of check
+                            if(!move_causes_own_check(r, numToFile(f), move_rank, move_file)) {
+                                return false;
                             }
-                            else {
-                                white_moves = !white_moves;
-                            }
-
                         }
                     }
                 }
             }
         }
 
-        //Went through all the possible pieces and there is no instance where a valid move brings the opponent King out of check
-        System.out.println("");
-        System.out.println("\nCheckmate");
-        if(white_moves) {
-            System.out.print("\nBlack wins");
-        }
-        else {
-            System.out.print("\nWhite wins");
-        }
-        //System.exit(0);
-        System.out.println("GGGGGGGGGGGGGGGGAAAAAAAAAME OVVVVEEEEEEEEEEEEEEEEEEER");
+        //No valid moves that places the king out of check
+        return true;
     }
 
     /**

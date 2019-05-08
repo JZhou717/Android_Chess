@@ -64,7 +64,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down
             else {
@@ -95,7 +94,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             }
         } //Moving horizontally
@@ -130,7 +128,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving left
             else {
@@ -162,7 +159,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             }
         } //Moving diagonally
@@ -196,7 +192,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving up-left
             else if(move_file < this.file && move_rank > this.rank) {
@@ -228,7 +223,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down-right
             else if(move_file > this.file && move_rank < this.rank) {
@@ -260,7 +254,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Moving down left
             else if(move_file < this.file && move_rank < this.rank) {
@@ -292,7 +285,6 @@ public class Queen extends Piece {
                 MainController.board[this.rank][MainController.fileToNum(this.file)] = null;
                 this.rank = move_rank;
                 this.file = move_file;
-                MainController.checkForCheck(MainController.board);
                 return;
             } //Invalid move
             else {
