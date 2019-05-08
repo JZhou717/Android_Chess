@@ -20,6 +20,7 @@ import controller.MainController;
 import model.Piece;
 
 public class Replay extends AppCompatActivity implements View.OnClickListener {
+    TextView player;
     TextView message;
     ImageView[][] iv_board = new ImageView[8][8];
     int count = 0;
@@ -36,6 +37,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
 
         Button next_button = findViewById(R.id.next_button);
         back_button = findViewById(R.id.back_button);
+        player = findViewById(R.id.player);
         message = findViewById(R.id.message);
         next_button.setOnClickListener(this);
         back_button.setOnClickListener(this);
@@ -156,43 +158,62 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
             String arr[] = s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
             int a2 = Character.getNumericValue(arr[0].charAt(1));
-            int b1 = Character.getNumericValue(arr[1].charAt(1));
+            int move_rank = Character.getNumericValue(arr[1].charAt(1));
+            int move_file = MainController.fileToNum(arr[1].charAt(0));
 
-
+            MainController.board[a2][a1].move(arr[1]);
 
             if (arr.length > 2){
                 String pro = arr[2];
 
-                if (pro.equals("r")&&b1==0){
+                if (pro.equals("r")&&move_rank==0){
 
-                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("r");
+                    ((model.Black_Pawn) (MainController.board[move_rank][move_file])).promote("r");
                 }
-                if (pro.equals("q")&&b1==0){
-                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("q");
+                if (pro.equals("q")&&move_rank==0){
+                    ((model.Black_Pawn) (MainController.board[move_rank][move_file])).promote("q");
                 }
-                if (pro.equals("b")&&b1==0){
-                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("b");
+                if (pro.equals("b")&&move_rank==0){
+                    ((model.Black_Pawn) (MainController.board[move_rank][move_file])).promote("b");
                 }
-                if (pro.equals("n")&&b1==0){
-                    ((model.Black_Pawn) (MainController.board[a2][a1])).promote("n");
+                if (pro.equals("n")&&move_rank==0){
+                    ((model.Black_Pawn) (MainController.board[move_rank][move_file])).promote("n");
                 }
-                if (pro.equals("r")&&b1==7){
-                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("r");
+                if (pro.equals("r")&&move_rank==7){
+                    ((model.White_Pawn) (MainController.board[move_rank][move_file])).promote("r");
                 }
-                if (pro.equals("q")&&b1==7){
-                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("q");
+                if (pro.equals("q")&&move_rank==7){
+                    ((model.White_Pawn) (MainController.board[move_rank][move_file])).promote("q");
                 }
-                if (pro.equals("b")&&b1==7){
-                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("b");
+                if (pro.equals("b")&&move_rank==7){
+                    ((model.White_Pawn) (MainController.board[move_rank][move_file])).promote("b");
                 }
-                if (pro.equals("n")&&b1==7){
-                    ((model.White_Pawn) (MainController.board[a2][a1])).promote("n");
+                if (pro.equals("n")&&move_rank==7){
+                    ((model.White_Pawn) (MainController.board[move_rank][move_file])).promote("n");
                 }
             }
             sync_boards();
 
-            MainController.board[a2][a1].move(arr[1]);
-            sync_boards();
+            if(MainController.checkForCheck(MainController.board) == MainController.NO_CHECK) {
+                message.setText("");
+            }
+            else if(MainController.checkForCheck(MainController.board) == MainController.CHECK) {
+                message.setText("Check");
+            }
+            else if(MainController.checkForCheck(MainController.board) == MainController.CHECKMATE) {
+
+                if(MainController.white_moves) {
+                    message.setText("White wins");
+                }
+                else {
+                    message.setText("Black wins");
+                }
+            }
+
+
+
+
+
             switch_sides();
 
         }
@@ -285,11 +306,11 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
         //If it is white's turn
         if(MainController.white_moves) {
             MainController.white_enpassant = 0;
-            message.setText("White Moves: ");
+            player.setText("White Moves: ");
         }
         else {
             MainController.black_enpassant = 0;
-            message.setText("Black Moves: ");
+            player.setText("Black Moves: ");
         }
 
     }

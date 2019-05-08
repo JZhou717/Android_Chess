@@ -17,33 +17,6 @@ public class MainController {
     public static final int CHECK = 1;
     public static final int CHECKMATE = 2;
 
-
-
-    public static void display(Piece[][] board) {
-        Piece piece;
-        for(int i = 7; i >= 0; i--) {
-            for(int j = 0; j < 8; j++) {
-                if(board[i][j] == null) {
-                    if((i+j) % 2 == 0) {
-                        System.out.print("   ");
-                    }
-                    else {
-                        System.out.print("## ");
-                    }
-                }
-                else {
-                    piece = board[i][j];
-                    System.out.print(piece.name+ " ");
-                }
-            }
-            System.out.println(i);
-        }
-        for(int i = 0; i < 8; i++) {
-            System.out.print(" " + numToFile(i) + " ");
-        }
-        System.out.println();
-    }
-
     /**
      * board is the data structure that we will be using. It is a 9x8 2D Array of Pieces.
      * row[0] is ignored so that we do not need to convert the input ranks that range from 1-8 to 0-7 to minimize confusion while coding.
@@ -234,9 +207,6 @@ public class MainController {
      */
     public static boolean putsOwnKingInCheck(Piece[][] board_copy) {
 
-        //System.out.println("\nTESTING: In putsOwnKingInCheck");
-        //display(board_copy);
-
         Piece temp;
 
         //Going through all the ranks
@@ -270,8 +240,6 @@ public class MainController {
         //True if the piece in the from position is white side, false if black side
         boolean white_playing = board[from_rank][fileToNum(from_file)].white_side;
 
-        //System.out.println("White Playing? " + white_playing);
-
         //Create a copy of the board
         Piece[][] board_copy =  copyBoard();
 
@@ -293,12 +261,6 @@ public class MainController {
                     temp = board_copy[r][f];
                     //If the piece is on the other side
                     if(temp.white_side != white_playing) {
-
-                        /*System.out.println("Piece: " + Character.toString(temp.file) + temp.rank + temp.name);
-                        System.out.println("Piece's white_side: " + temp.white_side);*/
-
-
-
 
                         if(temp.check(board_copy)) {
                             //The piece does place the King in check
@@ -421,12 +383,8 @@ public class MainController {
                     //If the piece is on the current side
                     if(temp.white_side == white_moves) {
 
-                        //System.out.println("\nTESITNG: Stalemate\nName: " + temp.name + "\nFile: " + String.valueOf(temp.file) + "\nRank: " + temp.rank);
-
                         //Get all its valid moves
                         tempMoves = temp.allValidMoves();
-
-                        //System.out.println("TESTING: Stalemate - tempMoves.size(): " + tempMoves.size());
 
                         //If there is a valid move
                         if(tempMoves.size() != 0) {

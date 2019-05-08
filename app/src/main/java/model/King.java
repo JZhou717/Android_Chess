@@ -500,9 +500,6 @@ public class King extends Piece {
             }
         }
 
-        System.out.println("Name: " + this.name);
-        System.out.println(result);
-
         return result;
     }
 
