@@ -1,5 +1,6 @@
 package com.example.android14;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +13,9 @@ import android.widget.ImageView;
 import android.app.AlertDialog;
 import android.widget.TextView;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -272,9 +275,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             //If it is the resign button
             if(!game_over && v == resign_button) {
-                for (int i=0;i<moves.size();i++){
-                    System.out.println(moves.get(i));
-                }
+
                 game_over = true;
 
 
@@ -945,8 +946,46 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         try{
             MainModel.addGame(g);
+
+             FileOutputStream fos = this.openFileOutput("saveGames", Context.MODE_PRIVATE);
+             ObjectOutputStream oos = new ObjectOutputStream(fos);
+             oos.flush();
+             oos.writeObject(MainModel.getGames());
+
+             oos.close();
+
+        /*
+        try {
+
+            File f = new File("dat/prevGames.dat");
+            if (f.createNewFile()){
+                System.out.println("Created");
+            }else{
+                System.out.println("Exists");
+            }
+            FileOutputStream fos = new FileOutputStream(f);
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Admin.txt"));
+            System.out.println("Writing");
+            oos.writeObject(ins);
+            oos.close();
+        }catch(FileNotFoundException e) {
+            e.printStackTrace();
+
+            File f = new File("Admin.txt");
+            f.createNewFile();
+            FileOutputStream fos = new FileOutputStream(f);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(ins);
+            oos.close();
+
         }catch(IOException e){
-            throw e;
+            System.out.println("Problem man");
+            e.printStackTrace();
+        }
+*/
+        }catch(IOException e){
+            e.printStackTrace();
         }
 
 

@@ -1,6 +1,10 @@
 package model;
 
 import android.content.Context;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.android14.MainActivity;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,7 +20,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-public class MainModel implements Serializable {
+public class MainModel extends AppCompatActivity implements Serializable {
     //Might not want to initialize it here, but fine for now
     public static ArrayList<Game> prevGames = new ArrayList<Game>();
     public static ArrayList<String> byName = new ArrayList<String>();
@@ -63,7 +67,16 @@ public class MainModel implements Serializable {
     }
 
     public static void resetGames(ArrayList<Game> arr){
-        prevGames = arr;
+        prevGames.removeAll(prevGames);
+        for (int i =0;i<arr.size();i++){
+            prevGames.add(arr.get(i));
+
+        }
+        byName.removeAll(byName);
+        for (int i=0;i<prevGames.size();i++){
+            byName.add(prevGames.get(i).getName());
+        }
+        Collections.sort(byName, String.CASE_INSENSITIVE_ORDER);
         return;
     }
 
@@ -80,16 +93,10 @@ public class MainModel implements Serializable {
         }
 
 /*
-        String filename = "save.txt";
-        FileOutputStream outputStream;
-        try {
-
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.writeObject(ins);
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FileOutputStream fos = context.openFileOutput("saveGames", Context.MODE_PRIVATE);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(ins);
+        oos.close();
 */
         /*
         try {

@@ -21,6 +21,7 @@ import model.MainModel;
 public class PrevGames extends AppCompatActivity implements View.OnClickListener {
     Button date_button;
     Button name_button;
+    Button back_button;
     ListView games;
     Boolean nameOrDate = false;
     @Override
@@ -33,24 +34,25 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
             File f = new File("prevGames.dat");
             FileInputStream fis = new FileInputStream(f);
             */
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("save.txt"));
+
+            FileInputStream fis = this.openFileInput("saveGames");
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
             ArrayList<Game> games = (ArrayList<Game>) ois.readObject();
-            if (games.size()>0){
-                System.out.println("Got some games");
-            }
             MainModel.resetGames(games);
         }catch(FileNotFoundException e){
-
+            e.printStackTrace();
         }catch(IOException e){
-
+            e.printStackTrace();
         }catch(ClassNotFoundException e) {
-
+            e.printStackTrace();
         }
         date_button = findViewById(R.id.date_button);
         name_button = findViewById(R.id.name_button);
+        back_button = findViewById(R.id.back_button);
 
         date_button.setOnClickListener(this);
+        back_button.setOnClickListener(this);
         name_button.setOnClickListener(this);
         games = findViewById(R.id.games_list);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
@@ -105,6 +107,12 @@ public class PrevGames extends AppCompatActivity implements View.OnClickListener
                 ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.listview, MainModel.getGameNames());
                 games.setAdapter(adapter);
                 nameOrDate = false;
+            }
+            if (v == back_button){
+                Intent intent = new Intent(PrevGames.this, MainActivity.class);
+                startActivity(intent);
+                return;
+
             }
         }
     }

@@ -151,7 +151,7 @@ public class Replay extends AppCompatActivity implements View.OnClickListener {
                 return;
             }
             String s = moves.get(count);
-            System.out.println(s);
+
             count++;
             String arr[] = s.split(" ");
             int a1 = MainController.fileToNum(arr[0].charAt(0));
